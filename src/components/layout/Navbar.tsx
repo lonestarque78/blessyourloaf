@@ -26,6 +26,7 @@ export default function Navbar() {
         <Link href="/starter-guide" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">Starter Guide</Link>
         <Link href="/discard" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">Discard Vault</Link>
         <Link href="/pricing" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">Pricing</Link>
+        <Link href="/login" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">Log In</Link>
         <Link href="/signup" className="bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-5 py-2 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-md">
           Join the Kitchen
         </Link>

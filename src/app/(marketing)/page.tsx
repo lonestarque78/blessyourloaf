@@ -3,7 +3,6 @@ import Hero from '@/components/sections/Hero'
 import StarterJournal from '@/components/sections/StarterJournal'
 import DiscardVault from '@/components/sections/DiscardVault'
 import Features from '@/components/sections/Features'
-import Testimonials from '@/components/sections/Testimonials'
 import Pricing from '@/components/sections/Pricing'
 import FooterCTA from '@/components/sections/FooterCTA'
 import Footer from '@/components/layout/Footer'
@@ -16,7 +15,6 @@ export default function HomePage() {
       <StarterJournal />
       <DiscardVault />
       <Features />
-      <Testimonials />
       <Pricing />
       <FooterCTA />
       <Footer />

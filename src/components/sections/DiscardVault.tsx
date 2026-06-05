@@ -1,10 +1,10 @@
 import Link from 'next/link'
 
 const recipes = [
-  { name: "Sunday Mornin' Pancakes", time: "20 min", tag: "Breakfast", color: "#f4a261" },
-  { name: "Sweet Tea Crackers", time: "45 min", tag: "Snackin'", color: "#b5838d" },
-  { name: "Mama's Pizza Dough", time: "1 hr", tag: "Supper", color: "#6d6875" },
-  { name: "Peach Cobbler Muffins", time: "35 min", tag: "Dessert", color: "#c9a84c" },
+  { name: "Sunday Mornin' Pancakes", time: "20 min", tag: "Breakfast", color: "#f4a261", icon: "🥞" },
+  { name: "Sweet Tea Crackers", time: "45 min", tag: "Snackin'", color: "#b5838d", icon: "🫙" },
+  { name: "Mama's Pizza Dough", time: "1 hr", tag: "Supper", color: "#6d6875", icon: "🍕" },
+  { name: "Peach Cobbler Muffins", time: "35 min", tag: "Dessert", color: "#c9a84c", icon: "🧁" },
 ]
 
 export default function DiscardVault() {
@@ -25,7 +25,7 @@ export default function DiscardVault() {
             <div key={r.name} className="bg-white rounded-2xl p-6 shadow-md hover:-translate-y-1 transition-transform cursor-pointer">
               <div className="w-11 h-11 rounded-xl flex items-center justify-center text-2xl mb-4"
                 style={{ background: r.color + '22', border: `1.5px solid ${r.color}44` }}>
-                🥞
+                {r.icon}
               </div>
               <span className="font-lora text-xs px-3 py-1 rounded-full"
                 style={{ background: r.color + '18', color: r.color }}>
@@ -39,7 +39,7 @@ export default function DiscardVault() {
 
         <div className="text-center">
           <Link href="/discard" className="border border-[#c9956c] text-[#7a4f3a] px-7 py-3 rounded-full font-lora text-sm hover:bg-[#c9956c] hover:text-white transition-all inline-block">
-            See All 80+ Discard Recipes →
+            Explore Discard Recipes →
           </Link>
         </div>
       </div>

@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 const freeTier = ["5 recipes", "Starter day tracker", "Basic discard ideas", "Community access"]
 const proTier = ["Full recipe library (300+)", "Starter Journal + alerts", "Bake Scheduler", "Full Discard Vault", "Starter Troubleshooter", "Flour & hydration guides", "New recipes every week"]
-const annualTier = ["All Pitmaster features", "Priority support", "Early recipe access", "Annual baking planner"]
+const annualTier = ["All Baker's Pass features", "Priority support", "Early recipe access", "Annual baking planner"]
 
 export default function Pricing() {
   return (
@@ -35,7 +35,7 @@ export default function Pricing() {
           <div className="rounded-3xl p-9 flex-1 max-w-sm md:scale-105 shadow-2xl"
             style={{ background: 'linear-gradient(160deg, #3d2b1f, #5c3d2e)', border: '1.5px solid #c9956c' }}>
             <div className="flex justify-between items-start mb-2">
-              <div className="font-lora text-xs uppercase tracking-widest text-[#e8b4a0]">Pitmaster</div>
+              <div className="font-lora text-xs uppercase tracking-widest text-[#e8b4a0]">Baker's Pass</div>
               <span className="bg-gradient-to-r from-[#c9956c] to-[#b5838d] text-white text-xs font-lora px-3 py-1 rounded-full">Most Popular</span>
             </div>
             <div className="font-playfair text-5xl font-black text-white mb-1">$5.99<span className="text-xl font-normal">/mo</span></div>
@@ -46,7 +46,7 @@ export default function Pricing() {
                 <span className="font-lora text-sm text-[#e8d5c8]">{f}</span>
               </div>
             ))}
-            <Link href="/signup?plan=monthly" className="block text-center bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-6 py-3 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-lg mt-8">
+            <Link href="/signup?plan=monthly" className="block text-center bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-6 py-3 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-lg mt-8 whitespace-nowrap">
               Start 7-Day Free Trial →
             </Link>
           </div>

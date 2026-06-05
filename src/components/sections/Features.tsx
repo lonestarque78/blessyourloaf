@@ -1,7 +1,7 @@
 const features = [
   { icon: "🫙", label: "Starter Journal", bg: "#f9ede5", desc: "Name her, track her feedings, and watch her grow from a tiny flour paste into something glorious." },
   { icon: "📅", label: "Bake Scheduler", bg: "#f0e8f0", desc: "Tell us when you want fresh bread. We'll work backwards and hand you a step-by-step timeline." },
-  { icon: "🗄️", label: "Discard Vault", bg: "#fef3e2", desc: "80+ recipes for your leftover starter. Pancakes, crackers, pasta — not a drop goes to waste." },
+  { icon: "🗄️", label: "Discard Vault", bg: "#fef3e2", desc: "A growing library of recipes for your leftover starter. Pancakes, crackers, pasta — not a drop goes to waste." },
   { icon: "🩺", label: "Starter Troubleshooter", bg: "#e8f4f0", desc: "Starter smells funny? Not rising? Tell us what's goin' on and we'll nurse her back to health." },
   { icon: "📖", label: "Recipe Library", bg: "#fde8e8", desc: "Loaves, rolls, focaccia, and more — each one tested in a real Southern kitchen." },
   { icon: "🌾", label: "Flour Guide", bg: "#f5f0e8", desc: "All-purpose, whole wheat, rye — we break down every flour so you know exactly what you're workin' with." },
