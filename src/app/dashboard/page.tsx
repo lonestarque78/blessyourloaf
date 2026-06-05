@@ -28,26 +28,15 @@ export default async function DashboardPage() {
   return (
     <div className="max-w-5xl mx-auto px-6 py-12">
       {/* Header */}
-      <div className="flex items-center justify-between mb-12">
-        <div>
-          <Link href="/" className="flex items-center gap-2 mb-6">
-            <span className="text-2xl">🍞</span>
-            <span className="font-playfair text-xl font-bold text-[#3d2b1f]">Bless Your Loaf</span>
-          </Link>
-          <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f]">
-            {greeting}, {firstName}!
-          </h1>
-          <p className="font-lora italic text-[#9a7060] mt-2">
-            {hasStarter
-              ? `${primaryStarter.name} is waitin' on you, darlin'.`
-              : "Let's get your kitchen started, sugar."}
-          </p>
-        </div>
-        <form action="/auth/signout" method="post">
-          <button className="font-lora text-sm text-[#9a7060] hover:text-[#b07d62] transition-colors">
-            Sign out
-          </button>
-        </form>
+      <div className="mb-12">
+        <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f]">
+          {greeting}, {firstName}!
+        </h1>
+        <p className="font-lora italic text-[#9a7060] mt-2">
+          {hasStarter
+            ? `${primaryStarter.name} is waitin' on you, darlin'.`
+            : "Let's get your kitchen started, sugar."}
+        </p>
       </div>
 
       {/* Main grid */}
