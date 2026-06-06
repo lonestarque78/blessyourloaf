@@ -29,6 +29,7 @@ export default function NavbarClient({ user }: NavbarClientProps) {
         <Link href="/recipes" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">Recipes</Link>
         <Link href="/starter-guide" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">Starter Guide</Link>
         <Link href="/discard" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">Discard Vault</Link>
+        <Link href="/flour-guide" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">Flour Guide</Link>
         <Link href="/pricing" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">Pricing</Link>
         {user ? (
           <>
