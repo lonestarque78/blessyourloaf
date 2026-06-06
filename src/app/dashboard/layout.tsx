@@ -32,19 +32,22 @@ export default async function DashboardLayout({ children }: { children: React.Re
             Bake Scheduler
           </Link>
           <Link href="/dashboard/history" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">
-  Bake History
-</Link>
-<Link href="/dashboard/my-recipes" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">
-  My Recipes
-</Link>
-<Link href="/dashboard/troubleshooter" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">
-  Troubleshooter
-</Link>
+            Bake History
+          </Link>
+          <Link href="/dashboard/my-recipes" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">
+            My Recipes
+          </Link>
+          <Link href="/dashboard/troubleshooter" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">
+            Troubleshooter
+          </Link>
           <Link href="/recipes" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">
             Recipes
           </Link>
           <Link href="/discard" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">
             Discard Vault
+          </Link>
+          <Link href="/dashboard/account" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">
+            Account
           </Link>
           <form action={signOut}>
             <button type="submit" className="font-lora text-sm text-[#9a7060] hover:text-[#b07d62] transition-colors">

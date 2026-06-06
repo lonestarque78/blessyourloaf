@@ -46,11 +46,17 @@ export default async function StarterPage({ params }: { params: Promise<{ id: st
               <p className="font-lora italic text-[#9a7060] ml-14">"{starter.nickname}"</p>
             )}
           </div>
-          <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full font-lora text-xs ${
-            starter.is_active ? 'bg-green-50 text-green-700' : 'bg-gray-50 text-gray-500'
-          }`}>
-            <div className={`w-2 h-2 rounded-full ${starter.is_active ? 'bg-green-500' : 'bg-gray-400'}`} />
-            {starter.is_active ? 'Active' : 'Resting'}
+          <div className="flex items-center gap-3">
+            <Link href={`/dashboard/starters/${id}/edit`}
+              className="font-lora text-sm text-[#b07d62] hover:underline">
+              Edit
+            </Link>
+            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full font-lora text-xs ${
+              starter.is_active ? 'bg-green-50 text-green-700' : 'bg-gray-50 text-gray-500'
+            }`}>
+              <div className={`w-2 h-2 rounded-full ${starter.is_active ? 'bg-green-500' : 'bg-gray-400'}`} />
+              {starter.is_active ? 'Active' : 'Resting'}
+            </div>
           </div>
         </div>
 
