@@ -78,6 +78,14 @@ export default async function HistoryDetailPage({ params }: { params: Promise<{ 
           </form>
         )}
 
+        <div className="mt-3">
+          <Link
+            href={`/dashboard/my-recipes/new?title=${encodeURIComponent(schedule.recipe_name || 'Sourdough Bake')}`}
+            className="inline-block border border-[#c9956c] text-[#b07d62] px-6 py-2.5 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform">
+            Save to My Recipes 📖
+          </Link>
+        </div>
+
         {schedule.completed && (
           <div className="mt-6 bg-green-50 rounded-xl p-4 font-lora italic text-sm text-green-700">
             🍞 "You did it, sugar! Another beautiful loaf in the books."

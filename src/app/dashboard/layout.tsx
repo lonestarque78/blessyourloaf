@@ -34,6 +34,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
           <Link href="/dashboard/history" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">
   Bake History
 </Link>
+<Link href="/dashboard/my-recipes" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">
+  My Recipes
+</Link>
           <Link href="/recipes" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">
             Recipes
           </Link>
