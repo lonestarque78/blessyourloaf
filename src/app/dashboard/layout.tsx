@@ -17,9 +17,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
   }
 
   return (
-    <div className="h-screen flex flex-col" style={{ background: '#fdf6f0' }}>
-      {/* Dashboard nav — flex-shrink-0 keeps it from collapsing */}
-      <nav className="bg-white border-b border-[#f0e4db] px-6 py-4 flex items-center justify-between flex-shrink-0 z-50 shadow-sm">
+    <div className="min-h-screen" style={{ background: '#fdf6f0' }}>
+      <nav className="bg-white border-b border-[#f0e4db] px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-sm">
         <Link href="/dashboard" className="flex items-center gap-2">
           <span className="text-xl">🍞</span>
           <span className="font-playfair text-lg font-bold text-[#3d2b1f]">Bless Your Loaf</span>
@@ -58,10 +57,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         </div>
       </nav>
 
-      {/* Scrollable area for regular dashboard pages; troubleshooter overrides with flex-1 */}
-      <div className="flex-1 overflow-y-auto flex flex-col min-h-0">
-        {children}
-      </div>
+      {children}
 
       <Footer />
     </div>
