@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
+import Footer from '@/components/layout/Footer'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -16,9 +17,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
   }
 
   return (
-    <div className="min-h-screen" style={{ background: '#fdf6f0' }}>
-      {/* Dashboard nav */}
-      <nav className="bg-white border-b border-[#f0e4db] px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-sm">
+    <div className="h-screen flex flex-col" style={{ background: '#fdf6f0' }}>
+      {/* Dashboard nav — flex-shrink-0 keeps it from collapsing */}
+      <nav className="bg-white border-b border-[#f0e4db] px-6 py-4 flex items-center justify-between flex-shrink-0 z-50 shadow-sm">
         <Link href="/dashboard" className="flex items-center gap-2">
           <span className="text-xl">🍞</span>
           <span className="font-playfair text-lg font-bold text-[#3d2b1f]">Bless Your Loaf</span>
@@ -57,7 +58,12 @@ export default async function DashboardLayout({ children }: { children: React.Re
         </div>
       </nav>
 
-      {children}
+      {/* Scrollable area for regular dashboard pages; troubleshooter overrides with flex-1 */}
+      <div className="flex-1 overflow-y-auto flex flex-col min-h-0">
+        {children}
+      </div>
+
+      <Footer />
     </div>
   )
 }

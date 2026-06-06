@@ -306,7 +306,7 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-64px)]">
+    <div className="flex flex-col flex-1 min-h-0">
       {/* Header */}
       <div className="bg-white border-b border-[#f0e4db] px-6 py-4 flex-shrink-0">
         <div className="max-w-3xl mx-auto flex items-start justify-between">
