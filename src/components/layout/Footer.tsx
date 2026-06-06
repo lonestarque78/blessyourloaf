@@ -1,6 +1,18 @@
+import { createClient } from '@/lib/supabase/server'
+import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
-export default function Footer() {
+async function signOut() {
+  'use server'
+  const supabase = await createClient()
+  await supabase.auth.signOut()
+  redirect('/')
+}
+
+export default async function Footer() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
   return (
     <footer className="bg-[#3d2b1f] text-[#c9a090] py-16 px-6">
       <div className="max-w-5xl mx-auto">
@@ -27,8 +39,21 @@ export default function Footer() {
             <div>
               <div className="font-lora text-xs uppercase tracking-widest text-[#b07d62] mb-4">Account</div>
               <div className="flex flex-col gap-2">
-                <Link href="/signup" className="font-lora text-sm hover:text-white transition-colors">Sign Up</Link>
-                <Link href="/login" className="font-lora text-sm hover:text-white transition-colors">Log In</Link>
+                {user ? (
+                  <>
+                    <Link href="/dashboard" className="font-lora text-sm hover:text-white transition-colors">Dashboard</Link>
+                    <form action={signOut}>
+                      <button type="submit" className="font-lora text-sm hover:text-white transition-colors text-left text-[#c9a090]">
+                        Sign Out
+                      </button>
+                    </form>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/signup" className="font-lora text-sm hover:text-white transition-colors">Sign Up</Link>
+                    <Link href="/login" className="font-lora text-sm hover:text-white transition-colors">Log In</Link>
+                  </>
+                )}
                 <Link href="/pricing" className="font-lora text-sm hover:text-white transition-colors">Pricing</Link>
               </div>
             </div>
