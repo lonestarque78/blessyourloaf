@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../**/*.tsx";
 
 @theme {
   --font-playfair: var(--font-playfair);
