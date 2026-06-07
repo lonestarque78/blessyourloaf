@@ -54,8 +54,6 @@ function formatCountdown(seconds: number): string {
 }
 
 export default function SchedulerPage() {
-  const supabase = createClient()
-
   const [loading, setLoading] = useState(true)
   const [starters, setStarters] = useState<Starter[]>([])
   const [latestFeedings, setLatestFeedings] = useState<Record<string, Feeding | null>>({})
@@ -84,17 +82,18 @@ export default function SchedulerPage() {
 
   useEffect(() => {
     async function load() {
+      const supabase = createClient()
       try {
-        const { data: { user } } = await supabase.auth.getUser()
-        if (!user) return
+        const { data: { user }, error: userError } = await supabase.auth.getUser()
+        if (userError || !user) return
 
-        const { data: startersData } = await supabase
+        const { data: startersData, error: startersError } = await supabase
           .from('starters')
           .select('*')
           .eq('user_id', user.id)
           .order('created_at', { ascending: false })
 
-        if (!startersData || startersData.length === 0) return
+        if (startersError || !startersData || startersData.length === 0) return
 
         setStarters(startersData)
 
@@ -121,7 +120,6 @@ export default function SchedulerPage() {
       }
     }
     load()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Tick the active timer
