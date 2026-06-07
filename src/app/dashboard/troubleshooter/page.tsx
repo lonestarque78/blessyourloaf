@@ -105,7 +105,10 @@ export default function TroubleshooterPage() {
 
   async function loadData() {
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
+    if (!user) {
+      setLoading(false)
+      return
+    }
 
     // Load starters
     const { data: startersData } = await supabase
@@ -295,18 +298,15 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
     textareaRef.current?.focus()
   }
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <div className="text-center">
-          <p className="font-lora italic text-[#9a7060]">Fetchin' Miss Loretta Mae, sugar...</p>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="fixed inset-0 z-10 flex flex-col pt-16" style={{ background: '#fdf6f0' }}>
+      {loading ? (
+        <div className="flex items-center justify-center flex-1">
+          <div className="text-center">
+            <p className="font-lora italic text-[#9a7060]">Fetchin' Miss Loretta Mae, sugar...</p>
+          </div>
+        </div>
+      ) : <>
       {/* Header */}
       <div className="bg-white border-b border-[#f0e4db] px-6 py-4 flex-shrink-0">
         <div className="max-w-3xl mx-auto flex items-start justify-between">
@@ -493,6 +493,7 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
           </p>
         </div>
       </div>
+      </>}
     </div>
   )
 }
