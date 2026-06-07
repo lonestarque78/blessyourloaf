@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 
 interface DashboardNavClientProps {
@@ -14,6 +14,16 @@ export default function DashboardNavClient({ signOut }: DashboardNavClientProps)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [libraryOpen, setLibraryOpen] = useState(false)
   const libraryRef = useRef<HTMLDivElement>(null)
+  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const openLibrary = useCallback(() => {
+    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current)
+    setLibraryOpen(true)
+  }, [])
+
+  const scheduleCloseLibrary = useCallback(() => {
+    closeTimeoutRef.current = setTimeout(() => setLibraryOpen(false), 150)
+  }, [])
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -32,15 +42,14 @@ export default function DashboardNavClient({ signOut }: DashboardNavClientProps)
         <Link href="/dashboard/starters" className={linkClass}>My Starters</Link>
         <Link href="/dashboard/scheduler" className={linkClass}>Bake Scheduler</Link>
         <Link href="/dashboard/history" className={linkClass}>Bake History</Link>
-        <Link href="/dashboard/my-recipes" className={linkClass}>My Recipes</Link>
         <Link href="/dashboard/troubleshooter" className={linkClass}>Troubleshooter</Link>
 
         {/* Library dropdown */}
         <div
           ref={libraryRef}
           className="relative"
-          onMouseEnter={() => setLibraryOpen(true)}
-          onMouseLeave={() => setLibraryOpen(false)}
+          onMouseEnter={openLibrary}
+          onMouseLeave={scheduleCloseLibrary}
         >
           <button
             className={`${linkClass} flex items-center gap-1`}
@@ -63,6 +72,13 @@ export default function DashboardNavClient({ signOut }: DashboardNavClientProps)
             libraryOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-1 pointer-events-none'
           }`}>
             <Link
+              href="/dashboard/my-recipes"
+              className="block px-4 py-2 font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] hover:bg-[#fdf6f0] transition-colors"
+              onClick={() => setLibraryOpen(false)}
+            >
+              My Recipes
+            </Link>
+            <Link
               href="/recipes"
               className="block px-4 py-2 font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] hover:bg-[#fdf6f0] transition-colors"
               onClick={() => setLibraryOpen(false)}
@@ -75,6 +91,20 @@ export default function DashboardNavClient({ signOut }: DashboardNavClientProps)
               onClick={() => setLibraryOpen(false)}
             >
               Discard Vault
+            </Link>
+            <Link
+              href="/flour-guide"
+              className="block px-4 py-2 font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] hover:bg-[#fdf6f0] transition-colors"
+              onClick={() => setLibraryOpen(false)}
+            >
+              Flour Guide
+            </Link>
+            <Link
+              href="/starter-guide"
+              className="block px-4 py-2 font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] hover:bg-[#fdf6f0] transition-colors"
+              onClick={() => setLibraryOpen(false)}
+            >
+              Starter Guide
             </Link>
           </div>
         </div>
@@ -110,6 +140,8 @@ export default function DashboardNavClient({ signOut }: DashboardNavClientProps)
           <Link href="/dashboard/troubleshooter" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Troubleshooter</Link>
           <Link href="/recipes" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Recipes</Link>
           <Link href="/discard" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Discard Vault</Link>
+          <Link href="/flour-guide" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Flour Guide</Link>
+          <Link href="/starter-guide" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Starter Guide</Link>
           <div className="border-t border-[#f0e4db] pt-3 flex flex-col gap-3">
             <Link href="/dashboard/account" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Account</Link>
             <form action={signOut}>
