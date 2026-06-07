@@ -84,40 +84,41 @@ export default function SchedulerPage() {
 
   useEffect(() => {
     async function load() {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
+      try {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) return
 
-      const { data: startersData } = await supabase
-        .from('starters')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
+        const { data: startersData } = await supabase
+          .from('starters')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false })
 
-      if (!startersData || startersData.length === 0) {
+        if (!startersData || startersData.length === 0) return
+
+        setStarters(startersData)
+
+        const ids = startersData.map((s: Starter) => s.id)
+        const { data: feedingsData } = await supabase
+          .from('feedings')
+          .select('id, starter_id, fed_at, rise_percent')
+          .in('starter_id', ids)
+          .order('fed_at', { ascending: false })
+
+        const feedingMap: Record<string, Feeding | null> = {}
+        for (const id of ids) {
+          feedingMap[id] = feedingsData?.find((f: Feeding) => f.starter_id === id) ?? null
+        }
+        setLatestFeedings(feedingMap)
+
+        const first = startersData.find((s: Starter) => s.is_active) ?? startersData[0]
+        setSelectedStarterId(first.id)
+        setAdjustedRise(feedingMap[first.id]?.rise_percent?.toString() ?? '')
+      } catch {
+        // silently fail — empty state will render
+      } finally {
         setLoading(false)
-        return
       }
-
-      setStarters(startersData)
-
-      const ids = startersData.map((s: Starter) => s.id)
-      const { data: feedingsData } = await supabase
-        .from('feedings')
-        .select('id, starter_id, fed_at, rise_percent')
-        .in('starter_id', ids)
-        .order('fed_at', { ascending: false })
-
-      const feedingMap: Record<string, Feeding | null> = {}
-      for (const id of ids) {
-        feedingMap[id] = feedingsData?.find((f: Feeding) => f.starter_id === id) ?? null
-      }
-      setLatestFeedings(feedingMap)
-
-      const first = startersData.find((s: Starter) => s.is_active) ?? startersData[0]
-      setSelectedStarterId(first.id)
-      setAdjustedRise(feedingMap[first.id]?.rise_percent?.toString() ?? '')
-
-      setLoading(false)
     }
     load()
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -247,16 +248,6 @@ export default function SchedulerPage() {
   minDate.setDate(minDate.getDate() + 1)
   const minDateStr = minDate.toISOString().split('T')[0]
 
-  if (loading) {
-    return (
-      <div className="max-w-3xl mx-auto px-6 py-12">
-        <div className="flex items-center justify-center py-24">
-          <p className="font-lora italic text-[#9a7060]">Wakin' up your starters...</p>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">
       <Link href="/dashboard" className="font-lora text-sm text-[#b07d62] hover:underline mb-6 block">
@@ -271,7 +262,7 @@ export default function SchedulerPage() {
         </p>
       </div>
 
-      {starters.length === 0 ? (
+      {!loading && starters.length === 0 ? (
         <div className="bg-white rounded-2xl p-12 shadow-md border border-[#f0e4db] text-center">
           <div className="text-6xl mb-6">🫙</div>
           <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-3">
@@ -309,6 +300,12 @@ export default function SchedulerPage() {
                 <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-3">
                   Which starter are you using?
                 </label>
+                {loading ? (
+                  <div className="space-y-3">
+                    <div className="h-[74px] bg-[#f0e4db] rounded-xl animate-pulse" />
+                    <div className="h-[74px] bg-[#f0e4db] rounded-xl animate-pulse opacity-60" />
+                  </div>
+                ) : (
                 <div className="space-y-3">
                   {starters.map(starter => {
                     const feeding = latestFeedings[starter.id]
@@ -361,6 +358,7 @@ export default function SchedulerPage() {
                     )
                   })}
                 </div>
+                )}
               </div>
 
               {/* Rise % confirmation */}

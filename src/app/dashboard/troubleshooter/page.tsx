@@ -300,13 +300,6 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
 
   return (
     <div className="fixed inset-0 z-10 flex flex-col pt-16" style={{ background: '#fdf6f0' }}>
-      {loading ? (
-        <div className="flex items-center justify-center flex-1">
-          <div className="text-center">
-            <p className="font-lora italic text-[#9a7060]">Fetchin' Miss Loretta Mae, sugar...</p>
-          </div>
-        </div>
-      ) : <>
       {/* Header */}
       <div className="bg-white border-b border-[#f0e4db] px-6 py-4 flex-shrink-0">
         <div className="max-w-3xl mx-auto flex items-start justify-between">
@@ -320,7 +313,7 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
           </div>
 
           {/* Starter selector */}
-          {starters.length > 1 && (
+          {!loading && starters.length > 1 && (
             <select
               value={selectedStarter?.id || ''}
               onChange={e => {
@@ -333,8 +326,12 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
           )}
         </div>
 
-        {/* Active starter info */}
-        {selectedStarter && (
+        {/* Active starter info - skeleton while loading */}
+        {loading ? (
+          <div className="max-w-3xl mx-auto mt-3">
+            <div className="h-9 bg-[#f0e4db] rounded-xl animate-pulse" />
+          </div>
+        ) : selectedStarter ? (
           <div className="max-w-3xl mx-auto mt-3">
             <div className="bg-[#f9ede5] rounded-xl px-4 py-2.5 flex flex-wrap gap-4">
               <span className="font-lora text-xs text-[#7a4f3a]">
@@ -357,7 +354,7 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
               )}
             </div>
           </div>
-        )}
+        ) : null}
       </div>
 
       {/* Messages */}
@@ -493,7 +490,6 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
           </p>
         </div>
       </div>
-      </>}
     </div>
   )
 }
