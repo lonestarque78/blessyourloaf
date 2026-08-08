@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import type { ImportedIngredient, ImportedRecipe, ImportedStep } from '@/lib/recipe-import'
 
 const categories = ['loaf', 'discard', 'rolls', 'focaccia', 'other']
 const difficulties = ['beginner', 'intermediate', 'advanced']
@@ -50,7 +51,7 @@ function NewMyRecipePageContent() {
     { title: '', description: '', duration_minutes: '' }
   ])
 
-  const applyImportedRecipe = (payload: any) => {
+  const applyImportedRecipe = (payload: Partial<ImportedRecipe>) => {
     if (!payload?.title) return
 
     setForm(prev => ({
@@ -65,7 +66,7 @@ function NewMyRecipePageContent() {
     }))
 
     const normalizedIngredients = Array.isArray(payload.ingredients) && payload.ingredients.length > 0
-      ? payload.ingredients.map((ingredient: any) => ({
+      ? payload.ingredients.map((ingredient: Partial<ImportedIngredient>) => ({
           item: ingredient.item || '',
           amount: ingredient.amount || '',
           note: ingredient.note || '',
@@ -73,7 +74,7 @@ function NewMyRecipePageContent() {
       : [{ item: '', amount: '', note: '' }]
 
     const normalizedSteps = Array.isArray(payload.steps) && payload.steps.length > 0
-      ? payload.steps.map((step: any) => ({
+      ? payload.steps.map((step: Partial<ImportedStep>) => ({
           title: step.title || '',
           description: step.description || '',
           duration_minutes: step.duration_minutes ? String(step.duration_minutes) : '',
@@ -179,9 +180,9 @@ function NewMyRecipePageContent() {
 
       <div className="text-center mb-10">
         <div className="text-5xl mb-4">📖</div>
-        <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f] mb-2">Add a Recipe, Darlin'</h1>
+        <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f] mb-2">Add a Recipe, Darlin&apos;</h1>
         <p className="font-lora italic text-[#9a7060]">
-          "Your secret's safe with us, honey."
+          &quot;Your secret&apos;s safe with us, honey.&quot;
         </p>
       </div>
 
@@ -194,7 +195,7 @@ function NewMyRecipePageContent() {
       <div className="bg-white rounded-2xl p-7 shadow-md border border-[#f0e4db] mb-6">
         <h2 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-2">Import from a Recipe URL</h2>
         <p className="font-lora text-sm text-[#9a7060] mb-4">
-          Paste a recipe page and we'll pull out the ingredients, timings, and steps into a clean draft.
+          Paste a recipe page and we&apos;ll pull out the ingredients, timings, and steps into a clean draft.
         </p>
         <div className="flex flex-col sm:flex-row gap-3">
           <input

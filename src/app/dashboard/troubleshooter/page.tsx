@@ -94,16 +94,6 @@ export default function TroubleshooterPage() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-  useEffect(() => {
-    loadData()
-  }, [])
-
-  useEffect(() => {
-    if (messages.length > 0) {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-    }
-  }, [messages])
-
   async function loadData() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
@@ -165,6 +155,18 @@ export default function TroubleshooterPage() {
 
     setLoading(false)
   }
+
+  useEffect(() => {
+    // Standard fetch-on-mount: loadData sets loading/starters/chat state from Supabase.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadData()
+  }, [])
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [messages])
 
   async function compressImage(file: File): Promise<File> {
     return new Promise((resolve) => {
@@ -294,7 +296,7 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
     }
   }
 
-  function useQuickQuestion(q: string) {
+  function sendQuickQuestion(q: string) {
     setInput(q)
     textareaRef.current?.focus()
   }
@@ -309,7 +311,7 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
               <h1 className="font-playfair text-2xl font-bold text-[#3d2b1f]">Starter Troubleshooter</h1>
             </div>
             <p className="font-lora italic text-sm text-[#9a7060]">
-              "I have never lost a starter, darlin'. I don't plan to start now."
+              &quot;I have never lost a starter, darlin&apos;. I don&apos;t plan to start now.&quot;
             </p>
           </div>
 
@@ -364,16 +366,16 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
           {messages.length === 0 && (
             <div className="text-center py-12">
               <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-3">
-                Tell Miss Loretta Mae what's wrong, sugar.
+                Tell Miss Loretta Mae what&apos;s wrong, sugar.
               </h2>
               <p className="font-lora italic text-[#9a7060] mb-8 max-w-md mx-auto">
-                Describe what you're seeing, upload a photo, or answer one of these common questions to get started.
+                Describe what you&apos;re seeing, upload a photo, or answer one of these common questions to get started.
               </p>
 
               {/* Quick questions */}
               <div className="grid grid-cols-1 gap-3 max-w-lg mx-auto">
                 {STARTER_QUESTIONS.map((q, i) => (
-                  <button key={i} onClick={() => useQuickQuestion(q)}
+                  <button key={i} onClick={() => sendQuickQuestion(q)}
                     className="text-left bg-white border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#7a4f3a] hover:border-[#c9956c] hover:bg-[#f9ede5] transition-all">
                     {q}
                   </button>
