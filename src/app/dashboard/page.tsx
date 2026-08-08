@@ -5,22 +5,35 @@ export default async function DashboardPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
+  if (!user) {
+    return (
+      <div className="max-w-3xl mx-auto px-6 py-12 text-center">
+        <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f] mb-3">You need to sign in first</h1>
+        <p className="font-lora text-[#9a7060] mb-6">Hop back in and we will get your kitchen dashboard ready.</p>
+        <Link href="/login" className="inline-block bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-6 py-3 rounded-full font-lora text-sm">
+          Go to Login
+        </Link>
+      </div>
+    )
+  }
+
   const { data: profile } = await supabase
     .from('profiles')
     .select('*')
-    .eq('id', user!.id)
-    .single()
+    .eq('id', user.id)
+    .maybeSingle()
 
   const { data: starters } = await supabase
     .from('starters')
     .select('*')
-    .eq('user_id', user!.id)
+    .eq('user_id', user.id)
     .eq('is_active', true)
     .order('created_at', { ascending: false })
 
   const firstName = profile?.full_name?.split(' ')[0] || 'sugar'
-  const hasStarter = starters && starters.length > 0
-  const primaryStarter = starters?.[0]
+  const activeStarters = starters ?? []
+  const hasStarter = activeStarters.length > 0
+  const primaryStarter = activeStarters[0]
 
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Good mornin' : hour < 17 ? 'Good afternoon' : "Good evenin'"
@@ -50,14 +63,14 @@ export default async function DashboardPage() {
             </div>
             {hasStarter && (
               <span className="font-lora text-xs text-[#b07d62] bg-[#f9ede5] px-3 py-1 rounded-full">
-                {starters!.length} active
+                {activeStarters.length} active
               </span>
             )}
           </div>
 
           {hasStarter ? (
             <div>
-              {starters!.slice(0, 2).map(starter => (
+              {activeStarters.slice(0, 2).map(starter => (
                 <div key={starter.id} className="flex items-center justify-between py-3 border-b border-[#f0e4db] last:border-0">
                   <div>
                     <div className="font-playfair font-bold text-[#3d2b1f]">{starter.name}</div>
@@ -149,7 +162,7 @@ export default async function DashboardPage() {
           </p>
           <Link href="/pricing"
             className="inline-block bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-8 py-3 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-lg">
-            Start 7-Day Free Trial →
+            Subscribe now →
           </Link>
         </div>
       )}
