@@ -42,17 +42,42 @@ function toTitleCase(value: string) {
     .join(' ')
 }
 
+const NAMED_ENTITIES: Record<string, string> = {
+  nbsp: ' ',
+  amp: '&',
+  quot: '"',
+  apos: "'",
+  lt: '<',
+  gt: '>',
+  rsquo: '’',
+  lsquo: '‘',
+  rdquo: '”',
+  ldquo: '“',
+  mdash: '—',
+  ndash: '–',
+  hellip: '…',
+}
+
+// Handles both named entities (&nbsp;, &amp;, ...) and numeric entities (&#32;, &#x27;),
+// the latter of which sites sometimes double-encode into their JSON-LD text — without this,
+// they show up as literal "&#32;" in imported recipes instead of decoding to a space.
+export function decodeHtmlEntities(text: string) {
+  return text.replace(/&(#\d+|#x[0-9a-f]+|[a-z]+);/gi, (match, code: string) => {
+    if (code[0] === '#') {
+      const codePoint = code[1]?.toLowerCase() === 'x' ? parseInt(code.slice(2), 16) : parseInt(code.slice(1), 10)
+      return Number.isFinite(codePoint) ? String.fromCodePoint(codePoint) : match
+    }
+    return NAMED_ENTITIES[code.toLowerCase()] ?? match
+  })
+}
+
 function normalizeLine(line: string) {
   return line.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
 }
 
 export function extractRecipeTextFromHtml(html: string) {
   const withoutTags = html.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, ' ').replace(/<style[^>]*>[\s\S]*?<\/style>/gi, ' ')
-  const decoded = withoutTags
-    .replace(/&nbsp;/gi, ' ')
-    .replace(/&amp;/gi, '&')
-    .replace(/&quot;/gi, '"')
-    .replace(/&#39;/gi, "'")
+  const decoded = decodeHtmlEntities(withoutTags)
     .replace(/<br\s*\/?>/gi, '\n')
     .replace(/<[^>]+>/g, '\n')
   return decoded
@@ -62,41 +87,59 @@ export function extractRecipeTextFromHtml(html: string) {
     .join('\n')
 }
 
-function parseIngredients(lines: string[]) {
-  const ingredients: ImportedIngredient[] = []
+function inferCategory(title: string) {
+  if (!/loaf|focaccia|bread|bun|roll|discard/i.test(title)) return 'other'
+  return /discard/i.test(title) ? 'discard' : 'loaf'
+}
 
-  for (const line of lines) {
-    const trimmed = line.trim()
-    if (!trimmed) continue
-    if (/^(ingredients|method|steps|directions|instructions):?$/i.test(trimmed)) continue
-    if (/^\d+\s*\./.test(trimmed)) continue
-    if (/^step\s*\d+/i.test(trimmed)) continue
-    if (/^(prep|bake|cook|rest|yield|servings|notes?|tip|hint)/i.test(trimmed)) continue
+// Parses "PT40M" / "PT1H30M" / "PT2H" (ISO 8601 durations, as used by schema.org
+// prepTime/cookTime) into total minutes.
+export function parseIso8601Duration(duration: unknown): number | null {
+  if (typeof duration !== 'string') return null
+  const match = duration.match(/^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/i)
+  if (!match) return null
+  const [, hours, minutes, seconds] = match
+  if (!hours && !minutes && !seconds) return null
+  return (Number(hours) || 0) * 60 + (Number(minutes) || 0) + Math.round((Number(seconds) || 0) / 60)
+}
 
-    const cleaned = trimmed.replace(/^-|^\*|^•/u, '').trim()
-    const ingredientMatch = cleaned.match(/^(?<amount>\d+(?:\.\d+)?(?:\s*(?:cups?|tbsp|tablespoons?|tsp|teaspoons?|oz|ounces?|g|grams?|kg|kgs?|ml|l|pinches?|dashes?|cloves?|large|small|medium|big)\b)*)\s+(?<item>.+)$/i)
+// Splits a single ingredient line (e.g. "1 tablespoon sourdough starter") into amount/item.
+// Works best on one clean line per ingredient — exactly what schema.org's recipeIngredient
+// array provides, and what buildRecipeImportFallback assembles from raw scraped text.
+export function parseIngredientLine(rawLine: string): ImportedIngredient | null {
+  const trimmed = decodeHtmlEntities(rawLine).trim()
+  if (!trimmed) return null
+  if (/^(ingredients|method|steps|directions|instructions):?$/i.test(trimmed)) return null
+  if (/^\d+\s*\./.test(trimmed)) return null
+  if (/^step\s*\d+/i.test(trimmed)) return null
+  if (/^(prep|bake|cook|rest|yield|servings|notes?|tip|hint)/i.test(trimmed)) return null
 
-    if (ingredientMatch?.groups) {
-      const amount = ingredientMatch.groups.amount.trim()
-      const item = ingredientMatch.groups.item.trim()
-      if (item) {
-        ingredients.push({ amount, item, note: '' })
-      }
-    } else if (cleaned) {
-      const fallbackMatch = cleaned.match(/^(?<amount>.+?)\s+(?<item>.+)$/)
-      if (fallbackMatch?.groups) {
-        const amount = fallbackMatch.groups.amount.trim()
-        const item = fallbackMatch.groups.item.trim()
-        if (item) {
-          ingredients.push({ amount, item, note: '' })
-        }
-      } else {
-        ingredients.push({ amount: '', item: cleaned, note: '' })
-      }
-    }
+  const cleaned = trimmed.replace(/^-|^\*|^•/u, '').replace(/\s+/g, ' ').trim()
+  if (!cleaned) return null
+
+  // Amount is a whole number, a decimal, a bare fraction (1/2), or a mixed number (3 3/4),
+  // optionally followed by a unit word — mixed numbers are common in baking ("1 1/2 cups")
+  // and were previously mishandled (the whole-number part was split off as its own token).
+  const ingredientMatch = cleaned.match(/^(?<amount>(?:\d+(?:\.\d+)?(?:\s+\d+\/\d+)?|\d+\/\d+)(?:\s*(?:cups?|tbsp|tablespoons?|tsp|teaspoons?|oz|ounces?|g|grams?|kg|kgs?|ml|l|pinches?|dashes?|cloves?|large|small|medium|big)\b)*)\s+(?<item>.+)$/i)
+
+  if (ingredientMatch?.groups) {
+    const amount = ingredientMatch.groups.amount.trim()
+    const item = ingredientMatch.groups.item.trim()
+    return item ? { amount, item, note: '' } : null
   }
 
-  return ingredients
+  const fallbackMatch = cleaned.match(/^(?<amount>.+?)\s+(?<item>.+)$/)
+  if (fallbackMatch?.groups) {
+    const amount = fallbackMatch.groups.amount.trim()
+    const item = fallbackMatch.groups.item.trim()
+    return item ? { amount, item, note: '' } : null
+  }
+
+  return { amount: '', item: cleaned, note: '' }
+}
+
+function parseIngredients(lines: string[]) {
+  return lines.map(parseIngredientLine).filter((i): i is ImportedIngredient => i !== null)
 }
 
 function parseSteps(lines: string[]) {
@@ -163,16 +206,10 @@ export function buildRecipeImportFallback(rawText: string): ImportedRecipe {
   const bakeMatch = normalized.match(/bake[^\d]*(\d+)/i)
   const cookMatch = normalized.match(/cook[^\d]*(\d+)/i)
 
-  const category = /loaf|focaccia|bread|bun|roll|discard/i.test(titleLine)
-    ? /discard/i.test(titleLine)
-      ? 'discard'
-      : 'loaf'
-    : 'other'
-
   return {
     title: titleLine,
     description: `Imported from a messy recipe source and cleaned into a simple starter-friendly structure.`,
-    category,
+    category: inferCategory(titleLine),
     difficulty: 'intermediate',
     prep_time_minutes: prepMatch ? Number(prepMatch[1]) : null,
     bake_time_minutes: bakeMatch ? Number(bakeMatch[1]) : cookMatch ? Number(cookMatch[1]) : null,
@@ -184,6 +221,107 @@ export function buildRecipeImportFallback(rawText: string): ImportedRecipe {
 
 export function buildRecipeImportPayload(rawText: string) {
   return buildRecipeImportFallback(rawText)
+}
+
+function collectJsonLdItems(parsed: unknown): Record<string, unknown>[] {
+  if (Array.isArray(parsed)) return parsed.flatMap(collectJsonLdItems)
+  if (isJsonObject(parsed)) {
+    const graph = parsed['@graph']
+    if (Array.isArray(graph)) return graph.flatMap(collectJsonLdItems)
+    return [parsed]
+  }
+  return []
+}
+
+function hasRecipeType(item: Record<string, unknown>): boolean {
+  const type = item['@type']
+  if (typeof type === 'string') return type === 'Recipe'
+  if (Array.isArray(type)) return type.includes('Recipe')
+  return false
+}
+
+// Most recipe-blog platforms embed schema.org Recipe JSON-LD for SEO rich snippets — when
+// present, it's a far more reliable source than scraping the rendered page text, since it's
+// already structured (clean ingredient list, real instruction steps) and can't accidentally
+// pick up nav links, comments, or rating-widget text the way raw text extraction can.
+export function extractRecipeJsonLd(html: string): Record<string, unknown> | null {
+  const scriptPattern = /<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi
+  let match: RegExpExecArray | null
+
+  while ((match = scriptPattern.exec(html))) {
+    let parsed: unknown
+    try {
+      parsed = JSON.parse(match[1])
+    } catch {
+      continue
+    }
+    const recipe = collectJsonLdItems(parsed).find(hasRecipeType)
+    if (recipe) return recipe
+  }
+
+  return null
+}
+
+function flattenHowToItems(items: unknown): Array<{ title: string | null; description: string; duration_minutes: number | null }> {
+  if (typeof items === 'string') {
+    const text = decodeHtmlEntities(items).trim()
+    return text ? [{ title: null, description: text, duration_minutes: null }] : []
+  }
+  if (!Array.isArray(items)) return []
+
+  return items.flatMap((item): Array<{ title: string | null; description: string; duration_minutes: number | null }> => {
+    if (typeof item === 'string') {
+      const text = decodeHtmlEntities(item).trim()
+      return text ? [{ title: null, description: text, duration_minutes: null }] : []
+    }
+    if (!isJsonObject(item)) return []
+
+    if (item['@type'] === 'HowToSection') {
+      return flattenHowToItems(item.itemListElement)
+    }
+
+    const text = typeof item.text === 'string' ? item.text : typeof item.name === 'string' ? item.name : ''
+    if (!text) return []
+
+    const title = typeof item.name === 'string' && item.name ? decodeHtmlEntities(item.name) : null
+    return [{ title, description: decodeHtmlEntities(text).trim(), duration_minutes: null }]
+  })
+}
+
+// Returns null (rather than a mostly-empty recipe) when the JSON-LD has neither ingredients
+// nor steps, so the caller can fall back to raw-text extraction + AI cleanup instead.
+export function buildRecipeFromJsonLd(recipeLd: Record<string, unknown>): ImportedRecipe | null {
+  const title = typeof recipeLd.name === 'string' ? decodeHtmlEntities(recipeLd.name).trim() : ''
+  const description = typeof recipeLd.description === 'string' ? decodeHtmlEntities(recipeLd.description).trim() : ''
+
+  const ingredientLines = Array.isArray(recipeLd.recipeIngredient)
+    ? recipeLd.recipeIngredient.filter((line): line is string => typeof line === 'string')
+    : []
+  const ingredients = ingredientLines.map(parseIngredientLine).filter((i): i is ImportedIngredient => i !== null)
+
+  const steps = flattenHowToItems(recipeLd.recipeInstructions).map((step, index) => ({
+    title: step.title || `Step ${index + 1}`,
+    description: step.description,
+    duration_minutes: step.duration_minutes,
+  }))
+
+  if (!title && ingredients.length === 0 && steps.length === 0) return null
+
+  const categoryHint = Array.isArray(recipeLd.recipeCategory) && typeof recipeLd.recipeCategory[0] === 'string'
+    ? `${title} ${recipeLd.recipeCategory[0]}`
+    : title
+
+  return normalizeImportedRecipe({
+    title: title || 'Imported Recipe',
+    description,
+    category: inferCategory(categoryHint),
+    difficulty: 'intermediate',
+    prep_time_minutes: parseIso8601Duration(recipeLd.prepTime),
+    bake_time_minutes: parseIso8601Duration(recipeLd.cookTime),
+    notes: 'Imported from this recipe’s structured data.',
+    ingredients,
+    steps,
+  })
 }
 
 function isJsonObject(value: unknown): value is Record<string, unknown> {
@@ -205,7 +343,9 @@ export async function cleanupRecipeWithAnthropic(
   const textPayload = response.content.find(part => part.type === 'text')
   if (!textPayload || typeof textPayload.text !== 'string') throw new Error('No text response')
 
-  const parsed = JSON.parse(textPayload.text)
+  // Claude sometimes wraps its JSON in a markdown code fence despite being told not to.
+  const cleanedText = textPayload.text.replace(/^```json\n?/i, '').replace(/```\s*$/, '').trim()
+  const parsed = JSON.parse(cleanedText)
   if (!isJsonObject(parsed)) throw new Error('Unexpected response shape')
 
   return normalizeImportedRecipe({

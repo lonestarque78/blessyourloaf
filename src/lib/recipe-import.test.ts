@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import { buildRecipeImportFallback, cleanupRecipeWithAnthropic, extractRecipeTextFromHtml } from './recipe-import'
+import {
+  buildRecipeFromJsonLd,
+  buildRecipeImportFallback,
+  cleanupRecipeWithAnthropic,
+  decodeHtmlEntities,
+  extractRecipeJsonLd,
+  extractRecipeTextFromHtml,
+  parseIso8601Duration,
+} from './recipe-import'
 
 function fakeAnthropic(responseText: string) {
   return {
@@ -81,7 +89,7 @@ Method:
     expect(result.ingredients).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ item: 'ripe bananas', amount: '3' }),
-        expect.objectContaining({ item: 'cup smooth peanut butter', amount: '1/2' }),
+        expect.objectContaining({ item: 'smooth peanut butter', amount: '1/2 cup' }),
         expect.objectContaining({ item: 'all-purpose flour', amount: '1 cup' }),
       ])
     )
@@ -140,5 +148,155 @@ describe('cleanupRecipeWithAnthropic', () => {
     const anthropic = fakeAnthropic(JSON.stringify(['not', 'an', 'object']))
 
     await expect(cleanupRecipeWithAnthropic(anthropic, 'raw text')).rejects.toThrow('Unexpected response shape')
+  })
+
+  it('parses successfully when Claude wraps the JSON in a markdown code fence', async () => {
+    const anthropic = fakeAnthropic('```json\n' + JSON.stringify({ title: 'Fenced Recipe' }) + '\n```')
+
+    const result = await cleanupRecipeWithAnthropic(anthropic, 'raw text')
+
+    expect(result.title).toBe('Fenced Recipe')
+  })
+})
+
+describe('decodeHtmlEntities', () => {
+  it('decodes named entities', () => {
+    expect(decodeHtmlEntities('Salt &amp; pepper')).toBe('Salt & pepper')
+    expect(decodeHtmlEntities('&ldquo;starter&rdquo;')).toBe('“starter”')
+  })
+
+  it('decodes numeric decimal and hex entities', () => {
+    expect(decodeHtmlEntities('a&#32;b')).toBe('a b')
+    expect(decodeHtmlEntities('a&#x27;b')).toBe("a'b")
+  })
+
+  it('leaves unrecognized entities untouched', () => {
+    expect(decodeHtmlEntities('&notarealentity;')).toBe('&notarealentity;')
+  })
+})
+
+describe('parseIso8601Duration', () => {
+  it('parses minutes-only durations', () => {
+    expect(parseIso8601Duration('PT40M')).toBe(40)
+  })
+
+  it('parses hours-and-minutes durations', () => {
+    expect(parseIso8601Duration('PT1H30M')).toBe(90)
+  })
+
+  it('parses hours-only durations', () => {
+    expect(parseIso8601Duration('PT2H')).toBe(120)
+  })
+
+  it('returns null for missing or unparseable input', () => {
+    expect(parseIso8601Duration(undefined)).toBeNull()
+    expect(parseIso8601Duration('40 minutes')).toBeNull()
+    expect(parseIso8601Duration(42)).toBeNull()
+  })
+})
+
+describe('extractRecipeJsonLd + buildRecipeFromJsonLd', () => {
+  // Trimmed-down real-world fixture: littlespoonfarm.com's Jalapeño Cheddar Sourdough
+  // page, which is what surfaced the raw-text-scraping bugs this feature works around
+  // (rating-widget text picked up as a step, ingredients fragmented, HTML entities left
+  // undecoded).
+  const RECIPE_LD = {
+    '@type': 'Recipe',
+    name: 'Jalapeño Cheddar Sourdough Bread Recipe',
+    description: 'A crusty artisan loaf &amp; loaded with cheddar cheese.',
+    prepTime: 'PT40M',
+    cookTime: 'PT50M',
+    recipeIngredient: [
+      '1 tablespoon sourdough starter',
+      '3 3/4 cups  bread flour',
+      '2 teaspoons fine sea salt',
+    ],
+    recipeInstructions: [
+      {
+        '@type': 'HowToSection',
+        name: 'Make the Dough',
+        itemListElement: [
+          { '@type': 'HowToStep', name: 'Autolyse', text: 'Combine water and starter, rest 1 hour.' },
+          { '@type': 'HowToStep', name: 'Bake', text: 'Bake at 450° for 30 minutes.' },
+        ],
+      },
+    ],
+    aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.98', ratingCount: '296' },
+  }
+
+  function htmlWithLdJson(payload: unknown) {
+    return `<html><head><script type="application/ld+json">${JSON.stringify(payload)}</script></head><body></body></html>`
+  }
+
+  it('finds a Recipe nested inside a @graph array', () => {
+    const html = htmlWithLdJson({ '@graph': [{ '@type': 'WebPage' }, RECIPE_LD] })
+    const recipeLd = extractRecipeJsonLd(html)
+
+    expect(recipeLd?.name).toBe(RECIPE_LD.name)
+  })
+
+  it('finds a bare Recipe object with no @graph wrapper', () => {
+    const html = htmlWithLdJson(RECIPE_LD)
+    const recipeLd = extractRecipeJsonLd(html)
+
+    expect(recipeLd?.name).toBe(RECIPE_LD.name)
+  })
+
+  it('returns null when there is no ld+json script at all', () => {
+    expect(extractRecipeJsonLd('<html><body><h1>No structured data here</h1></body></html>')).toBeNull()
+  })
+
+  it('skips malformed JSON in one script block and keeps checking others', () => {
+    const html = `
+      <script type="application/ld+json">{ not valid json </script>
+      ${htmlWithLdJson(RECIPE_LD)}
+    `
+    expect(extractRecipeJsonLd(html)?.name).toBe(RECIPE_LD.name)
+  })
+
+  it('builds a clean ImportedRecipe from JSON-LD: real ingredients, real steps, no rating-widget contamination', () => {
+    const result = buildRecipeFromJsonLd(RECIPE_LD)
+
+    expect(result).not.toBeNull()
+    expect(result!.title).toBe('Jalapeño Cheddar Sourdough Bread Recipe')
+    expect(result!.description).toBe('A crusty artisan loaf & loaded with cheddar cheese.')
+    expect(result!.prep_time_minutes).toBe(40)
+    expect(result!.bake_time_minutes).toBe(50)
+
+    expect(result!.ingredients).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ item: 'bread flour', amount: '3 3/4 cups' }),
+        expect.objectContaining({ item: 'fine sea salt', amount: '2 teaspoons' }),
+      ])
+    )
+
+    // Steps come from recipeInstructions only — never from ratings/reviews.
+    expect(result!.steps).toHaveLength(2)
+    expect(result!.steps[0]).toEqual({ title: 'Autolyse', description: 'Combine water and starter, rest 1 hour.', duration_minutes: null })
+    expect(result!.steps.some(s => /votes|rating/i.test(s.description))).toBe(false)
+  })
+
+  it('decodes HTML entities in ingredient and step text', () => {
+    const result = buildRecipeFromJsonLd({
+      ...RECIPE_LD,
+      recipeIngredient: ['1 cup flour &#38; water'],
+      recipeInstructions: [{ '@type': 'HowToStep', name: 'Mix', text: 'Stir until smooth&#32;and combined.' }],
+    })
+
+    expect(result!.ingredients[0].item).not.toContain('&#38;')
+    expect(result!.steps[0].description).toBe('Stir until smooth and combined.')
+  })
+
+  it('falls back to plain numbered steps when recipeInstructions is an array of strings', () => {
+    const result = buildRecipeFromJsonLd({ ...RECIPE_LD, recipeInstructions: ['Mix everything.', 'Bake it.'] })
+
+    expect(result!.steps).toEqual([
+      { title: 'Step 1', description: 'Mix everything.', duration_minutes: null },
+      { title: 'Step 2', description: 'Bake it.', duration_minutes: null },
+    ])
+  })
+
+  it('returns null when the Recipe object has no name, ingredients, or steps', () => {
+    expect(buildRecipeFromJsonLd({ '@type': 'Recipe', aggregateRating: RECIPE_LD.aggregateRating })).toBeNull()
   })
 })

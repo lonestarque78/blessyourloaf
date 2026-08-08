@@ -1,6 +1,12 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { NextResponse } from 'next/server'
-import { buildRecipeImportFallback, cleanupRecipeWithAnthropic, extractRecipeTextFromHtml } from '@/lib/recipe-import'
+import {
+  buildRecipeFromJsonLd,
+  buildRecipeImportFallback,
+  cleanupRecipeWithAnthropic,
+  extractRecipeJsonLd,
+  extractRecipeTextFromHtml,
+} from '@/lib/recipe-import'
 import { createClient } from '@/lib/supabase/server'
 import { getRemainingFreeAiActions, recordAiUsage } from '@/lib/ai-usage'
 
@@ -21,6 +27,7 @@ export async function POST(request: Request) {
     }
 
     let text = typeof rawText === 'string' ? rawText : ''
+    let structuredRecipe = null as ReturnType<typeof buildRecipeFromJsonLd>
 
     if (typeof url === 'string' && url.trim()) {
       const response = await fetch(url, {
@@ -34,7 +41,16 @@ export async function POST(request: Request) {
       }
 
       const html = await response.text()
-      text = extractRecipeTextFromHtml(html)
+      const recipeLd = extractRecipeJsonLd(html)
+      if (recipeLd) structuredRecipe = buildRecipeFromJsonLd(recipeLd)
+      if (!structuredRecipe) text = extractRecipeTextFromHtml(html)
+    }
+
+    // A site with embedded schema.org Recipe data gives a far more reliable result than
+    // scraping rendered text — skip the AI-cleanup/heuristic-fallback path entirely (no AI
+    // call, no quota spent) when we have one.
+    if (structuredRecipe) {
+      return NextResponse.json({ recipe: structuredRecipe, source: 'structured-data' })
     }
 
     let recipe = buildRecipeImportFallback(text)
