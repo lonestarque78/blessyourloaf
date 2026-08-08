@@ -9,9 +9,19 @@ function startOfTodayUtcIso() {
   return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())).toISOString()
 }
 
-// Phase 4 wires up real subscription status; until then every user is treated as free-tier.
-async function isPaidUser(_supabase: SupabaseClient, _userId: string): Promise<boolean> {
-  return false
+// A user counts as paid only while Stripe reports their subscription as 'active'. Other
+// non-free statuses (e.g. 'past_due') fall back to free-tier limits until the webhook
+// flips them back to 'active' — errs toward bounding AI cost over granting a grace period.
+export async function isPaidUser(supabase: SupabaseClient, userId: string): Promise<boolean> {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('subscription_status')
+    .eq('id', userId)
+    .maybeSingle()
+
+  if (error) throw error
+
+  return data?.subscription_status === 'active'
 }
 
 export async function getRemainingFreeAiActions(supabase: SupabaseClient, userId: string): Promise<number> {
