@@ -27,6 +27,9 @@ function NewMyRecipePageContent() {
   const supabase = createClient()
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const [importUrl, setImportUrl] = useState('')
+  const [importing, setImporting] = useState(false)
+  const [importMessage, setImportMessage] = useState('')
 
   const [form, setForm] = useState({
     title: searchParams.get('title') || '',
@@ -46,6 +49,71 @@ function NewMyRecipePageContent() {
   const [steps, setSteps] = useState<Step[]>([
     { title: '', description: '', duration_minutes: '' }
   ])
+
+  const applyImportedRecipe = (payload: any) => {
+    if (!payload?.title) return
+
+    setForm(prev => ({
+      ...prev,
+      title: payload.title || prev.title,
+      description: payload.description || prev.description,
+      category: payload.category || prev.category,
+      difficulty: payload.difficulty || prev.difficulty,
+      prep_time_minutes: payload.prep_time_minutes ? String(payload.prep_time_minutes) : prev.prep_time_minutes,
+      bake_time_minutes: payload.bake_time_minutes ? String(payload.bake_time_minutes) : prev.bake_time_minutes,
+      notes: payload.notes ? `${prev.notes ? `${prev.notes}\n` : ''}${payload.notes}` : prev.notes,
+    }))
+
+    const normalizedIngredients = Array.isArray(payload.ingredients) && payload.ingredients.length > 0
+      ? payload.ingredients.map((ingredient: any) => ({
+          item: ingredient.item || '',
+          amount: ingredient.amount || '',
+          note: ingredient.note || '',
+        }))
+      : [{ item: '', amount: '', note: '' }]
+
+    const normalizedSteps = Array.isArray(payload.steps) && payload.steps.length > 0
+      ? payload.steps.map((step: any) => ({
+          title: step.title || '',
+          description: step.description || '',
+          duration_minutes: step.duration_minutes ? String(step.duration_minutes) : '',
+        }))
+      : [{ title: '', description: '', duration_minutes: '' }]
+
+    setIngredients(normalizedIngredients)
+    setSteps(normalizedSteps)
+    setImportMessage('Recipe imported. Review the details and save when you are ready.')
+  }
+
+  const handleImport = async () => {
+    if (!importUrl.trim()) {
+      setError('Paste a recipe URL first, sugar.')
+      return
+    }
+
+    setImporting(true)
+    setError('')
+    setImportMessage('')
+
+    try {
+      const res = await fetch('/api/recipes/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: importUrl.trim() }),
+      })
+
+      const data = await res.json()
+      if (!res.ok) {
+        throw new Error(data.error || 'Import failed')
+      }
+
+      applyImportedRecipe(data.recipe)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Import failed')
+    } finally {
+      setImporting(false)
+    }
+  }
 
   const addIngredient = () => setIngredients([...ingredients, { item: '', amount: '', note: '' }])
   const removeIngredient = (i: number) => setIngredients(ingredients.filter((_, idx) => idx !== i))
@@ -122,6 +190,31 @@ function NewMyRecipePageContent() {
           {error}
         </div>
       )}
+
+      <div className="bg-white rounded-2xl p-7 shadow-md border border-[#f0e4db] mb-6">
+        <h2 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-2">Import from a Recipe URL</h2>
+        <p className="font-lora text-sm text-[#9a7060] mb-4">
+          Paste a recipe page and we'll pull out the ingredients, timings, and steps into a clean draft.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <input
+            value={importUrl}
+            onChange={e => setImportUrl(e.target.value)}
+            placeholder="https://example.com/recipe"
+            className="flex-1 border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6]"
+          />
+          <button
+            onClick={handleImport}
+            disabled={importing}
+            className="bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-5 py-3 rounded-xl font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-md disabled:opacity-50"
+          >
+            {importing ? 'Importing...' : 'Import Recipe'}
+          </button>
+        </div>
+        {importMessage && (
+          <p className="font-lora text-sm text-[#7a4f3a] mt-3">{importMessage}</p>
+        )}
+      </div>
 
       <div className="space-y-6">
         {/* Basic info */}
