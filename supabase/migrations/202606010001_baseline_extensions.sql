@@ -1,0 +1,18 @@
+-- Baseline migrations (202606010001 through 202606010010) document the schema that
+-- already existed live in Supabase before this repo tracked any migrations at all —
+-- confirmed on 2026-08-08 via direct SQL introspection against the live database
+-- (pg_catalog / information_schema / pg_policies, through the Supabase Management API's
+-- query endpoint, using the CLI's cached access token — not the more limited PostgREST
+-- OpenAPI schema used for an earlier, less accurate pass at this).
+--
+-- The "202606010" date prefix is nominal, not a real historical timestamp — it exists
+-- only to sort these files before the real migrations (202608080001 onward) that were
+-- authored after this baseline was established. `create table if not exists` / `create
+-- or replace function` are no-ops against the live database; these files exist to close
+-- the schema-drift gap and to bootstrap fresh environments (local dev, CI, a new project).
+--
+-- Verified via live introspection: column types, nullability, defaults, primary/foreign
+-- keys, unique/check constraints, indexes, RLS-enabled status, RLS policy definitions,
+-- trigger wiring, and function bodies. Nothing here is guessed.
+
+create extension if not exists "uuid-ossp";
