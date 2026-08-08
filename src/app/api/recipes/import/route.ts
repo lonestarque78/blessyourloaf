@@ -43,16 +43,34 @@ export async function POST(request: Request) {
 
     if (!anthropic) {
       aiSkipReason = 'not_configured'
-    } else if ((await getRemainingFreeAiActions(supabase, user.id)) <= 0) {
-      aiSkipReason = 'quota_exceeded'
     } else {
+      let remaining: number
       try {
-        recipe = await cleanupRecipeWithAnthropic(anthropic, text, typeof url === 'string' ? url : undefined)
-        source = 'anthropic'
-        await recordAiUsage(supabase, user.id, 'recipe_import')
+        remaining = await getRemainingFreeAiActions(supabase, user.id)
       } catch (error) {
-        console.warn('[recipe-import] falling back to heuristic parser', error)
+        console.warn('[recipe-import] quota check failed, falling back to heuristic parser', error)
+        remaining = 0
         aiSkipReason = 'ai_error'
+      }
+
+      if (remaining > 0) {
+        try {
+          recipe = await cleanupRecipeWithAnthropic(anthropic, text, typeof url === 'string' ? url : undefined)
+          source = 'anthropic'
+        } catch (error) {
+          console.warn('[recipe-import] AI cleanup failed, falling back to heuristic parser', error)
+          aiSkipReason = 'ai_error'
+        }
+
+        if (source === 'anthropic') {
+          try {
+            await recordAiUsage(supabase, user.id, 'recipe_import')
+          } catch (error) {
+            console.warn('[recipe-import] failed to record AI usage', error)
+          }
+        }
+      } else if (!aiSkipReason) {
+        aiSkipReason = 'quota_exceeded'
       }
     }
 
