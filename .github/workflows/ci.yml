@@ -66,3 +66,17 @@ jobs:
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
+  deploy:
+    name: Deploy to Vercel
+    needs: verify-schema
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      # Vercel's automatic git-push deploys are disabled (see vercel.json:
+      # git.deploymentEnabled). This Deploy Hook is the only path to production, and only
+      # runs after lint-and-build, migrate, and verify-schema have all succeeded.
+      - name: Trigger Vercel deploy hook
+        run: curl --fail-with-body -sS -X POST "$VERCEL_DEPLOY_HOOK_URL"
+        env:
+          VERCEL_DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
