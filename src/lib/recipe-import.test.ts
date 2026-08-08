@@ -6,6 +6,7 @@ import {
   decodeHtmlEntities,
   extractRecipeJsonLd,
   extractRecipeTextFromHtml,
+  extractStepDurationMinutes,
   parseIso8601Duration,
 } from './recipe-import'
 
@@ -195,6 +196,35 @@ describe('parseIso8601Duration', () => {
   })
 })
 
+describe('extractStepDurationMinutes', () => {
+  it('matches minute phrasing after a trigger word', () => {
+    expect(extractStepDurationMinutes('Bake for 25 minutes at 450F.')).toBe(25)
+    expect(extractStepDurationMinutes('Let it rest for about 10 mins.')).toBe(10)
+  })
+
+  it('matches hour phrasing after a trigger word', () => {
+    expect(extractStepDurationMinutes('Let the dough rise for 2 hours.')).toBe(120)
+  })
+
+  it('matches combined hour-and-minute phrasing', () => {
+    expect(extractStepDurationMinutes('Proof for 1 hour 30 minutes.')).toBe(90)
+    expect(extractStepDurationMinutes('Proof for 1 hour and 30 minutes.')).toBe(90)
+  })
+
+  it('matches a leading lead-time convention with no trigger word', () => {
+    // The exact real-world phrasing that was silently unmatched: no "for"/"about" trigger,
+    // the duration just opens the sentence.
+    expect(extractStepDurationMinutes(
+      '12 hours before you plan to mix the dough, add the ingredients to make ½ cup of active sourdough starter.'
+    )).toBe(720)
+    expect(extractStepDurationMinutes('30 minutes ahead of baking, preheat the oven.')).toBe(30)
+  })
+
+  it('returns null when there is no duration mentioned', () => {
+    expect(extractStepDurationMinutes('Stir until combined.')).toBeNull()
+  })
+})
+
 describe('extractRecipeJsonLd + buildRecipeFromJsonLd', () => {
   // Trimmed-down real-world fixture: littlespoonfarm.com's Jalapeño Cheddar Sourdough
   // page, which is what surfaced the raw-text-scraping bugs this feature works around
@@ -274,6 +304,21 @@ describe('extractRecipeJsonLd + buildRecipeFromJsonLd', () => {
     expect(result!.steps).toHaveLength(2)
     expect(result!.steps[0]).toEqual({ title: 'Autolyse', description: 'Combine water and starter, rest 1 hour.', duration_minutes: null })
     expect(result!.steps.some(s => /votes|rating/i.test(s.description))).toBe(false)
+  })
+
+  it('fills in duration_minutes for a JSON-LD step using the lead-time convention', () => {
+    // The exact real-world case that was reported: no "for"/"about" trigger word, and
+    // duration extraction wasn't even being attempted on JSON-LD-sourced steps at all.
+    const result = buildRecipeFromJsonLd({
+      ...RECIPE_LD,
+      recipeInstructions: [{
+        '@type': 'HowToStep',
+        name: 'Prepare starter',
+        text: '12 hours before you plan to mix the dough, add the ingredients to make ½ cup (100 g) of active sourdough starter to a clean jar.',
+      }],
+    })
+
+    expect(result!.steps[0].duration_minutes).toBe(720)
   })
 
   it('decodes HTML entities in ingredient and step text', () => {

@@ -103,6 +103,43 @@ export function parseIso8601Duration(duration: unknown): number | null {
   return (Number(hours) || 0) * 60 + (Number(minutes) || 0) + Math.round((Number(seconds) || 0) / 60)
 }
 
+interface StepDurationMatch {
+  minutes: number
+  matchedText: string
+}
+
+// Extracts a duration mentioned in step text: a trigger-word phrasing ("bake for 25
+// minutes", "let rest for 1 hour 30 minutes") or a leading lead-time convention ("12 hours
+// before you plan to mix the dough..."). Returns the matched substring too, so callers that
+// want to strip it out of the description (the heuristic parser does; JSON-LD-sourced text
+// is already clean prose and isn't stripped) can do so.
+function matchStepDuration(text: string): StepDurationMatch | null {
+  const leadTimeMatch = text.match(/^(\d+)\s*(hours?|hrs?|minutes?|mins?)\b\s*(?:before|ahead)/i)
+  if (leadTimeMatch) {
+    const amount = Number(leadTimeMatch[1])
+    const minutes = /^h/i.test(leadTimeMatch[2]) ? amount * 60 : amount
+    return { minutes, matchedText: leadTimeMatch[0] }
+  }
+
+  const hourMatch = text.match(/(?:for|about|let\s+rest\s+for)\s+(\d+)\s*(?:hours?|hrs?)\b(?:\s*(?:and\s+)?(\d+)\s*(?:minutes?|mins?)\b)?/i)
+  if (hourMatch) {
+    const hours = Number(hourMatch[1])
+    const extraMinutes = hourMatch[2] ? Number(hourMatch[2]) : 0
+    return { minutes: hours * 60 + extraMinutes, matchedText: hourMatch[0] }
+  }
+
+  const minuteMatch = text.match(/(?:for|about|let\s+rest\s+for)\s+(\d+)\s*(?:minutes?|mins?)\b/i)
+  if (minuteMatch) {
+    return { minutes: Number(minuteMatch[1]), matchedText: minuteMatch[0] }
+  }
+
+  return null
+}
+
+export function extractStepDurationMinutes(text: string): number | null {
+  return matchStepDuration(text)?.minutes ?? null
+}
+
 // Splits a single ingredient line (e.g. "1 tablespoon sourdough starter") into amount/item.
 // Works best on one clean line per ingredient — exactly what schema.org's recipeIngredient
 // array provides, and what buildRecipeImportFallback assembles from raw scraped text.
@@ -145,7 +182,6 @@ function parseIngredients(lines: string[]) {
 function parseSteps(lines: string[]) {
   const steps: ImportedStep[] = []
   const stepPattern = /^(?:step\s*)?(\d+)[.):-]\s*(.+)$/i
-  const durationPattern = /(?:for|about|let\s+rest\s+for)\s+(\d+)\s*(?:minutes?|mins?)\b/i
 
   lines.forEach(rawLine => {
     const line = rawLine.trim()
@@ -153,11 +189,11 @@ function parseSteps(lines: string[]) {
     const match = line.match(stepPattern)
     if (match) {
       const [, , description] = match
-      const duration = description.match(durationPattern)?.[1]
+      const durationMatch = matchStepDuration(description)
       steps.push({
         title: `Step ${match[1]}`,
-        description: description.replace(durationPattern, '').trim(),
-        duration_minutes: duration ? Number(duration) : null,
+        description: (durationMatch ? description.replace(durationMatch.matchedText, '') : description).trim(),
+        duration_minutes: durationMatch?.minutes ?? null,
       })
     }
   })
@@ -165,12 +201,12 @@ function parseSteps(lines: string[]) {
   if (steps.length === 0) {
     const fallback = lines.filter(line => line.trim() && !/^(ingredients|method|steps|directions|instructions):?$/i.test(line.trim()))
     fallback.forEach((line, index) => {
-      const duration = line.match(durationPattern)?.[1]
-      const description = line.replace(durationPattern, '').trim() || line
+      const durationMatch = matchStepDuration(line)
+      const description = (durationMatch ? line.replace(durationMatch.matchedText, '') : line).trim() || line
       steps.push({
         title: `Step ${index + 1}`,
         description,
-        duration_minutes: duration ? Number(duration) : null,
+        duration_minutes: durationMatch?.minutes ?? null,
       })
     })
   }
@@ -265,14 +301,14 @@ export function extractRecipeJsonLd(html: string): Record<string, unknown> | nul
 function flattenHowToItems(items: unknown): Array<{ title: string | null; description: string; duration_minutes: number | null }> {
   if (typeof items === 'string') {
     const text = decodeHtmlEntities(items).trim()
-    return text ? [{ title: null, description: text, duration_minutes: null }] : []
+    return text ? [{ title: null, description: text, duration_minutes: extractStepDurationMinutes(text) }] : []
   }
   if (!Array.isArray(items)) return []
 
   return items.flatMap((item): Array<{ title: string | null; description: string; duration_minutes: number | null }> => {
     if (typeof item === 'string') {
       const text = decodeHtmlEntities(item).trim()
-      return text ? [{ title: null, description: text, duration_minutes: null }] : []
+      return text ? [{ title: null, description: text, duration_minutes: extractStepDurationMinutes(text) }] : []
     }
     if (!isJsonObject(item)) return []
 
@@ -280,11 +316,12 @@ function flattenHowToItems(items: unknown): Array<{ title: string | null; descri
       return flattenHowToItems(item.itemListElement)
     }
 
-    const text = typeof item.text === 'string' ? item.text : typeof item.name === 'string' ? item.name : ''
-    if (!text) return []
+    const rawText = typeof item.text === 'string' ? item.text : typeof item.name === 'string' ? item.name : ''
+    if (!rawText) return []
 
     const title = typeof item.name === 'string' && item.name ? decodeHtmlEntities(item.name) : null
-    return [{ title, description: decodeHtmlEntities(text).trim(), duration_minutes: null }]
+    const description = decodeHtmlEntities(rawText).trim()
+    return [{ title, description, duration_minutes: extractStepDurationMinutes(description) }]
   })
 }
 
