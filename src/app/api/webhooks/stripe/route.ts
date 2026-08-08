@@ -13,6 +13,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'No signature' }, { status: 400 })
   }
 
+  const webhookId = `${Date.now()}-${Math.random().toString(16).slice(2)}`
+
   let event: Stripe.Event
   try {
     event = stripe.webhooks.constructEvent(
@@ -28,7 +30,26 @@ export async function POST(request: Request) {
   // Service role client bypasses RLS — required for webhook context (no user session)
   const supabase = createAdminClient()
 
+  const { data: existingEvent } = await supabase
+    .from('webhook_events')
+    .select('id')
+    .eq('event_id', event.id)
+    .maybeSingle()
+
+  if (existingEvent) {
+    return NextResponse.json({ received: true, duplicate: true })
+  }
+
   try {
+    await supabase.from('webhook_events').insert({
+      event_id: event.id,
+      event_type: event.type,
+      processed_at: new Date().toISOString(),
+      payload: event as unknown as Record<string, unknown>,
+      source: 'stripe',
+      idempotency_key: webhookId,
+    })
+
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session
