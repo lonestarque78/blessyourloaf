@@ -113,7 +113,7 @@ export default function PricingCards({ isSubscriber, isLoggedIn, monthlyPriceId,
             onClick={() => handleCheckout(monthlyPriceId, 'monthly')}
             disabled={loading !== null}
             className="w-full mt-8 bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white py-3 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
-            {loading === 'monthly' ? 'Loading...' : 'Start 7-Day Free Trial →'}
+            {loading === 'monthly' ? 'Loading...' : 'Subscribe now →'}
           </button>
         </div>
 
@@ -136,7 +136,7 @@ export default function PricingCards({ isSubscriber, isLoggedIn, monthlyPriceId,
             onClick={() => handleCheckout(annualPriceId, 'annual')}
             disabled={loading !== null}
             className="w-full mt-8 bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white py-3 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
-            {loading === 'annual' ? 'Loading...' : 'Start 7-Day Free Trial →'}
+            {loading === 'annual' ? 'Loading...' : 'Subscribe now →'}
           </button>
         </div>
       </div>

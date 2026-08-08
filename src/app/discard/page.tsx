@@ -130,7 +130,7 @@ export default async function DiscardVaultPage() {
             </p>
             <Link href="/signup"
               className="inline-block bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-8 py-3 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-lg">
-              Start 7-Day Free Trial →
+              Subscribe now →
             </Link>
           </div>
         )}

@@ -39,8 +39,8 @@ export default function TermsPage() {
           </div>
 
           <div>
-            <h2 className="font-playfair text-2xl font-bold mb-3">Free trial</h2>
-            <p>New subscribers get a 7-day free trial. Your card is required to start the trial but you won't be charged until the trial ends. Cancel before the trial ends and you won't be charged anything.</p>
+            <h2 className="font-playfair text-2xl font-bold mb-3">Subscription</h2>
+            <p>Subscriptions are billed directly through Stripe. Your plan stays active until you cancel it, and you can manage your account from the dashboard.</p>
           </div>
 
           <div>

@@ -47,7 +47,7 @@ export default function Pricing() {
               </div>
             ))}
             <Link href="/signup?plan=monthly" className="block text-center bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-6 py-3 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-lg mt-8 whitespace-nowrap">
-              Start 7-Day Free Trial →
+              Subscribe now →
             </Link>
           </div>
 
