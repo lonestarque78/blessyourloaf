@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: test-anon-key
+      SUPABASE_SERVICE_ROLE_KEY: test-service-role
+      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: pk_test
+      STRIPE_SECRET_KEY: sk_test
+      STRIPE_WEBHOOK_SECRET: whsec_test
+      STRIPE_MONTHLY_PRICE_ID: price_monthly
+      STRIPE_ANNUAL_PRICE_ID: price_annual
+      NEXT_PUBLIC_APP_URL: https://example.com
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
