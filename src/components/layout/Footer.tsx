@@ -23,7 +23,7 @@ export default async function Footer() {
               <span className="font-playfair text-xl font-bold text-white">Bless Your Loaf</span>
             </div>
             <p className="font-lora italic text-sm leading-relaxed max-w-xs">
-              "Good bread takes time, honey. And we've got all the time in the world for you."
+              &quot;Good bread takes time, honey. And we&apos;ve got all the time in the world for you.&quot;
             </p>
           </div>
 

@@ -46,7 +46,7 @@ export default function ResetPasswordForm() {
     return (
       <div className="text-center max-w-md">
         <div className="text-6xl mb-6">🍞</div>
-        <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-4">You're all set, sugar!</h1>
+        <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-4">You&apos;re all set, sugar!</h1>
         <p className="font-lora italic text-[#9a7060] leading-relaxed">
           Your password has been updated. Taking you to your dashboard now...
         </p>

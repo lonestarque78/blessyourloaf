@@ -106,9 +106,9 @@ export default async function HistoryPage() {
       ) : (
         <div className="text-center py-20">
           <div className="text-6xl mb-6">📋</div>
-          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-3">No bakes saved yet, darlin'</h2>
+          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-3">No bakes saved yet, darlin&apos;</h2>
           <p className="font-lora italic text-[#9a7060] mb-8 max-w-sm mx-auto">
-            "Every great baker keeps records. Let's start yours."
+            &quot;Every great baker keeps records. Let&apos;s start yours.&quot;
           </p>
           <Link href="/dashboard/scheduler"
             className="inline-block bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-8 py-3 rounded-full font-lora hover:-translate-y-0.5 transition-transform shadow-md">

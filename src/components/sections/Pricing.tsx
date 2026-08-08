@@ -10,7 +10,7 @@ export default function Pricing() {
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-16">
           <p className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-3">✦ Join the Kitchen ✦</p>
-          <h2 className="font-playfair text-4xl md:text-5xl font-extrabold text-[#3d2b1f]">Good bread don't cost much, sugar.</h2>
+          <h2 className="font-playfair text-4xl md:text-5xl font-extrabold text-[#3d2b1f]">Good bread don&apos;t cost much, sugar.</h2>
           <div className="w-14 h-0.5 bg-gradient-to-r from-[#c9956c] to-[#b5838d] rounded mx-auto my-4" />
         </div>
 
@@ -35,7 +35,7 @@ export default function Pricing() {
           <div className="rounded-3xl p-9 flex-1 max-w-sm md:scale-105 shadow-2xl"
             style={{ background: 'linear-gradient(160deg, #3d2b1f, #5c3d2e)', border: '1.5px solid #c9956c' }}>
             <div className="flex justify-between items-start mb-2">
-              <div className="font-lora text-xs uppercase tracking-widest text-[#e8b4a0]">Baker's Pass</div>
+              <div className="font-lora text-xs uppercase tracking-widest text-[#e8b4a0]">Baker&apos;s Pass</div>
               <span className="bg-gradient-to-r from-[#c9956c] to-[#b5838d] text-white text-xs font-lora px-3 py-1 rounded-full">Most Popular</span>
             </div>
             <div className="font-playfair text-5xl font-black text-white mb-1">$5.99<span className="text-xl font-normal">/mo</span></div>

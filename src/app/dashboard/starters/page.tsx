@@ -21,7 +21,7 @@ export default async function StartersPage() {
             ← Back to Dashboard
           </Link>
           <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f]">Your Starters</h1>
-          <p className="font-lora italic text-[#9a7060] mt-1">Every one of 'em deserves a name, sugar.</p>
+          <p className="font-lora italic text-[#9a7060] mt-1">Every one of &apos;em deserves a name, sugar.</p>
         </div>
         <Link href="/dashboard/starters/new"
           className="bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-6 py-3 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-md">
@@ -38,7 +38,7 @@ export default async function StartersPage() {
                 <div>
                   <div className="font-playfair text-2xl font-bold text-[#3d2b1f]">{starter.name}</div>
                   {starter.nickname && (
-                    <div className="font-lora italic text-sm text-[#9a7060]">"{starter.nickname}"</div>
+                    <div className="font-lora italic text-sm text-[#9a7060]">&quot;{starter.nickname}&quot;</div>
                   )}
                 </div>
                 <span className="text-3xl">🫙</span>
@@ -71,9 +71,9 @@ export default async function StartersPage() {
       ) : (
         <div className="text-center py-20">
           <div className="text-6xl mb-6">🫙</div>
-          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-3">No starters yet, darlin'</h2>
+          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-3">No starters yet, darlin&apos;</h2>
           <p className="font-lora italic text-[#9a7060] mb-8 max-w-sm mx-auto">
-            "Every baker's journey starts with a little flour, some water, and a whole lot of patience."
+            &quot;Every baker&apos;s journey starts with a little flour, some water, and a whole lot of patience.&quot;
           </p>
           <Link href="/dashboard/starters/new"
             className="inline-block bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-8 py-3 rounded-full font-lora hover:-translate-y-0.5 transition-transform shadow-md">

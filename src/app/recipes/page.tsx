@@ -49,7 +49,7 @@ export default async function RecipesPage() {
             Every recipe mama never wrote down.
           </h1>
           <p className="font-lora italic text-[#9a7060] max-w-lg mx-auto">
-            "These are the real ones, sugar. Tested in a Southern kitchen until they were just right."
+            &quot;These are the real ones, sugar. Tested in a Southern kitchen until they were just right.&quot;
           </p>
         </div>
 

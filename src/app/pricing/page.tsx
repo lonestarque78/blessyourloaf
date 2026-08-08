@@ -23,10 +23,10 @@ export default async function PricingPage() {
         <div className="text-center mb-16">
           <p className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-3">✦ Join the Kitchen ✦</p>
           <h1 className="font-playfair text-5xl font-bold text-[#3d2b1f] mb-4">
-            Good bread don't cost much, sugar.
+            Good bread don&apos;t cost much, sugar.
           </h1>
           <p className="font-lora italic text-[#9a7060] max-w-lg mx-auto">
-            "Start free and bake your first loaf. Upgrade when you're ready for the full kitchen."
+            &quot;Start free and bake your first loaf. Upgrade when you&apos;re ready for the full kitchen.&quot;
           </p>
         </div>
 
@@ -40,7 +40,7 @@ export default async function PricingPage() {
         {/* Feature comparison */}
         <div className="mt-20 bg-white rounded-2xl shadow-md border border-[#f0e4db] overflow-hidden">
           <div className="p-6 border-b border-[#f0e4db]">
-            <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f]">What's included</h2>
+            <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f]">What&apos;s included</h2>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">

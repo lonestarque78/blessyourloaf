@@ -149,7 +149,7 @@ export default function FlourGuidePage() {
             Know your flour, know your bread.
           </h1>
           <p className="font-lora italic text-[#9a7060] max-w-lg mx-auto">
-            "The flour you choose changes everything — the flavor, the texture, the timing. Let me walk you through what you need to know, sugar."
+            &quot;The flour you choose changes everything — the flavor, the texture, the timing. Let me walk you through what you need to know, sugar.&quot;
           </p>
         </div>
 
@@ -238,7 +238,7 @@ export default function FlourGuidePage() {
 
               <div className="bg-[#f9ede5] rounded-xl p-4">
                 <div className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-1">Miss Loretta Mae Says</div>
-                <p className="font-lora italic text-sm text-[#7a4f3a]">"{flour.tips}"</p>
+                <p className="font-lora italic text-sm text-[#7a4f3a]">&quot;{flour.tips}&quot;</p>
               </div>
             </div>
           ))}

@@ -15,7 +15,7 @@ export default function TermsPage() {
         <div className="bg-white rounded-2xl p-8 shadow-md border border-[#f0e4db] space-y-8 font-lora text-[#3d2b1f] leading-relaxed">
           <div>
             <h2 className="font-playfair text-2xl font-bold mb-3">The short version</h2>
-            <p>Use Bless Your Loaf to bake great bread. Don't abuse it. Pay for what you use. We'll do our best to keep it running and improving. If something goes wrong, we're not liable for your bread failing — but we'll sure try to help you figure out why.</p>
+            <p>Use Bless Your Loaf to bake great bread. Don&apos;t abuse it. Pay for what you use. We&apos;ll do our best to keep it running and improving. If something goes wrong, we&apos;re not liable for your bread failing — but we&apos;ll sure try to help you figure out why.</p>
           </div>
 
           <div>
@@ -25,7 +25,7 @@ export default function TermsPage() {
 
           <div>
             <h2 className="font-playfair text-2xl font-bold mb-3">Your account</h2>
-            <p>You're responsible for keeping your account credentials secure. Don't share your password. If you suspect unauthorized access to your account, contact us immediately at hello@blessyourloaf.com.</p>
+            <p>You&apos;re responsible for keeping your account credentials secure. Don&apos;t share your password. If you suspect unauthorized access to your account, contact us immediately at hello@blessyourloaf.com.</p>
           </div>
 
           <div>
@@ -33,7 +33,7 @@ export default function TermsPage() {
             <ul className="space-y-2 ml-4">
               <li className="flex gap-3"><span className="text-[#c9956c] mt-1">·</span><span>Subscriptions renew automatically at the end of each billing period</span></li>
               <li className="flex gap-3"><span className="text-[#c9956c] mt-1">·</span><span>You can cancel at any time from your Account Settings — cancellation takes effect at the end of your current billing period</span></li>
-              <li className="flex gap-3"><span className="text-[#c9956c] mt-1">·</span><span>We don't offer refunds for partial billing periods, but if you have an issue reach out and we'll work with you</span></li>
+              <li className="flex gap-3"><span className="text-[#c9956c] mt-1">·</span><span>We don&apos;t offer refunds for partial billing periods, but if you have an issue reach out and we&apos;ll work with you</span></li>
               <li className="flex gap-3"><span className="text-[#c9956c] mt-1">·</span><span>Prices may change with 30 days notice</span></li>
             </ul>
           </div>
@@ -45,27 +45,27 @@ export default function TermsPage() {
 
           <div>
             <h2 className="font-playfair text-2xl font-bold mb-3">Your content</h2>
-            <p>The recipes, starter data, and notes you create in Bless Your Loaf belong to you. We don't claim ownership of your content. You grant us permission to store and display it to power the service.</p>
+            <p>The recipes, starter data, and notes you create in Bless Your Loaf belong to you. We don&apos;t claim ownership of your content. You grant us permission to store and display it to power the service.</p>
           </div>
 
           <div>
             <h2 className="font-playfair text-2xl font-bold mb-3">AI features</h2>
-            <p>The Bake Scheduler and Starter Troubleshooter use AI powered by Anthropic's Claude. The advice provided is for informational purposes. We do our best to make it accurate but we're not responsible if a schedule or diagnosis doesn't work out for your specific situation. Sourdough has a mind of its own, honey.</p>
+            <p>The Bake Scheduler and Starter Troubleshooter use AI powered by Anthropic&apos;s Claude. The advice provided is for informational purposes. We do our best to make it accurate but we&apos;re not responsible if a schedule or diagnosis doesn&apos;t work out for your specific situation. Sourdough has a mind of its own, honey.</p>
           </div>
 
           <div>
             <h2 className="font-playfair text-2xl font-bold mb-3">Limitation of liability</h2>
-            <p>Bless Your Loaf is provided as-is. We work hard to keep it running but we can't guarantee it'll be available 100% of the time. We're not liable for lost data, failed bakes, or any other damages arising from your use of the service.</p>
+            <p>Bless Your Loaf is provided as-is. We work hard to keep it running but we can&apos;t guarantee it&apos;ll be available 100% of the time. We&apos;re not liable for lost data, failed bakes, or any other damages arising from your use of the service.</p>
           </div>
 
           <div>
             <h2 className="font-playfair text-2xl font-bold mb-3">Changes to these terms</h2>
-            <p>We may update these terms from time to time. We'll notify you of significant changes by email. Continuing to use the service after changes are posted means you accept the updated terms.</p>
+            <p>We may update these terms from time to time. We&apos;ll notify you of significant changes by email. Continuing to use the service after changes are posted means you accept the updated terms.</p>
           </div>
 
           <div>
             <h2 className="font-playfair text-2xl font-bold mb-3">Contact</h2>
-            <p>Questions? Email us at <a href="mailto:hello@blessyourloaf.com" className="text-[#b07d62] hover:underline">hello@blessyourloaf.com</a>. We're a small team and we actually read our email.</p>
+            <p>Questions? Email us at <a href="mailto:hello@blessyourloaf.com" className="text-[#b07d62] hover:underline">hello@blessyourloaf.com</a>. We&apos;re a small team and we actually read our email.</p>
           </div>
         </div>
       </div>

@@ -38,10 +38,10 @@ export default async function DiscardVaultPage() {
         <div className="text-center mb-16">
           <p className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-3">✦ The Discard Vault ✦</p>
           <h1 className="font-playfair text-5xl font-bold text-[#3d2b1f] mb-4">
-            Don't you dare throw that away.
+            Don&apos;t you dare throw that away.
           </h1>
           <p className="font-lora italic text-[#9a7060] max-w-lg mx-auto">
-            "Discard is just starter that ain't reached its full potential yet, sugar. Every bit of it deserves a second chance."
+            &quot;Discard is just starter that ain&apos;t reached its full potential yet, sugar. Every bit of it deserves a second chance.&quot;
           </p>
         </div>
 
@@ -52,7 +52,7 @@ export default async function DiscardVaultPage() {
             <div>
               <h2 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-2">What is sourdough discard?</h2>
               <p className="font-lora text-sm text-[#6b4c3b] leading-relaxed">
-                Every time you feed your starter, you remove a portion before adding fresh flour and water. That removed portion is called discard — and honey, it is anything but waste. It's packed with wild yeast and bacteria that add incredible flavor to everything it touches. These recipes are designed specifically for discard at any stage, from brand new starter to a well-established one.
+                Every time you feed your starter, you remove a portion before adding fresh flour and water. That removed portion is called discard — and honey, it is anything but waste. It&apos;s packed with wild yeast and bacteria that add incredible flavor to everything it touches. These recipes are designed specifically for discard at any stage, from brand new starter to a well-established one.
               </p>
             </div>
           </div>

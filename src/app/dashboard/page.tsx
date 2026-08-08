@@ -92,7 +92,7 @@ export default async function DashboardPage() {
           ) : (
             <div className="text-center py-6">
               <p className="font-lora italic text-[#9a7060] mb-4">
-                "Every great loaf starts with a starter. Let's name yours, honey."
+                &quot;Every great loaf starts with a starter. Let&apos;s name yours, honey.&quot;
               </p>
               <Link href="/dashboard/starters/new"
                 className="inline-block bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-6 py-2.5 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-md">
@@ -110,7 +110,7 @@ export default async function DashboardPage() {
           </div>
           <div className="text-center py-6">
             <p className="font-lora italic text-[#9a7060] mb-4">
-              "Tell me when you want fresh bread and I'll work it all out for you, darlin'."
+              &quot;Tell me when you want fresh bread and I&apos;ll work it all out for you, darlin&apos;.&quot;
             </p>
             <Link href="/dashboard/scheduler"
               className="inline-block bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-6 py-2.5 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-md">
@@ -141,7 +141,7 @@ export default async function DashboardPage() {
             <div className="font-playfair text-lg font-bold text-[#3d2b1f]">Discard Vault</div>
           </div>
           <p className="font-lora italic text-[#9a7060] text-sm mb-5">
-            Don't you dare throw that away. We've got recipes for every bit of discard.
+            Don&apos;t you dare throw that away. We&apos;ve got recipes for every bit of discard.
           </p>
           <Link href="/discard"
             className="font-lora text-sm text-[#b07d62] hover:underline">
@@ -155,7 +155,7 @@ export default async function DashboardPage() {
         <div className="rounded-2xl p-7 text-center"
           style={{ background: 'linear-gradient(135deg, #3d2b1f, #5c3d2e)' }}>
           <p className="font-playfair text-xl font-bold text-white mb-2">
-            Unlock the full kitchen, darlin' 🍞
+            Unlock the full kitchen, darlin&apos; 🍞
           </p>
           <p className="font-lora italic text-[#c9a090] text-sm mb-5">
             Get the full Starter Journal, Bake Scheduler, Discard Vault, and more for $5.99/month.

@@ -18,17 +18,17 @@ export default function Hero() {
         <div className="flex-1 animate-fadeInUp">
           <p className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-3">✦ Homemade, Honey ✦</p>
           <h1 className="font-playfair text-4xl md:text-5xl font-black leading-[1.1] mb-5">
-            Sourdough that'd make{' '}
+            Sourdough that&apos;d make{' '}
             <span className="bg-gradient-to-r from-[#e8b4a0] via-[#c9956c] to-[#b5838d] bg-clip-text text-transparent">
               Grandmama proud.
             </span>
           </h1>
           <p className="font-lora italic text-lg leading-relaxed text-[#6b4c3b] max-w-lg mb-8">
-            "Sugar, there ain't a thing in this world more satisfying than pullin' a golden loaf outta the oven that you grew yourself — starter and all."
+            &quot;Sugar, there ain&apos;t a thing in this world more satisfying than pullin&apos; a golden loaf outta the oven that you grew yourself — starter and all.&quot;
           </p>
           <div className="flex flex-wrap gap-6">
             <Link href="/signup" className="bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-8 py-4 rounded-full font-lora hover:-translate-y-0.5 transition-transform shadow-lg shadow-[#b07d62]/30">
-              Start Bakin', Darlin' →
+              Start Bakin&apos;, Darlin&apos; →
             </Link>
             <Link href="/recipes" className="border border-[#c9956c] text-[#7a4f3a] px-7 py-3.5 rounded-full font-lora text-sm hover:bg-[#c9956c] hover:text-white transition-all">
               See the Recipes

@@ -12,13 +12,13 @@ export default function FooterCTA() {
       <div className="relative max-w-2xl mx-auto">
         <div className="text-5xl mb-6">🍞</div>
         <h2 className="font-playfair text-4xl md:text-6xl font-black text-white mb-5">
-          Ready to rise, darlin'?
+          Ready to rise, darlin&apos;?
         </h2>
         <p className="font-lora italic text-[#c9a090] text-lg mb-12 leading-relaxed">
-          "Your starter's waitin' on you, honey. Let's bake something that makes the whole neighborhood jealous."
+          &quot;Your starter&apos;s waitin&apos; on you, honey. Let&apos;s bake something that makes the whole neighborhood jealous.&quot;
         </p>
         <Link href="/signup" className="inline-block bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-10 py-5 rounded-full font-lora text-lg hover:-translate-y-0.5 transition-transform shadow-xl shadow-[#b07d62]/30">
-          Start Bakin' Free Today →
+          Start Bakin&apos; Free Today →
         </Link>
       </div>
     </section>

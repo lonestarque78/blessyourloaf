@@ -43,7 +43,7 @@ export default async function StarterPage({ params }: { params: Promise<{ id: st
               <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f]">{starter.name}</h1>
             </div>
             {starter.nickname && (
-              <p className="font-lora italic text-[#9a7060] ml-14">"{starter.nickname}"</p>
+              <p className="font-lora italic text-[#9a7060] ml-14">&quot;{starter.nickname}&quot;</p>
             )}
           </div>
           <div className="flex items-center gap-3">

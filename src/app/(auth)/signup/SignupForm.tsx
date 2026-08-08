@@ -47,7 +47,7 @@ export default function SignupForm() {
         <div className="text-6xl mb-6">🍞</div>
         <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-4">Check your email, honey!</h1>
         <p className="font-lora italic text-[#9a7060] leading-relaxed">
-          We sent a confirmation link to <strong>{email}</strong>. Click it and your starter journal will be waitin' on you.
+          We sent a confirmation link to <strong>{email}</strong>. Click it and your starter journal will be waitin&apos; on you.
         </p>
       </div>
     )

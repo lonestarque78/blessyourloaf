@@ -73,7 +73,7 @@ export default function StarterGuidePage() {
             Grow your starter from scratch.
           </h1>
           <p className="font-lora italic text-[#9a7060] max-w-lg mx-auto">
-            "All you need is flour, water, and patience, darlin'. Your starter will do the rest."
+            &quot;All you need is flour, water, and patience, darlin&apos;. Your starter will do the rest.&quot;
           </p>
         </div>
 
@@ -81,19 +81,19 @@ export default function StarterGuidePage() {
         <div className="bg-white rounded-2xl p-8 shadow-md border border-[#f0e4db] mb-12">
           <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-4">What is a sourdough starter?</h2>
           <p className="font-lora text-[#6b4c3b] leading-relaxed mb-4">
-            A sourdough starter is a living culture of wild yeast and bacteria that you grow at home using nothing but flour and water. It's the leavening agent that makes sourdough bread rise — no commercial yeast needed.
+            A sourdough starter is a living culture of wild yeast and bacteria that you grow at home using nothing but flour and water. It&apos;s the leavening agent that makes sourdough bread rise — no commercial yeast needed.
           </p>
           <p className="font-lora text-[#6b4c3b] leading-relaxed mb-4">
             The wild yeast produces carbon dioxide (which makes the bread rise) and the bacteria produce lactic and acetic acids (which give sourdough its signature tangy flavor). Together they create something no commercial yeast can replicate.
           </p>
           <p className="font-lora italic text-[#7a4f3a]">
-            "Think of her as a pet, sugar. Feed her regularly, keep her comfortable, and she'll take care of you for years."
+            &quot;Think of her as a pet, sugar. Feed her regularly, keep her comfortable, and she&apos;ll take care of you for years.&quot;
           </p>
         </div>
 
         {/* What you need */}
         <div className="bg-white rounded-2xl p-8 shadow-md border border-[#f0e4db] mb-12">
-          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-5">What you'll need</h2>
+          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-5">What you&apos;ll need</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[
               { item: 'A clean glass jar', note: 'At least 1 quart — she needs room to grow' },
@@ -128,7 +128,7 @@ export default function StarterGuidePage() {
               <p className="font-lora text-[#6b4c3b] leading-relaxed mb-4">{step.description}</p>
               <div className="bg-[#f9ede5] rounded-xl p-4 mb-4">
                 <div className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-1">Miss Loretta Mae says</div>
-                <p className="font-lora italic text-sm text-[#7a4f3a]">"{step.tip}"</p>
+                <p className="font-lora italic text-sm text-[#7a4f3a]">&quot;{step.tip}&quot;</p>
               </div>
               <div className="bg-[#f0e8f0] rounded-xl p-4">
                 <div className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-1">What to expect</div>
@@ -153,7 +153,7 @@ export default function StarterGuidePage() {
         <div className="rounded-2xl p-8 text-center"
           style={{ background: 'linear-gradient(135deg, #3d2b1f, #5c3d2e)' }}>
           <h2 className="font-playfair text-2xl font-bold text-white mb-3">
-            Ready to track your starter's journey?
+            Ready to track your starter&apos;s journey?
           </h2>
           <p className="font-lora italic text-[#c9a090] text-sm mb-6 max-w-md mx-auto">
             Name her, log her feedings, and watch her grow — right here in Bless Your Loaf.

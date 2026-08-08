@@ -184,7 +184,7 @@ export default function FeedingLog({ starterId, starterName, initialFeedings }: 
             </div>
 
             <div>
-              <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">How's she smell?</label>
+              <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">How&apos;s she smell?</label>
               <select
                 value={form.smell}
                 onChange={e => setForm({ ...form, smell: e.target.value })}

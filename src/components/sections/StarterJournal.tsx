@@ -84,7 +84,7 @@ export default function StarterJournal() {
             <div className="text-right font-lora text-xs text-[#b07d62] mt-1">{current.rise}%</div>
 
             <div className="mt-5 bg-[#f9ede5] rounded-xl p-4 font-lora italic text-sm text-[#7a4f3a]">
-              💬 "Feed her equal parts flour and water, sugar. She's hungry!"
+              💬 &quot;Feed her equal parts flour and water, sugar. She&apos;s hungry!&quot;
             </div>
           </div>
 
@@ -92,7 +92,7 @@ export default function StarterJournal() {
           <div className="flex-1 bg-white rounded-2xl p-7 shadow-md hover:-translate-y-1 transition-transform">
             <div className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-1">Bake Scheduler</div>
             <p className="font-lora italic text-[#9a7060] text-sm mb-6">
-              "Tell me when you want fresh bread, and I'll tell you when to get started, hon."
+              &quot;Tell me when you want fresh bread, and I&apos;ll tell you when to get started, hon.&quot;
             </p>
 
             <div className="mb-5">

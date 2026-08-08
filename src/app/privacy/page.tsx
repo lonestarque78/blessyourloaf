@@ -15,7 +15,7 @@ export default function PrivacyPage() {
         <div className="bg-white rounded-2xl p-8 shadow-md border border-[#f0e4db] space-y-8 font-lora text-[#3d2b1f] leading-relaxed">
           <div>
             <h2 className="font-playfair text-2xl font-bold mb-3">Who we are</h2>
-            <p>Bless Your Loaf is operated by Lone Star Que LLC, based in Frisco, Texas. We built this app because we love sourdough and we think every baker deserves great tools. When you use Bless Your Loaf, you're trusting us with your information — and we take that seriously, sugar.</p>
+            <p>Bless Your Loaf is operated by Lone Star Que LLC, based in Frisco, Texas. We built this app because we love sourdough and we think every baker deserves great tools. When you use Bless Your Loaf, you&apos;re trusting us with your information — and we take that seriously, sugar.</p>
           </div>
 
           <div>
@@ -26,7 +26,7 @@ export default function PrivacyPage() {
               <li className="flex gap-3"><span className="text-[#c9956c] mt-1">·</span><span><strong>Starter data</strong> — the information you enter about your sourdough starters, feedings, and bake schedules</span></li>
               <li className="flex gap-3"><span className="text-[#c9956c] mt-1">·</span><span><strong>Payment information</strong> — processed securely by Stripe. We never see or store your card number</span></li>
               <li className="flex gap-3"><span className="text-[#c9956c] mt-1">·</span><span><strong>Usage data</strong> — basic analytics to understand how people use the app so we can improve it</span></li>
-              <li className="flex gap-3"><span className="text-[#c9956c] mt-1">·</span><span><strong>Photos</strong> — if you upload photos to the Starter Troubleshooter, they are sent to Anthropic's API for analysis and are not stored by us</span></li>
+              <li className="flex gap-3"><span className="text-[#c9956c] mt-1">·</span><span><strong>Photos</strong> — if you upload photos to the Starter Troubleshooter, they are sent to Anthropic&apos;s API for analysis and are not stored by us</span></li>
             </ul>
           </div>
 
@@ -36,13 +36,13 @@ export default function PrivacyPage() {
               <li className="flex gap-3"><span className="text-[#c9956c] mt-1">·</span><span>To provide and improve the Bless Your Loaf service</span></li>
               <li className="flex gap-3"><span className="text-[#c9956c] mt-1">·</span><span>To process your subscription payments through Stripe</span></li>
               <li className="flex gap-3"><span className="text-[#c9956c] mt-1">·</span><span>To send you important account and service updates</span></li>
-              <li className="flex gap-3"><span className="text-[#c9956c] mt-1">·</span><span>To power AI features like the Bake Scheduler and Starter Troubleshooter via Anthropic's Claude API</span></li>
+              <li className="flex gap-3"><span className="text-[#c9956c] mt-1">·</span><span>To power AI features like the Bake Scheduler and Starter Troubleshooter via Anthropic&apos;s Claude API</span></li>
             </ul>
           </div>
 
           <div>
             <h2 className="font-playfair text-2xl font-bold mb-3">Who we share your data with</h2>
-            <p className="mb-3">We don't sell your data. Ever. We share it only with the services that make the app run:</p>
+            <p className="mb-3">We don&apos;t sell your data. Ever. We share it only with the services that make the app run:</p>
             <ul className="space-y-2 ml-4">
               <li className="flex gap-3"><span className="text-[#c9956c] mt-1">·</span><span><strong>Supabase</strong> — our database and authentication provider</span></li>
               <li className="flex gap-3"><span className="text-[#c9956c] mt-1">·</span><span><strong>Stripe</strong> — payment processing</span></li>
@@ -58,12 +58,12 @@ export default function PrivacyPage() {
 
           <div>
             <h2 className="font-playfair text-2xl font-bold mb-3">Cookies</h2>
-            <p>We use cookies only for authentication — to keep you logged in. We don't use advertising or tracking cookies.</p>
+            <p>We use cookies only for authentication — to keep you logged in. We don&apos;t use advertising or tracking cookies.</p>
           </div>
 
           <div>
             <h2 className="font-playfair text-2xl font-bold mb-3">Contact us</h2>
-            <p>If you have any questions about this policy, reach out to us at <a href="mailto:hello@blessyourloaf.com" className="text-[#b07d62] hover:underline">hello@blessyourloaf.com</a>. We're real people and we'll write back, honey.</p>
+            <p>If you have any questions about this policy, reach out to us at <a href="mailto:hello@blessyourloaf.com" className="text-[#b07d62] hover:underline">hello@blessyourloaf.com</a>. We&apos;re real people and we&apos;ll write back, honey.</p>
           </div>
         </div>
       </div>

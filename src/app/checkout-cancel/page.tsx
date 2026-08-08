@@ -14,7 +14,7 @@ export default function CheckoutCancelPage() {
             No worries, honey.
           </h1>
           <p className="font-lora italic text-[#9a7060] leading-relaxed mb-8">
-            "You can always come back when you're ready. The kitchen will be here waitin' on you."
+            &quot;You can always come back when you&apos;re ready. The kitchen will be here waitin&apos; on you.&quot;
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/pricing"

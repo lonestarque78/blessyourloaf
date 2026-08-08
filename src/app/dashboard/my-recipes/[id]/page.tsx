@@ -93,7 +93,7 @@ export default async function MyRecipeDetailPage({ params }: { params: Promise<{
       {/* Ingredients */}
       {ingredients.length > 0 && (
         <div className="bg-white rounded-2xl p-7 shadow-md border border-[#f0e4db] mb-8">
-          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-5">What You'll Need, Sugar</h2>
+          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-5">What You&apos;ll Need, Sugar</h2>
           <div className="space-y-3">
             {ingredients.map((ing, i) => (
               <div key={i} className="flex items-start gap-4 py-2 border-b border-[#f9ede5] last:border-0">
@@ -114,7 +114,7 @@ export default async function MyRecipeDetailPage({ params }: { params: Promise<{
       {/* Steps */}
       {steps.length > 0 && (
         <div className="bg-white rounded-2xl p-7 shadow-md border border-[#f0e4db] mb-8">
-          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-6">Let's Get Bakin', Darlin'</h2>
+          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-6">Let&apos;s Get Bakin&apos;, Darlin&apos;</h2>
           <div className="space-y-8">
             {steps.map((step, i) => (
               <div key={i} className="flex gap-5">

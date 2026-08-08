@@ -11,10 +11,10 @@ export default function CheckoutSuccessPage() {
         <div className="text-center max-w-md">
           <div className="text-6xl mb-6">🍞</div>
           <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f] mb-4">
-            Welcome to the kitchen, darlin'!
+            Welcome to the kitchen, darlin&apos;!
           </h1>
           <p className="font-lora italic text-[#9a7060] leading-relaxed mb-8">
-            "Your subscription is active and the full kitchen is yours. Every recipe, every tool, every bit of Southern sourdough wisdom — it's all waiting on you, sugar."
+            &quot;Your subscription is active and the full kitchen is yours. Every recipe, every tool, every bit of Southern sourdough wisdom — it&apos;s all waiting on you, sugar.&quot;
           </p>
           <Link href="/dashboard"
             className="inline-block bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-8 py-4 rounded-full font-lora text-lg hover:-translate-y-0.5 transition-transform shadow-lg">

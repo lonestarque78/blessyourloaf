@@ -56,7 +56,7 @@ export default function NewStarterPage() {
         <div className="text-5xl mb-4">🫙</div>
         <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f] mb-2">Name your starter, honey.</h1>
         <p className="font-lora italic text-[#9a7060]">
-          "She's gonna be with you a long time. Make it a good one."
+          &quot;She&apos;s gonna be with you a long time. Make it a good one.&quot;
         </p>
       </div>
 

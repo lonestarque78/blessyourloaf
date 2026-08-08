@@ -13,10 +13,10 @@ export default function DiscardVault() {
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-16">
           <p className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-3">✦ The Discard Vault ✦</p>
-          <h2 className="font-playfair text-4xl md:text-5xl font-extrabold text-[#3d2b1f]">Don't you dare throw that away.</h2>
+          <h2 className="font-playfair text-4xl md:text-5xl font-extrabold text-[#3d2b1f]">Don&apos;t you dare throw that away.</h2>
           <div className="w-14 h-0.5 bg-gradient-to-r from-[#c9956c] to-[#b5838d] rounded mx-auto my-4" />
           <p className="font-lora italic text-[#6b4c3b] max-w-md mx-auto">
-            "Discard is just starter that ain't reached its full potential yet. We make it shine."
+            &quot;Discard is just starter that ain&apos;t reached its full potential yet. We make it shine.&quot;
           </p>
         </div>
 

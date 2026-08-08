@@ -256,7 +256,7 @@ export default function SchedulerPage() {
         <div className="text-5xl mb-4">📅</div>
         <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f] mb-2">Bake Scheduler</h1>
         <p className="font-lora italic text-[#9a7060]">
-          "Tell me what you're bakin' and I'll tell you exactly when to get started, darlin'."
+          &quot;Tell me what you&apos;re bakin&apos; and I&apos;ll tell you exactly when to get started, darlin&apos;.&quot;
         </p>
       </div>
 
@@ -264,10 +264,10 @@ export default function SchedulerPage() {
         <div className="bg-white rounded-2xl p-12 shadow-md border border-[#f0e4db] text-center">
           <div className="text-6xl mb-6">🫙</div>
           <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-3">
-            You'll need a starter first, sugar
+            You&apos;ll need a starter first, sugar
           </h2>
           <p className="font-lora italic text-[#9a7060] mb-8 max-w-sm mx-auto">
-            "Miss Loretta can't schedule a bake without knowin' about your starter. Go on and introduce us."
+            &quot;Miss Loretta can&apos;t schedule a bake without knowin&apos; about your starter. Go on and introduce us.&quot;
           </p>
           <Link href="/dashboard/starters/new"
             className="inline-block bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-8 py-3 rounded-full font-lora hover:-translate-y-0.5 transition-transform shadow-md">
@@ -282,7 +282,7 @@ export default function SchedulerPage() {
               {/* What to bake */}
               <div>
                 <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-3">
-                  What are you bakin'?
+                  What are you bakin&apos;?
                 </label>
                 <input
                   type="text"
@@ -324,7 +324,7 @@ export default function SchedulerPage() {
                               🫙 {starter.name}
                               {starter.nickname && (
                                 <span className="font-lora font-normal italic text-sm text-[#9a7060]">
-                                  "{starter.nickname}"
+                                  &quot;{starter.nickname}&quot;
                                 </span>
                               )}
                             </div>
@@ -440,10 +440,10 @@ export default function SchedulerPage() {
             <div className="bg-white rounded-2xl p-10 shadow-md border border-[#f0e4db] text-center mb-6">
               <div className="text-5xl mb-4 animate-bounce">🍞</div>
               <p className="font-playfair text-xl text-[#3d2b1f] mb-2">
-                She's workin' on your schedule, sugar...
+                She&apos;s workin&apos; on your schedule, sugar...
               </p>
               <p className="font-lora italic text-sm text-[#9a7060]">
-                Miss Loretta Mae is calculatin' every step, right down to the minute.
+                Miss Loretta Mae is calculatin&apos; every step, right down to the minute.
               </p>
             </div>
           )}
@@ -488,7 +488,7 @@ export default function SchedulerPage() {
                 </button>
                 {saved && (
                   <p className="font-lora italic text-sm text-[#b07d62]">
-                    She's saved, sugar!
+                    She&apos;s saved, sugar!
                   </p>
                 )}
                 {saveError && (
@@ -499,7 +499,7 @@ export default function SchedulerPage() {
               {/* Ingredients */}
               {ingredients && ingredients.length > 0 && (
                 <div className="mb-8 bg-[#fdf9f6] rounded-xl border border-[#e8d5c8] p-6">
-                  <h3 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-4">What You'll Need, Sugar</h3>
+                  <h3 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-4">What You&apos;ll Need, Sugar</h3>
                   <ul className="space-y-2.5">
                     {ingredients.map((ing, i) => (
                       <li key={i} className="flex items-baseline gap-3">
@@ -552,7 +552,7 @@ export default function SchedulerPage() {
                           {/* Timer display */}
                           {isFinished ? (
                             <p className="font-lora text-sm font-semibold mb-1" style={{ color: '#b5838d' }}>
-                              Time's up, darlin'! 🍞
+                              Time&apos;s up, darlin&apos;! 🍞
                             </p>
                           ) : (isRunning || isPaused) && secsLeft !== undefined ? (
                             <div className="flex items-center gap-2 mb-1">
@@ -564,7 +564,7 @@ export default function SchedulerPage() {
                               )}
                             </div>
                           ) : null}
-                          <p className="font-lora italic text-sm text-[#7a4f3a]">"{step.note}"</p>
+                          <p className="font-lora italic text-sm text-[#7a4f3a]">&quot;{step.note}&quot;</p>
                         </div>
                       </div>
                     )
@@ -574,7 +574,7 @@ export default function SchedulerPage() {
 
               <div className="mt-8 bg-[#f9ede5] rounded-xl p-5 text-center">
                 <p className="font-lora italic text-sm text-[#7a4f3a]">
-                  "Save this schedule somewhere you can see it, sugar. Your bread is counting on you."
+                  &quot;Save this schedule somewhere you can see it, sugar. Your bread is counting on you.&quot;
                 </p>
               </div>
 
@@ -590,7 +590,7 @@ export default function SchedulerPage() {
                 </button>
                 {saved && (
                   <p className="font-lora italic text-sm text-[#b07d62]">
-                    She's saved, sugar!
+                    She&apos;s saved, sugar!
                   </p>
                 )}
                 {saveError && (

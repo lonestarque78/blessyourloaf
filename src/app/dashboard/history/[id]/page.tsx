@@ -88,7 +88,7 @@ export default async function HistoryDetailPage({ params }: { params: Promise<{ 
 
         {schedule.completed && (
           <div className="mt-6 bg-green-50 rounded-xl p-4 font-lora italic text-sm text-green-700">
-            🍞 "You did it, sugar! Another beautiful loaf in the books."
+            🍞 &quot;You did it, sugar! Another beautiful loaf in the books.&quot;
           </div>
         )}
       </div>
@@ -118,7 +118,7 @@ export default async function HistoryDetailPage({ params }: { params: Promise<{ 
                       {step.duration}
                     </span>
                   </div>
-                  <p className="font-lora italic text-sm text-[#7a4f3a]">"{step.note}"</p>
+                  <p className="font-lora italic text-sm text-[#7a4f3a]">&quot;{step.note}&quot;</p>
                 </div>
               </div>
             ))}

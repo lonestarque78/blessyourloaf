@@ -93,7 +93,7 @@ export default function EditStarterPage() {
       <div className="text-center mb-10">
         <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f] mb-2">Edit {form.name}</h1>
         <p className="font-lora italic text-[#9a7060]">
-          "Keep her details up to date, sugar."
+          &quot;Keep her details up to date, sugar.&quot;
         </p>
       </div>
 

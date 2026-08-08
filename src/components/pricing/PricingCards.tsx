@@ -51,7 +51,7 @@ export default function PricingCards({ isSubscriber, isLoggedIn, monthlyPriceId,
       <div className="text-center py-12 bg-white rounded-2xl shadow-md border border-[#f0e4db]">
         <div className="text-5xl mb-4">🍞</div>
         <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-2">
-          You're already in the kitchen, darlin'!
+          You&apos;re already in the kitchen, darlin&apos;!
         </h2>
         <p className="font-lora italic text-[#9a7060] mb-6">
           You have full access to everything Bless Your Loaf has to offer.
