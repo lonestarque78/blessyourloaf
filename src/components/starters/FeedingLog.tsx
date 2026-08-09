@@ -18,14 +18,14 @@ interface Feeding {
 interface Props {
   starterId: string
   starterName: string
-  initialFeedings: Feeding[]
+  feedings: Feeding[]
+  onFeedingAdded: (feeding: Feeding) => void
 }
 
 const smellOptions = ['Yeasty & sweet', 'Tangy & sour', 'Mild & fresh', 'Cheesy', 'Acetone/nail polish', 'Alcoholic', 'Funky but fine', 'Something ain\'t right']
 
-export default function FeedingLog({ starterId, starterName, initialFeedings }: Props) {
+export default function FeedingLog({ starterId, starterName, feedings, onFeedingAdded }: Props) {
   const supabase = createClient()
-  const [feedings, setFeedings] = useState<Feeding[]>(initialFeedings)
   const [showForm, setShowForm] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -68,7 +68,7 @@ export default function FeedingLog({ starterId, starterName, initialFeedings }: 
       setError(error.message)
       setSaving(false)
     } else {
-      setFeedings([data, ...feedings])
+      onFeedingAdded(data)
       setShowForm(false)
       setForm({
         fed_at: new Date().toISOString().slice(0, 16),

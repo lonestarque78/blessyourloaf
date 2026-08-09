@@ -1,8 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
-import FeedingLog from '@/components/starters/FeedingLog'
-import GrowthChart from '@/components/starters/GrowthChart'
+import StarterFeedingsSection from '@/components/starters/StarterFeedingsSection'
 
 export default async function StarterPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -82,13 +81,9 @@ export default async function StarterPage({ params }: { params: Promise<{ id: st
         )}
       </div>
 
-      {/* Growth tracking */}
-      <div className="mb-8">
-        <GrowthChart feedings={feedings || []} />
-      </div>
-
-      {/* Feeding log */}
-      <FeedingLog starterId={starter.id} starterName={starter.name} initialFeedings={feedings || []} />
+      {/* Growth tracking + feeding log — share one client-side state so logging a feeding
+          updates the chart immediately, without a page reload */}
+      <StarterFeedingsSection starterId={starter.id} starterName={starter.name} initialFeedings={feedings || []} />
     </div>
   )
 }
