@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import FeedingLog from '@/components/starters/FeedingLog'
+import GrowthChart from '@/components/starters/GrowthChart'
 
 export default async function StarterPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -79,6 +80,11 @@ export default async function StarterPage({ params }: { params: Promise<{ id: st
             💬 {starter.notes}
           </div>
         )}
+      </div>
+
+      {/* Growth tracking */}
+      <div className="mb-8">
+        <GrowthChart feedings={feedings || []} />
       </div>
 
       {/* Feeding log */}

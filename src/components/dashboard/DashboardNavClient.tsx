@@ -106,6 +106,20 @@ export default function DashboardNavClient({ signOut }: DashboardNavClientProps)
             >
               Starter Guide
             </Link>
+            <Link
+              href="/hydration-calculator"
+              className="block px-4 py-2 font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] hover:bg-[#fdf6f0] transition-colors"
+              onClick={() => setLibraryOpen(false)}
+            >
+              Hydration Calculator
+            </Link>
+            <Link
+              href="/temperature-guide"
+              className="block px-4 py-2 font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] hover:bg-[#fdf6f0] transition-colors"
+              onClick={() => setLibraryOpen(false)}
+            >
+              Temperature Guide
+            </Link>
           </div>
         </div>
 
@@ -142,6 +156,8 @@ export default function DashboardNavClient({ signOut }: DashboardNavClientProps)
           <Link href="/discard" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Discard Vault</Link>
           <Link href="/flour-guide" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Flour Guide</Link>
           <Link href="/starter-guide" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Starter Guide</Link>
+          <Link href="/hydration-calculator" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Hydration Calculator</Link>
+          <Link href="/temperature-guide" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Temperature Guide</Link>
           <div className="border-t border-[#f0e4db] pt-3 flex flex-col gap-3">
             <Link href="/dashboard/account" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Account</Link>
             <form action={signOut}>

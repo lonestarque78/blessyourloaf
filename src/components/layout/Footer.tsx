@@ -34,6 +34,8 @@ export default async function Footer() {
                 <Link href="/recipes" className="font-lora text-sm hover:text-white transition-colors">Recipes</Link>
                 <Link href="/discard" className="font-lora text-sm hover:text-white transition-colors">Discard Vault</Link>
                 <Link href="/starter-guide" className="font-lora text-sm hover:text-white transition-colors">Starter Guide</Link>
+                <Link href="/hydration-calculator" className="font-lora text-sm hover:text-white transition-colors">Hydration Calculator</Link>
+                <Link href="/temperature-guide" className="font-lora text-sm hover:text-white transition-colors">Temperature Guide</Link>
               </div>
             </div>
             <div>
