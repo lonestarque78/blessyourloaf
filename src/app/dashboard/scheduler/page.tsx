@@ -471,15 +471,25 @@ export default function SchedulerPage() {
                 >
                   {saving ? "Savin'..." : saved ? 'Saved ✓' : 'Save this Bake'}
                 </button>
-                {saved && savedId && (
-                  <Link href={`/dashboard/bake/${savedId}`} className="font-lora italic text-sm text-[#b07d62] hover:underline">
-                    Saved! Start the Bake Coach →
-                  </Link>
-                )}
                 {saveError && (
                   <p className="font-lora text-sm text-red-600">{saveError}</p>
                 )}
               </div>
+
+              {saved && savedId && (
+                <div className="mb-8 bg-gradient-to-r from-[#f9ede5] to-[#f0e4db] rounded-2xl p-6 border-2 border-[#c9956c] flex items-center justify-between gap-4 flex-wrap">
+                  <div>
+                    <p className="font-playfair font-bold text-[#3d2b1f]">Saved! Ready to start baking?</p>
+                    <p className="font-lora italic text-sm text-[#7a4f3a]">
+                      The Bake Coach walks you through it step by step, with timers that keep count even if you close this tab.
+                    </p>
+                  </div>
+                  <Link href={`/dashboard/bake/${savedId}`}
+                    className="flex-shrink-0 bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-6 py-3 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-md">
+                    Open the Bake Coach →
+                  </Link>
+                </div>
+              )}
 
               {/* Ingredients */}
               {ingredients && ingredients.length > 0 && (
@@ -533,7 +543,7 @@ export default function SchedulerPage() {
                                 onClick={() => isRunning ? handlePauseTimer() : handleStartTimer(index, step)}
                                 className="font-lora text-xs px-2.5 py-0.5 rounded-full border border-[#c9956c] text-[#b07d62] hover:bg-[#f9ede5] transition-colors"
                               >
-                                {isRunning ? 'Pause' : isPaused ? 'Resume' : 'Start Timer'}
+                                {isRunning ? 'Pause' : isPaused ? 'Resume' : 'Preview Timer (not saved)'}
                               </button>
                             )}
                           </div>
