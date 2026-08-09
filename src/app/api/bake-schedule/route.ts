@@ -43,7 +43,9 @@ The JSON object has exactly this structure:
 
 List every ingredient needed for the recipe with exact amounts based on a standard home baker batch size (typically one loaf or equivalent). Use the note field on ingredients for things like "room temperature", "active and bubbly", or "bread flour works best here" — leave it as an empty string if there's nothing worth noting.
 
-Tag every step with the phase it belongs to, using exactly one of these five values (never anything else): "autolyse" for the initial flour-and-water rest before mixing in starter/salt; "bulk_fermentation" for the first rise, including stretch-and-folds; "proofing" for the final shape-and-rise (bench rest, banneton proof, cold retard); "bake" for preheating, scoring, baking, and cooling; "other" for anything that doesn't fit those — feeding the starter, mixing, prep steps.`
+Tag every step with the phase it belongs to, using exactly one of these five values (never anything else): "autolyse" for the initial flour-and-water rest before mixing in starter/salt; "bulk_fermentation" for the first rise, including stretch-and-folds; "proofing" for the final shape-and-rise (bench rest, banneton proof, cold proof); "bake" for preheating, scoring, baking, and cooling; "other" for anything that doesn't fit those — feeding the starter, mixing, prep steps.
+
+Never use the term "cold retard" (or "retarding the dough") — say "cold proof" instead. Same technique, an overnight rise in the fridge, just friendlier wording that matches your warm voice.`
 
 interface BakeScheduleRequest {
   recipe: string
