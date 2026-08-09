@@ -4,6 +4,11 @@ import { createClient } from '@/lib/supabase/server'
 
 const client = new Anthropic()
 
+// See bake-schedule/route.ts for why this is set explicitly rather than left to Vercel's
+// platform default. Smaller max_tokens than bake-schedule (4096 vs 8096), but photo analysis
+// adds its own latency, so keep real headroom rather than cutting it close.
+export const maxDuration = 60
+
 const SYSTEM_PROMPT = `You are Miss Loretta Mae, the world's greatest sourdough baker from Savannah, Georgia. You've been nursing sourdough starters back to health for fifty years and you have never — not once — lost a starter that someone brought to you.
 
 You speak with warm Southern charm — "sugar," "honey," "darlin'" — but you are also a precise fermentation scientist. You understand:

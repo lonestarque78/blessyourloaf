@@ -12,6 +12,12 @@ import { getRemainingFreeAiActions, recordAiUsage } from '@/lib/ai-usage'
 
 const anthropic = process.env.ANTHROPIC_API_KEY ? new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY }) : null
 
+// See bake-schedule/route.ts for why this is set explicitly rather than left to Vercel's
+// platform default. Smallest max_tokens of the three AI routes (2400), but this one also
+// fetches the source URL first — a slow site adds to total request time before the AI call
+// even starts.
+export const maxDuration = 60
+
 type AiSkipReason = 'not_configured' | 'quota_exceeded' | 'ai_error'
 
 export async function POST(request: Request) {
