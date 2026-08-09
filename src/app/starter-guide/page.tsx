@@ -7,7 +7,7 @@ const steps = [
     day: 'Day 1',
     title: 'Mix your first feeding',
     description: 'In a clean jar, mix 50g of flour and 50g of room temperature water until no dry flour remains. Cover loosely — she needs air to breathe. Leave her somewhere warm, around 70-75°F.',
-    tip: "Use a rubber band to mark where she starts. That way you can see if she's risen, sugar.",
+    tip: "Use a rubber band to mark where she starts. That way you can see if she's risen.",
     what_to_expect: 'Nothing much yet. She might look lumpy and smell like raw flour. That is perfectly normal.',
   },
   {
@@ -21,7 +21,7 @@ const steps = [
     day: 'Days 4-7',
     title: 'Building strength',
     description: 'Keep discarding and feeding every 24 hours. If she is rising and falling predictably, try feeding twice a day — once in the morning and once at night.',
-    tip: "If she smells like nail polish remover, she's too hungry. Feed her more frequently, darlin'.",
+    tip: "If she smells like nail polish remover, she's too hungry. Feed her more frequently.",
     what_to_expect: 'Bubbles throughout, a domed top, and a more pleasant yeasty or tangy smell. She should be doubling in size within 4-8 hours of a feeding.',
   },
   {
@@ -36,7 +36,7 @@ const steps = [
 const faqs = [
   {
     q: "How long does it take to make a starter?",
-    a: "Most starters are ready to bake with in 7-14 days, but some take 3-4 weeks. Temperature, flour type, and the wild yeast in your environment all play a role. Don't rush her, honey."
+    a: "Most starters are ready to bake with in 7-14 days, but some take 3-4 weeks. Temperature, flour type, and the wild yeast in your environment all play a role. Don't rush her."
   },
   {
     q: "What flour should I use?",
@@ -56,7 +56,7 @@ const faqs = [
   },
   {
     q: "Can I use a starter that hasn't been fed in months?",
-    a: "Usually yes. Discard most of it, feed what's left, and give her a few days of regular feedings to wake back up. Starters are more resilient than you think, sugar."
+    a: "Usually yes. Discard most of it, feed what's left, and give her a few days of regular feedings to wake back up. Starters are more resilient than you think."
   },
 ]
 
@@ -73,7 +73,7 @@ export default function StarterGuidePage() {
             Grow your starter from scratch.
           </h1>
           <p className="font-lora italic text-[#9a7060] max-w-lg mx-auto">
-            &quot;All you need is flour, water, and patience, darlin&apos;. Your starter will do the rest.&quot;
+            &quot;All you need is flour, water, and patience. Your starter will do the rest.&quot;
           </p>
         </div>
 
@@ -87,7 +87,7 @@ export default function StarterGuidePage() {
             The wild yeast produces carbon dioxide (which makes the bread rise) and the bacteria produce lactic and acetic acids (which give sourdough its signature tangy flavor). Together they create something no commercial yeast can replicate.
           </p>
           <p className="font-lora italic text-[#7a4f3a]">
-            &quot;Think of her as a pet, sugar. Feed her regularly, keep her comfortable, and she&apos;ll take care of you for years.&quot;
+            &quot;Think of her as a pet. Feed her regularly, keep her comfortable, and she&apos;ll take care of you for years.&quot;
           </p>
         </div>
 
@@ -127,7 +127,7 @@ export default function StarterGuidePage() {
               </div>
               <p className="font-lora text-[#6b4c3b] leading-relaxed mb-4">{step.description}</p>
               <div className="bg-[#f9ede5] rounded-xl p-4 mb-4">
-                <div className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-1">Miss Loretta Mae says</div>
+                <div className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-1">Baker&apos;s Note</div>
                 <p className="font-lora italic text-sm text-[#7a4f3a]">&quot;{step.tip}&quot;</p>
               </div>
               <div className="bg-[#f0e8f0] rounded-xl p-4">

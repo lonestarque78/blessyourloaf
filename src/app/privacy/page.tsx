@@ -15,7 +15,7 @@ export default function PrivacyPage() {
         <div className="bg-white rounded-2xl p-8 shadow-md border border-[#f0e4db] space-y-8 font-lora text-[#3d2b1f] leading-relaxed">
           <div>
             <h2 className="font-playfair text-2xl font-bold mb-3">Who we are</h2>
-            <p>Bless Your Loaf is operated by Lone Star Que LLC, based in Frisco, Texas. We built this app because we love sourdough and we think every baker deserves great tools. When you use Bless Your Loaf, you&apos;re trusting us with your information — and we take that seriously, sugar.</p>
+            <p>Bless Your Loaf is operated by Lone Star Que LLC, based in Frisco, Texas. We built this app because we love sourdough and we think every baker deserves great tools. When you use Bless Your Loaf, you&apos;re trusting us with your information — and we take that seriously.</p>
           </div>
 
           <div>
@@ -63,7 +63,7 @@ export default function PrivacyPage() {
 
           <div>
             <h2 className="font-playfair text-2xl font-bold mb-3">Contact us</h2>
-            <p>If you have any questions about this policy, reach out to us at <a href="mailto:hello@blessyourloaf.com" className="text-[#b07d62] hover:underline">hello@blessyourloaf.com</a>. We&apos;re real people and we&apos;ll write back, honey.</p>
+            <p>If you have any questions about this policy, reach out to us at <a href="mailto:hello@blessyourloaf.com" className="text-[#b07d62] hover:underline">hello@blessyourloaf.com</a>. We&apos;re real people and we&apos;ll write back.</p>
           </div>
         </div>
       </div>

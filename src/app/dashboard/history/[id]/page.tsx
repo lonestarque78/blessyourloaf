@@ -96,7 +96,7 @@ export default async function HistoryDetailPage({ params }: { params: Promise<{ 
 
         {schedule.completed && (
           <div className="mt-6 bg-green-50 rounded-xl p-4 font-lora italic text-sm text-green-700">
-            🍞 &quot;You did it, sugar! Another beautiful loaf in the books.&quot;
+            🍞 &quot;You did it! Another beautiful loaf in the books.&quot;
           </div>
         )}
       </div>

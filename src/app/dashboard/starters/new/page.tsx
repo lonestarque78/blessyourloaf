@@ -23,7 +23,7 @@ export default function NewStarterPage() {
 
   const handleSubmit = async () => {
     if (!form.name.trim()) {
-      setError('She needs a name, sugar!')
+      setError('She needs a name!')
       return
     }
     setLoading(true)
@@ -54,9 +54,9 @@ export default function NewStarterPage() {
 
       <div className="text-center mb-10">
         <div className="text-5xl mb-4">🫙</div>
-        <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f] mb-2">Name your starter, honey.</h1>
+        <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f] mb-2">Name your starter.</h1>
         <p className="font-lora italic text-[#9a7060]">
-          &quot;She&apos;s gonna be with you a long time. Make it a good one.&quot;
+          &quot;She&apos;s going to be with you a long time. Make it a good one.&quot;
         </p>
       </div>
 
@@ -76,7 +76,7 @@ export default function NewStarterPage() {
               type="text"
               value={form.name}
               onChange={e => setForm({ ...form, name: e.target.value })}
-              placeholder="Sweet Magnolia, Biscuit, Rosie..."
+              placeholder="Willow, Biscuit, Rosie..."
               className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-[#3d2b1f] outline-none focus:border-[#c9956c] transition-colors bg-[#fdf9f6]"
             />
           </div>
@@ -154,7 +154,7 @@ export default function NewStarterPage() {
 
         <button onClick={handleSubmit} disabled={loading}
           className="w-full mt-8 bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white py-4 rounded-xl font-lora text-lg hover:-translate-y-0.5 transition-transform shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
-          {loading ? "Creatin' her now..." : 'Welcome Her to the World 🫙'}
+          {loading ? 'Creating her now...' : 'Welcome Her to the World 🫙'}
         </button>
       </div>
     </div>

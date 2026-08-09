@@ -36,7 +36,7 @@ export default async function MyRecipesPage() {
           </Link>
           <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f]">My Recipes</h1>
           <p className="font-lora italic text-[#9a7060] mt-1">
-            Your personal recipe box, sugar.
+            Your personal recipe box.
           </p>
         </div>
         <Link href="/dashboard/my-recipes/new"
@@ -92,9 +92,9 @@ export default async function MyRecipesPage() {
       ) : (
         <div className="text-center py-20">
           <div className="text-6xl mb-6">📖</div>
-          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-3">No recipes yet, darlin&apos;</h2>
+          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-3">No recipes yet</h2>
           <p className="font-lora italic text-[#9a7060] mb-8 max-w-sm mx-auto">
-            &quot;Every great baker has their secrets. Start savin&apos; yours.&quot;
+            &quot;Every great baker has their secrets. Start saving yours.&quot;
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/dashboard/my-recipes/new"

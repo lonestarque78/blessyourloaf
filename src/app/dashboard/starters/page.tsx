@@ -21,7 +21,7 @@ export default async function StartersPage() {
             ← Back to Dashboard
           </Link>
           <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f]">Your Starters</h1>
-          <p className="font-lora italic text-[#9a7060] mt-1">Every one of &apos;em deserves a name, sugar.</p>
+          <p className="font-lora italic text-[#9a7060] mt-1">Every one of them deserves a name.</p>
         </div>
         <Link href="/dashboard/starters/new"
           className="bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-6 py-3 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-md">
@@ -71,7 +71,7 @@ export default async function StartersPage() {
       ) : (
         <div className="text-center py-20">
           <div className="text-6xl mb-6">🫙</div>
-          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-3">No starters yet, darlin&apos;</h2>
+          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-3">No starters yet</h2>
           <p className="font-lora italic text-[#9a7060] mb-8 max-w-sm mx-auto">
             &quot;Every baker&apos;s journey starts with a little flour, some water, and a whole lot of patience.&quot;
           </p>

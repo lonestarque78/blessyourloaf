@@ -45,9 +45,9 @@ export default function SignupForm() {
     return (
       <div className="text-center max-w-md">
         <div className="text-6xl mb-6">🍞</div>
-        <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-4">Check your email, honey!</h1>
+        <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-4">Check your email!</h1>
         <p className="font-lora italic text-[#9a7060] leading-relaxed">
-          We sent a confirmation link to <strong>{email}</strong>. Click it and your starter journal will be waitin&apos; on you.
+          We sent a confirmation link to <strong>{email}</strong>. Click it and your starter journal will be waiting on you.
         </p>
       </div>
     )
@@ -85,7 +85,7 @@ export default function SignupForm() {
             type="text"
             value={fullName}
             onChange={e => setFullName(e.target.value)}
-            placeholder="Sugar Magnolia"
+            placeholder="Jane Baker"
             className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] transition-colors bg-[#fdf9f6]"
           />
         </div>

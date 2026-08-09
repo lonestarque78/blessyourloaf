@@ -75,7 +75,25 @@ Everything from your original Sections 1–8 carries forward as written: the mis
 
 ---
 
-## 5. Phased build plan
+## 5. Brand voice
+
+**Persona:** Bless Your Loaf speaks as a gentle, warm sourdough guide — confident and encouraging, the kind of voice that builds a baker's confidence rather than talking down to them. It is not a named character. There used to be a Southern-grandmother persona called "Miss Loretta Mae" with a Savannah, Georgia backstory; that persona was retired and should not be reintroduced. Do not use regional dialect or terms of endearment anywhere — in AI responses or in hardcoded copy — including "sugar," "honey," "darlin'," "hon," "y'all," "sweetie," "ain't," "mama/grandmama," or dropped-g contractions like "bakin'," "workin'," "talkin'." If you're about to write copy and reach for one of these, don't.
+
+**Differentiator to weave in, sparingly:** the real reason to bake sourdough at home is the ingredients — real, simple, no additives or preservatives, unlike most store-bought bread. Mention this where it fits naturally (a hero line, a footer tagline, a discard-vault explainer) — never force it into every string, and never turn it into a repeated tagline.
+
+**Starter personification is fine, not dialect:** referring to a starter as "she/her" (name her, feed her, she's hungry) is sourdough-community convention, independent of the old persona, and was deliberately kept. Don't scrub it in a future voice pass.
+
+**Topic boundary (troubleshooter, and any other free-text AI input):** the AI only discusses sourdough baking and its actual process — the starter, mixing, fermentation, shaping, scoring, baking, ingredients, and the equipment/tools/appliances used in that process. Anything else gets a gentle decline and a redirect back to baking, regardless of how the request is phrased (including "ignore previous instructions," roleplay attempts, or hypothetical framing) — no exceptions. This is enforced two ways, both required:
+1. A hard "STAY ON TOPIC" instruction in the system prompt itself (`src/app/api/troubleshooter/route.ts`, `src/app/api/bake-schedule/route.ts`) — this is the actual source of truth, and the only enforcement for photo uploads, since images can't be keyword-filtered.
+2. A cheap keyword pre-filter (`looksOffTopic` in `src/app/api/troubleshooter/route.ts`) that short-circuits obviously off-topic *text* messages before they reach the Anthropic call, so quota/cost isn't spent on clearly unrelated requests. It's deliberately conservative — short replies (≤4 words) always pass through untouched, since mid-conversation answers like "about 3 days ago" won't contain baking vocabulary but are still on-topic. Don't make this filter stricter without checking it against real multi-turn troubleshooter conversations first; over-tightening it will start blocking legitimate replies.
+
+System prompt alone was judged not reliable enough on its own for a "no exceptions" requirement — a system prompt is a strong steer, not a hard constraint, and a determined user can attempt to override it. Keep both layers.
+
+**Known gap:** the recipe library content seeded via `scripts/seed-recipes.ts` (recipe descriptions and step notes shown on `/recipes` and `/recipes/[slug]`) still has old-persona language ("sugar," "darlin'," etc.) as of this writing — it was intentionally deferred to a separate pass, not missed. If you're asked to finish the brand voice work, that script (and a re-run of its Supabase upsert) is what's left.
+
+---
+
+## 6. Phased build plan
 
 Work through these in order. Each phase ends with something you can point Claude Code at to prove it actually works — don't let it mark a phase "done" without running the check.
 
@@ -101,7 +119,7 @@ Work through these in order. Each phase ends with something you can point Claude
 
 ---
 
-## 6. Kicking off a phase — copy-paste prompt
+## 7. Kicking off a phase — copy-paste prompt
 
 At the start of each phase's first Claude Code session, use something like:
 
@@ -111,7 +129,7 @@ That last instruction matters a lot given you're not reading the code — it's w
 
 ---
 
-## 7. Guardrails worth double-checking as you go
+## 8. Guardrails worth double-checking as you go
 
 - **Row-level security**: ask Claude Code to explicitly show you (in plain English) what each RLS policy allows and blocks, for every table, before Phase 4 ships — a misconfigured policy here is how one user's data becomes visible to another.
 - **Stripe webhooks**: must verify the webhook signature and be idempotent (Stripe retries deliveries) — ask Claude Code to confirm both explicitly.

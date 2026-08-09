@@ -50,9 +50,9 @@ export default function AccountForm({ profile, userEmail }: Props) {
   }
 
   const handleChangePassword = async () => {
-    if (!newPassword) { setPasswordError('Enter a new password, sugar.'); return }
+    if (!newPassword) { setPasswordError('Enter a new password.'); return }
     if (newPassword.length < 8) { setPasswordError('Password needs at least 8 characters.'); return }
-    if (newPassword !== confirmPassword) { setPasswordError("Those passwords don't match, darlin'."); return }
+    if (newPassword !== confirmPassword) { setPasswordError("Those passwords don't match."); return }
 
     setSavingPassword(true)
     setPasswordError('')
@@ -86,7 +86,7 @@ export default function AccountForm({ profile, userEmail }: Props) {
 
         {saved && (
           <div className="bg-green-50 border border-green-200 text-green-700 rounded-xl px-4 py-3 mb-4 font-lora text-sm">
-            Profile updated, sugar!
+            Profile updated!
           </div>
         )}
 
@@ -108,7 +108,7 @@ export default function AccountForm({ profile, userEmail }: Props) {
               disabled
               className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#9a7060] bg-[#f9f5f2] cursor-not-allowed"
             />
-            <p className="font-lora text-xs text-[#b8896e] mt-1">Email cannot be changed, honey.</p>
+            <p className="font-lora text-xs text-[#b8896e] mt-1">Email cannot be changed.</p>
           </div>
         </div>
 
@@ -130,7 +130,7 @@ export default function AccountForm({ profile, userEmail }: Props) {
 
         {passwordSaved && (
           <div className="bg-green-50 border border-green-200 text-green-700 rounded-xl px-4 py-3 mb-4 font-lora text-sm">
-            Password updated, darlin&apos;!
+            Password updated!
           </div>
         )}
 

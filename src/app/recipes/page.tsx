@@ -46,10 +46,10 @@ export default async function RecipesPage() {
         <div className="text-center mb-16">
           <p className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-3">✦ The Recipe Library ✦</p>
           <h1 className="font-playfair text-5xl font-bold text-[#3d2b1f] mb-4">
-            Every recipe mama never wrote down.
+            Every recipe you wish someone had written down.
           </h1>
           <p className="font-lora italic text-[#9a7060] max-w-lg mx-auto">
-            &quot;These are the real ones, sugar. Tested in a Southern kitchen until they were just right.&quot;
+            &quot;These are the real ones. Real ingredients, tested in a real kitchen until they were just right.&quot;
           </p>
         </div>
 

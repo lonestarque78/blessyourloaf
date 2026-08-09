@@ -22,7 +22,7 @@ interface Props {
   onFeedingAdded: (feeding: Feeding) => void
 }
 
-const smellOptions = ['Yeasty & sweet', 'Tangy & sour', 'Mild & fresh', 'Cheesy', 'Acetone/nail polish', 'Alcoholic', 'Funky but fine', 'Something ain\'t right']
+const smellOptions = ['Yeasty & sweet', 'Tangy & sour', 'Mild & fresh', 'Cheesy', 'Acetone/nail polish', 'Alcoholic', 'Funky but fine', 'Something is off']
 
 export default function FeedingLog({ starterId, starterName, feedings, onFeedingAdded }: Props) {
   const supabase = createClient()
@@ -92,7 +92,7 @@ export default function FeedingLog({ starterId, starterName, feedings, onFeeding
           <p className="font-lora italic text-sm text-[#9a7060]">
             {feedings.length > 0
               ? `${feedings.length} feeding${feedings.length !== 1 ? 's' : ''} logged for ${starterName}`
-              : `No feedings yet — let's feed ${starterName}, sugar!`}
+              : `No feedings yet — let's feed ${starterName}!`}
           </p>
         </div>
         <button
@@ -201,7 +201,7 @@ export default function FeedingLog({ starterId, starterName, feedings, onFeeding
               <textarea
                 value={form.notes}
                 onChange={e => setForm({ ...form, notes: e.target.value })}
-                placeholder="Anything worth rememberin' about this feeding..."
+                placeholder="Anything worth remembering about this feeding..."
                 rows={3}
                 className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6] resize-none"
               />
@@ -289,7 +289,7 @@ export default function FeedingLog({ starterId, starterName, feedings, onFeeding
       ) : (
         <div className="text-center py-12 bg-white rounded-2xl border border-[#f0e4db]">
           <div className="text-4xl mb-3">📋</div>
-          <p className="font-lora italic text-[#9a7060]">No feedings logged yet. Hit that button up there, sugar!</p>
+          <p className="font-lora italic text-[#9a7060]">No feedings logged yet. Hit that button up there!</p>
         </div>
       )}
     </div>

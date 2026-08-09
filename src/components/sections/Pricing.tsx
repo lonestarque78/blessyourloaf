@@ -10,7 +10,7 @@ export default function Pricing() {
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-16">
           <p className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-3">✦ Join the Kitchen ✦</p>
-          <h2 className="font-playfair text-4xl md:text-5xl font-extrabold text-[#3d2b1f]">Good bread don&apos;t cost much, sugar.</h2>
+          <h2 className="font-playfair text-4xl md:text-5xl font-extrabold text-[#3d2b1f]">Good bread doesn&apos;t cost much.</h2>
           <div className="w-14 h-0.5 bg-gradient-to-r from-[#c9956c] to-[#b5838d] rounded mx-auto my-4" />
         </div>
 

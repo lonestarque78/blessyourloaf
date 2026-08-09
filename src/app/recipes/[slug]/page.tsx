@@ -80,7 +80,7 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
 
         {/* Ingredients */}
         <div className="bg-white rounded-2xl p-7 shadow-md border border-[#f0e4db] mb-8">
-          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-5">What You&apos;ll Need, Sugar</h2>
+          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-5">What You&apos;ll Need</h2>
           <div className="space-y-3">
             {ingredients.map((ing, i) => (
               <div key={i} className="flex items-start gap-4 py-2 border-b border-[#f9ede5] last:border-0">
@@ -99,7 +99,7 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
 
         {/* Steps */}
         <div className="bg-white rounded-2xl p-7 shadow-md border border-[#f0e4db] mb-8">
-          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-6">Let&apos;s Get Bakin&apos;, Darlin&apos;</h2>
+          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-6">Let&apos;s Get Baking</h2>
           <div className="space-y-8">
             {steps.map((step, i) => (
               <div key={i} className="flex gap-5">
@@ -138,7 +138,7 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
           <div className="mt-10 rounded-2xl p-7 text-center"
             style={{ background: 'linear-gradient(135deg, #3d2b1f, #5c3d2e)' }}>
             <p className="font-playfair text-xl font-bold text-white mb-2">
-              Want all 20 recipes, darlin&apos;? 🍞
+              Want all 20 recipes? 🍞
             </p>
             <p className="font-lora italic text-[#c9a090] text-sm mb-5">
               Join Bless Your Loaf and get the full library plus the Starter Journal, Bake Scheduler, and more.

@@ -11,10 +11,10 @@ export default function CheckoutCancelPage() {
         <div className="text-center max-w-md">
           <div className="text-5xl mb-6">🫙</div>
           <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-4">
-            No worries, honey.
+            No worries.
           </h1>
           <p className="font-lora italic text-[#9a7060] leading-relaxed mb-8">
-            &quot;You can always come back when you&apos;re ready. The kitchen will be here waitin&apos; on you.&quot;
+            &quot;You can always come back when you&apos;re ready. The kitchen will be here waiting on you.&quot;
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/pricing"

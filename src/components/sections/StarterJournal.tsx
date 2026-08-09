@@ -3,17 +3,17 @@
 import { useState } from 'react'
 
 const days = [
-  { day: 1, status: "Just born, bless her heart", rise: 10, emoji: "🌱" },
-  { day: 2, status: "Gettin' a little bubbly, sugar", rise: 25, emoji: "✨" },
-  { day: 3, status: "She's showin' some life, honey!", rise: 55, emoji: "🎉" },
+  { day: 1, status: "Just born, full of potential", rise: 10, emoji: "🌱" },
+  { day: 2, status: "Getting a little bubbly", rise: 25, emoji: "✨" },
+  { day: 3, status: "She's showing some real life!", rise: 55, emoji: "🎉" },
 ]
 
 const schedule = [
-  { time: "Thursday 7pm", action: "Feed your starter, darlin'" },
+  { time: "Thursday 7pm", action: "Feed your starter" },
   { time: "Friday 8am", action: "Mix your dough & autolyse" },
   { time: "Friday 10am", action: "Add starter + salt, stretch & fold" },
   { time: "Friday 4pm", action: "Shape & into the fridge she goes" },
-  { time: "Saturday 7:30am", action: "Preheat your Dutch oven, honey" },
+  { time: "Saturday 7:30am", action: "Preheat your Dutch oven" },
 ]
 
 export default function StarterJournal() {
@@ -28,7 +28,7 @@ export default function StarterJournal() {
           <h2 className="font-playfair text-4xl md:text-5xl font-extrabold text-[#3d2b1f]">Name her. Feed her. Love her.</h2>
           <div className="w-14 h-0.5 bg-gradient-to-r from-[#c9956c] to-[#b5838d] rounded mx-auto my-4" />
           <p className="font-lora italic text-[#6b4c3b] max-w-md mx-auto">
-            Every starter needs a name and a mama who pays attention. Track her feedings and watch her grow day by day.
+            Every starter needs a name and someone who pays attention. Track her feedings and watch her grow day by day.
           </p>
         </div>
 
@@ -37,7 +37,7 @@ export default function StarterJournal() {
           <div className="flex-1 bg-white rounded-2xl p-7 shadow-md hover:-translate-y-1 transition-transform">
             <div className="flex items-center justify-between mb-5">
               <div>
-                <div className="font-playfair text-2xl font-bold text-[#3d2b1f]">Sweet Magnolia</div>
+                <div className="font-playfair text-2xl font-bold text-[#3d2b1f]">Willow</div>
                 <div className="font-lora text-sm text-[#9a7060]">Born May 27th · Feeding {activeDay}</div>
               </div>
               <span className="text-4xl">🫙</span>
@@ -84,7 +84,7 @@ export default function StarterJournal() {
             <div className="text-right font-lora text-xs text-[#b07d62] mt-1">{current.rise}%</div>
 
             <div className="mt-5 bg-[#f9ede5] rounded-xl p-4 font-lora italic text-sm text-[#7a4f3a]">
-              💬 &quot;Feed her equal parts flour and water, sugar. She&apos;s hungry!&quot;
+              💬 &quot;Feed her equal parts flour and water. She&apos;s hungry!&quot;
             </div>
           </div>
 
@@ -92,7 +92,7 @@ export default function StarterJournal() {
           <div className="flex-1 bg-white rounded-2xl p-7 shadow-md hover:-translate-y-1 transition-transform">
             <div className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-1">Bake Scheduler</div>
             <p className="font-lora italic text-[#9a7060] text-sm mb-6">
-              &quot;Tell me when you want fresh bread, and I&apos;ll tell you when to get started, hon.&quot;
+              &quot;Tell me when you want fresh bread, and I&apos;ll tell you exactly when to get started.&quot;
             </p>
 
             <div className="mb-5">

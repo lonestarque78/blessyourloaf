@@ -30,13 +30,13 @@ export default async function DashboardPage() {
     .eq('is_active', true)
     .order('created_at', { ascending: false })
 
-  const firstName = profile?.full_name?.split(' ')[0] || 'sugar'
+  const firstName = profile?.full_name?.split(' ')[0] || 'baker'
   const activeStarters = starters ?? []
   const hasStarter = activeStarters.length > 0
   const primaryStarter = activeStarters[0]
 
   const hour = new Date().getHours()
-  const greeting = hour < 12 ? 'Good mornin' : hour < 17 ? 'Good afternoon' : "Good evenin'"
+  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-12">
@@ -47,8 +47,8 @@ export default async function DashboardPage() {
         </h1>
         <p className="font-lora italic text-[#9a7060] mt-2">
           {hasStarter
-            ? `${primaryStarter.name} is waitin' on you, darlin'.`
-            : "Let's get your kitchen started, sugar."}
+            ? `${primaryStarter.name} is waiting on you.`
+            : "Let's get your kitchen started."}
         </p>
       </div>
 
@@ -92,7 +92,7 @@ export default async function DashboardPage() {
           ) : (
             <div className="text-center py-6">
               <p className="font-lora italic text-[#9a7060] mb-4">
-                &quot;Every great loaf starts with a starter. Let&apos;s name yours, honey.&quot;
+                &quot;Every great loaf starts with a starter. Let&apos;s name yours.&quot;
               </p>
               <Link href="/dashboard/starters/new"
                 className="inline-block bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-6 py-2.5 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-md">
@@ -110,7 +110,7 @@ export default async function DashboardPage() {
           </div>
           <div className="text-center py-6">
             <p className="font-lora italic text-[#9a7060] mb-4">
-              &quot;Tell me when you want fresh bread and I&apos;ll work it all out for you, darlin&apos;.&quot;
+              &quot;Tell me when you want fresh bread and I&apos;ll work it all out for you.&quot;
             </p>
             <Link href="/dashboard/scheduler"
               className="inline-block bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-6 py-2.5 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-md">
@@ -126,7 +126,7 @@ export default async function DashboardPage() {
             <div className="font-playfair text-lg font-bold text-[#3d2b1f]">Recipe Library</div>
           </div>
           <p className="font-lora italic text-[#9a7060] text-sm mb-5">
-            Loaves, rolls, focaccia, and more — all tested in a real Southern kitchen.
+            Loaves, rolls, focaccia, and more — made with real ingredients, tested in a real kitchen.
           </p>
           <Link href="/recipes"
             className="font-lora text-sm text-[#b07d62] hover:underline">
@@ -155,7 +155,7 @@ export default async function DashboardPage() {
         <div className="rounded-2xl p-7 text-center"
           style={{ background: 'linear-gradient(135deg, #3d2b1f, #5c3d2e)' }}>
           <p className="font-playfair text-xl font-bold text-white mb-2">
-            Unlock the full kitchen, darlin&apos; 🍞
+            Unlock the full kitchen 🍞
           </p>
           <p className="font-lora italic text-[#c9a090] text-sm mb-5">
             Get the full Starter Journal, Bake Scheduler, Discard Vault, and more for $5.99/month.

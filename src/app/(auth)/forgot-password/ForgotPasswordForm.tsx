@@ -29,7 +29,7 @@ export default function ForgotPasswordForm() {
     return (
       <div className="text-center max-w-md">
         <div className="text-6xl mb-6">📬</div>
-        <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-4">Check your inbox, sugar!</h1>
+        <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-4">Check your inbox!</h1>
         <p className="font-lora italic text-[#9a7060] leading-relaxed mb-6">
           We sent a password reset link to <strong>{email}</strong>. Should be there faster than a proofed loaf rises.
         </p>

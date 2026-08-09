@@ -15,8 +15,8 @@ const lora = Lora({
 })
 
 export const metadata: Metadata = {
-  title: 'Bless Your Loaf — Sourdough for Southern Souls',
-  description: 'Grow your starter, bake your bread, and never waste a drop of discard. Southern sourdough done right.',
+  title: 'Bless Your Loaf — Sourdough Baking Made Simple',
+  description: 'Grow your starter, bake real bread, and never waste a drop of discard. Simple ingredients, no additives — sourdough done right.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

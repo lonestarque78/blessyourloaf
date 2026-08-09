@@ -55,7 +55,7 @@ export default function HydrationCalculatorTool() {
       {mode === 'from-amounts' ? (
         <div>
           <p className="font-lora italic text-sm text-[#9a7060] text-center mb-6">
-            &quot;Tell me your flour and water, and I&apos;ll tell you her hydration, sugar.&quot;
+            &quot;Tell me your flour and water, and I&apos;ll tell you her hydration.&quot;
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-md mx-auto mb-8">
             <div>

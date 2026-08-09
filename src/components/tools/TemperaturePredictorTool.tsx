@@ -22,7 +22,7 @@ export default function TemperaturePredictorTool() {
   return (
     <div className="bg-white rounded-2xl p-8 shadow-md border border-[#f0e4db]">
       <p className="font-lora italic text-sm text-[#9a7060] text-center mb-6">
-        &quot;Give me your recipe&apos;s timing and your kitchen&apos;s temperature, and I&apos;ll tell you what to really expect, sugar.&quot;
+        &quot;Give me your recipe&apos;s timing and your kitchen&apos;s temperature, and I&apos;ll tell you what to really expect.&quot;
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-md mx-auto mb-8">
@@ -59,7 +59,7 @@ export default function TemperaturePredictorTool() {
         <p className="font-lora italic text-sm text-[#7a4f3a] text-center mb-8">
           {isFaster
             ? `Your kitchen's warmer than ${BASELINE_TEMP_F}°F, so she'll move faster than the recipe says — keep an eye on her, don't just watch the clock.`
-            : `Your kitchen's cooler than ${BASELINE_TEMP_F}°F, so give her extra time — she's just takin' it slow, not doin' somethin' wrong.`}
+            : `Your kitchen's cooler than ${BASELINE_TEMP_F}°F, so give her extra time — she's just taking it slow, not doing anything wrong.`}
         </p>
       )}
 

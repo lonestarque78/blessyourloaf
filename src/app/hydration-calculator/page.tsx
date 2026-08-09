@@ -16,7 +16,7 @@ export default function HydrationCalculatorPage() {
             Hydration Calculator
           </h1>
           <p className="font-lora italic text-[#9a7060] max-w-lg mx-auto">
-            &quot;Hydration is just flour and water talkin&apos; to each other, sugar. Let&apos;s do the math.&quot;
+            &quot;Hydration is just flour and water getting to know each other. Let&apos;s do the math.&quot;
           </p>
         </div>
 
@@ -31,7 +31,7 @@ export default function HydrationCalculatorPage() {
             Hydration is the weight of water in a dough as a percentage of the weight of flour — 500g flour and 375g water is 75% hydration. It&apos;s the single biggest lever you have over how a dough feels and bakes: higher hydration makes a wetter, stickier dough with a more open, airy crumb; lower hydration makes a firmer dough that&apos;s easier to handle and shape.
           </p>
           <p className="font-lora italic text-[#7a4f3a]">
-            &quot;New to this? Stay around 65-70% until you get a feel for handling wet dough. You can always work your way up, darlin&apos;.&quot;
+            &quot;New to this? Stay around 65-70% until you get a feel for handling wet dough. You can always work your way up.&quot;
           </p>
         </div>
 

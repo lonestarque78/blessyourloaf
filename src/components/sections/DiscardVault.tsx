@@ -1,9 +1,9 @@
 import Link from 'next/link'
 
 const recipes = [
-  { name: "Sunday Mornin' Pancakes", time: "20 min", tag: "Breakfast", color: "#f4a261", icon: "🥞" },
-  { name: "Sweet Tea Crackers", time: "45 min", tag: "Snackin'", color: "#b5838d", icon: "🫙" },
-  { name: "Mama's Pizza Dough", time: "1 hr", tag: "Supper", color: "#6d6875", icon: "🍕" },
+  { name: "Sunday Morning Pancakes", time: "20 min", tag: "Breakfast", color: "#f4a261", icon: "🥞" },
+  { name: "Herb & Sea Salt Crackers", time: "45 min", tag: "Snacking", color: "#b5838d", icon: "🫙" },
+  { name: "Discard Pizza Dough", time: "1 hr", tag: "Dinner", color: "#6d6875", icon: "🍕" },
   { name: "Peach Cobbler Muffins", time: "35 min", tag: "Dessert", color: "#c9a84c", icon: "🧁" },
 ]
 
@@ -16,7 +16,7 @@ export default function DiscardVault() {
           <h2 className="font-playfair text-4xl md:text-5xl font-extrabold text-[#3d2b1f]">Don&apos;t you dare throw that away.</h2>
           <div className="w-14 h-0.5 bg-gradient-to-r from-[#c9956c] to-[#b5838d] rounded mx-auto my-4" />
           <p className="font-lora italic text-[#6b4c3b] max-w-md mx-auto">
-            &quot;Discard is just starter that ain&apos;t reached its full potential yet. We make it shine.&quot;
+            &quot;Discard is just starter that hasn&apos;t reached its full potential yet. We make it shine.&quot;
           </p>
         </div>
 

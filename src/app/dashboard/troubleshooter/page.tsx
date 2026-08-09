@@ -311,7 +311,7 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
               <h1 className="font-playfair text-2xl font-bold text-[#3d2b1f]">Starter Troubleshooter</h1>
             </div>
             <p className="font-lora italic text-sm text-[#9a7060]">
-              &quot;I have never lost a starter, darlin&apos;. I don&apos;t plan to start now.&quot;
+              &quot;Almost every starter can be brought back — let&apos;s figure out yours together.&quot;
             </p>
           </div>
 
@@ -366,7 +366,7 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
           {messages.length === 0 && (
             <div className="text-center py-12">
               <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-3">
-                Tell Miss Loretta Mae what&apos;s wrong, sugar.
+                Tell us what&apos;s wrong with your starter.
               </h2>
               <p className="font-lora italic text-[#9a7060] mb-8 max-w-md mx-auto">
                 Describe what you&apos;re seeing, upload a photo, or answer one of these common questions to get started.
@@ -389,7 +389,7 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
               <div className={`max-w-[80%] ${msg.role === 'user' ? 'items-end' : 'items-start'} flex flex-col gap-1`}>
                 {msg.role === 'assistant' && (
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-lora text-xs text-[#b8896e]">Miss Loretta Mae</span>
+                    <span className="font-lora text-xs text-[#b8896e]">Sourdough Guide</span>
                   </div>
                 )}
 
@@ -473,7 +473,7 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Describe what's going on with your starter, sugar... (Shift+Enter for new line)"
+                placeholder="Describe what's going on with your starter... (Shift+Enter for new line)"
                 rows={2}
                 className="w-full px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none bg-transparent resize-none"
               />

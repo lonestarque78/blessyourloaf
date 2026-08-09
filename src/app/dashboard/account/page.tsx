@@ -21,7 +21,7 @@ export default async function AccountPage() {
       </Link>
 
       <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f] mb-2">Account Settings</h1>
-      <p className="font-lora italic text-[#9a7060] mb-10">Your kitchen, your rules, sugar.</p>
+      <p className="font-lora italic text-[#9a7060] mb-10">Your kitchen, your rules.</p>
 
       {/* Subscription status */}
       <div className="bg-white rounded-2xl p-7 shadow-md border border-[#f0e4db] mb-6">
@@ -68,7 +68,7 @@ export default async function AccountPage() {
       <div className="bg-white rounded-2xl p-7 shadow-md border border-red-100 mt-6">
         <h2 className="font-playfair text-xl font-bold text-red-700 mb-2">Danger Zone</h2>
         <p className="font-lora text-sm text-[#9a7060] mb-5">
-          Deleting your account is permanent and cannot be undone. All your starters, feedings, schedules, and recipes will be lost forever, honey.
+          Deleting your account is permanent and cannot be undone. All your starters, feedings, schedules, and recipes will be lost forever.
         </p>
         <Link href="/dashboard/account/delete"
           className="font-lora text-sm text-red-600 hover:underline">

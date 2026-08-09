@@ -41,7 +41,7 @@ export default async function DiscardVaultPage() {
             Don&apos;t you dare throw that away.
           </h1>
           <p className="font-lora italic text-[#9a7060] max-w-lg mx-auto">
-            &quot;Discard is just starter that ain&apos;t reached its full potential yet, sugar. Every bit of it deserves a second chance.&quot;
+            &quot;Discard is just starter that hasn&apos;t reached its full potential yet. Every bit of it deserves a second chance.&quot;
           </p>
         </div>
 
@@ -52,7 +52,7 @@ export default async function DiscardVaultPage() {
             <div>
               <h2 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-2">What is sourdough discard?</h2>
               <p className="font-lora text-sm text-[#6b4c3b] leading-relaxed">
-                Every time you feed your starter, you remove a portion before adding fresh flour and water. That removed portion is called discard — and honey, it is anything but waste. It&apos;s packed with wild yeast and bacteria that add incredible flavor to everything it touches. These recipes are designed specifically for discard at any stage, from brand new starter to a well-established one.
+                Every time you feed your starter, you remove a portion before adding fresh flour and water. That removed portion is called discard — and it is anything but waste. It&apos;s packed with wild yeast and bacteria that add incredible flavor to everything it touches, with nothing artificial added. These recipes are designed specifically for discard at any stage, from brand new starter to a well-established one.
               </p>
             </div>
           </div>
@@ -114,7 +114,7 @@ export default async function DiscardVaultPage() {
         ) : (
           <div className="text-center py-20">
             <div className="text-6xl mb-6">🫙</div>
-            <p className="font-lora italic text-[#9a7060]">No discard recipes found, sugar.</p>
+            <p className="font-lora italic text-[#9a7060]">No discard recipes found.</p>
           </div>
         )}
 
@@ -123,7 +123,7 @@ export default async function DiscardVaultPage() {
           <div className="mt-16 rounded-2xl p-8 text-center"
             style={{ background: 'linear-gradient(135deg, #3d2b1f, #5c3d2e)' }}>
             <p className="font-playfair text-2xl font-bold text-white mb-3">
-              Unlock the full Discard Vault, honey 🫙
+              Unlock the full Discard Vault 🫙
             </p>
             <p className="font-lora italic text-[#c9a090] text-sm mb-6 max-w-md mx-auto">
               Subscribe to access every discard recipe plus the full recipe library, Starter Journal, Bake Scheduler, and more.

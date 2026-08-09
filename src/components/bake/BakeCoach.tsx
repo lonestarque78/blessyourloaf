@@ -95,7 +95,7 @@ export default function BakeCoach({ schedule, initialProgress }: Props) {
       })
       const data = await res.json()
       if (!res.ok) {
-        setError(data.error ?? "Couldn't update that step, sugar — try again.")
+        setError(data.error ?? "Couldn't update that step — try again.")
         return
       }
       setProgress(prev => ({
@@ -103,7 +103,7 @@ export default function BakeCoach({ schedule, initialProgress }: Props) {
         [stepIndex]: { started_at: data.progress.started_at, completed_at: data.progress.completed_at },
       }))
     } catch {
-      setError("Couldn't reach the kitchen — please try again, darlin'.")
+      setError("Couldn't reach the kitchen — please try again.")
     } finally {
       setBusyIndex(null)
     }
@@ -114,7 +114,7 @@ export default function BakeCoach({ schedule, initialProgress }: Props) {
       <div className="bg-white rounded-2xl p-10 shadow-md border border-[#f0e4db] text-center">
         <div className="text-6xl mb-6">🍞</div>
         <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-3">
-          You did it, sugar!
+          You did it!
         </h1>
         <p className="font-lora italic text-[#9a7060] mb-8 max-w-sm mx-auto">
           &quot;Another beautiful loaf in the books. Go on and admire your work.&quot;
@@ -253,7 +253,7 @@ export default function BakeCoach({ schedule, initialProgress }: Props) {
                 </button>
               ) : isReady ? (
                 <p className="font-lora text-lg font-semibold" style={{ color: '#b5838d' }}>
-                  Time&apos;s up, darlin&apos;! 🍞
+                  Time&apos;s up! 🍞
                 </p>
               ) : (
                 <div className="flex items-center gap-3 flex-wrap">
@@ -277,7 +277,7 @@ export default function BakeCoach({ schedule, initialProgress }: Props) {
             disabled={busyIndex === currentIndex}
             className="w-full bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white py-3 rounded-xl font-lora hover:-translate-y-0.5 transition-transform shadow-md disabled:opacity-50 disabled:hover:translate-y-0"
           >
-            {busyIndex === currentIndex ? "Savin'..." : 'Mark Done →'}
+            {busyIndex === currentIndex ? 'Saving...' : 'Mark Done →'}
           </button>
         </div>
       </main>

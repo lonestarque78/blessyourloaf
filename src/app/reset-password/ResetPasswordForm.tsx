@@ -24,9 +24,9 @@ export default function ResetPasswordForm() {
   }, [])
 
   const handleReset = async () => {
-    if (!password) { setError('Enter a new password, sugar.'); return }
-    if (password.length < 8) { setError('Password needs to be at least 8 characters, honey.'); return }
-    if (password !== confirm) { setError("Those passwords don't match, darlin'."); return }
+    if (!password) { setError('Enter a new password.'); return }
+    if (password.length < 8) { setError('Password needs to be at least 8 characters.'); return }
+    if (password !== confirm) { setError("Those passwords don't match."); return }
 
     setLoading(true)
     setError('')
@@ -46,7 +46,7 @@ export default function ResetPasswordForm() {
     return (
       <div className="text-center max-w-md">
         <div className="text-6xl mb-6">🍞</div>
-        <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-4">You&apos;re all set, sugar!</h1>
+        <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-4">You&apos;re all set!</h1>
         <p className="font-lora italic text-[#9a7060] leading-relaxed">
           Your password has been updated. Taking you to your dashboard now...
         </p>
@@ -79,7 +79,7 @@ export default function ResetPasswordForm() {
             type="password"
             value={confirm}
             onChange={e => setConfirm(e.target.value)}
-            placeholder="Same thing again, darlin'"
+            placeholder="Same thing again"
             className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] transition-colors bg-[#fdf9f6]"
           />
         </div>

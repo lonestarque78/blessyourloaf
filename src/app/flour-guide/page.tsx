@@ -8,7 +8,7 @@ const flours = [
     best_for: 'Beginner loaves, discard recipes, pancakes, crackers',
     difficulty: 'Beginner',
     color: '#f9ede5',
-    description: 'The workhorse of the Southern kitchen, sugar. All-purpose is forgiving, widely available, and produces a mild-flavored loaf with a soft, open crumb. Your starter will be happy on it.',
+    description: 'The workhorse of the home kitchen. All-purpose is forgiving, widely available, and produces a mild-flavored loaf with a soft, open crumb. Your starter will be happy on it.',
     characteristics: [
       'Moderate protein content means moderate gluten development',
       'Produces a lighter, more open crumb than whole grain flours',
@@ -16,7 +16,7 @@ const flours = [
       'Ferments at a predictable, moderate pace',
       'Easiest flour to work with for new bakers',
     ],
-    tips: 'If you\'re just starting out, this is your flour, darlin\'. Get comfortable with AP before you start experimenting with others.',
+    tips: 'If you\'re just starting out, this is your flour. Get comfortable with AP before you start experimenting with others.',
     hydration: '65–75%',
     fermentation: 'Moderate — expect 4–6 hours bulk at 75°F',
   },
@@ -26,7 +26,7 @@ const flours = [
     best_for: 'Artisan loaves, bagels, rolls, anything needing strong structure',
     difficulty: 'Beginner',
     color: '#f0e8f0',
-    description: 'This is what most professional bakers reach for, honey. The higher protein content builds stronger gluten networks, giving you better oven spring and that gorgeous ear on your scored loaf.',
+    description: 'This is what most professional bakers reach for. The higher protein content builds stronger gluten networks, giving you better oven spring and that gorgeous ear on your scored loaf.',
     characteristics: [
       'Higher protein builds stronger, more extensible gluten',
       'Better oven spring and taller loaves',
@@ -44,7 +44,7 @@ const flours = [
     best_for: 'Hearty loaves, nutritious everyday bread, adding depth to blends',
     difficulty: 'Intermediate',
     color: '#fef3e2',
-    description: 'Whole wheat includes the bran and germ, which means more nutrition, more flavor, and — here\'s the thing, sugar — faster fermentation. The bran cuts gluten strands, so you\'ll need to adjust your timing.',
+    description: 'Whole wheat includes the bran and germ, which means more nutrition, more flavor, and — here\'s the thing — faster fermentation. The bran cuts gluten strands, so you\'ll need to adjust your timing.',
     characteristics: [
       'Bran and germ add nutty, earthy flavor complexity',
       'Ferments significantly faster than white flours',
@@ -62,7 +62,7 @@ const flours = [
     best_for: 'Dark rye loaves, starter feedings, adding sour complexity',
     difficulty: 'Intermediate',
     color: '#e8f4f0',
-    description: 'Rye is the secret weapon of serious sourdough bakers, darlin\'. It ferments faster than any other flour, feeds your starter like nothing else, and adds a deep, earthy complexity that plain white loaves just can\'t match.',
+    description: 'Rye is the secret weapon of serious sourdough bakers. It ferments faster than any other flour, feeds your starter like nothing else, and adds a deep, earthy complexity that plain white loaves just can\'t match.',
     characteristics: [
       'Contains pentosans instead of gluten — produces sticky, dense dough',
       'Ferments extremely fast due to high enzyme activity',
@@ -80,7 +80,7 @@ const flours = [
     best_for: 'Lighter whole grain loaves, digestibility-focused baking',
     difficulty: 'Intermediate',
     color: '#fde8e8',
-    description: 'Spelt is an ancient grain that\'s having a moment, sugar. It has good protein content but the gluten is more fragile than modern wheat — which means it ferments quickly and can over-proof on you if you\'re not paying attention.',
+    description: 'Spelt is an ancient grain that\'s having a moment. It has good protein content but the gluten is more fragile than modern wheat — which means it ferments quickly and can over-proof on you if you\'re not paying attention.',
     characteristics: [
       'Ancient grain with a sweet, nutty flavor',
       'Gluten is more extensible but less strong than modern wheat',
@@ -98,7 +98,7 @@ const flours = [
     best_for: 'Ancient grain enthusiasts, highly digestible loaves',
     difficulty: 'Advanced',
     color: '#f5f0e8',
-    description: 'Einkorn is the oldest wheat on earth, honey, and it bakes like nothing else. High in protein but with weak gluten structure — it produces a dense, moist, deeply flavorful loaf that\'s unlike any modern wheat bread you\'ve tasted.',
+    description: 'Einkorn is the oldest wheat on earth, and it bakes like nothing else. High in protein but with weak gluten structure — it produces a dense, moist, deeply flavorful loaf that\'s unlike any modern wheat bread you\'ve tasted.',
     characteristics: [
       'Highest protein of any wheat but weakest gluten structure',
       'Rich, buttery, almost sweet flavor profile',
@@ -116,7 +116,7 @@ const flours = [
     best_for: 'Gluten-free bakers, celiac-friendly loaves',
     difficulty: 'Advanced',
     color: '#f0e8f0',
-    description: 'Gluten-free sourdough is a whole different craft, darlin\'. Without gluten, you\'re relying on xanthan gum, psyllium husk, or other binders to hold the structure together. It takes patience and experimentation, but it can be done.',
+    description: 'Gluten-free sourdough is a whole different craft. Without gluten, you\'re relying on xanthan gum, psyllium husk, or other binders to hold the structure together. It takes patience and experimentation, but it can be done.',
     characteristics: [
       'No gluten means no traditional dough development',
       'Requires binders like psyllium husk or xanthan gum',
@@ -149,7 +149,7 @@ export default function FlourGuidePage() {
             Know your flour, know your bread.
           </h1>
           <p className="font-lora italic text-[#9a7060] max-w-lg mx-auto">
-            &quot;The flour you choose changes everything — the flavor, the texture, the timing. Let me walk you through what you need to know, sugar.&quot;
+            &quot;The flour you choose changes everything — the flavor, the texture, the timing. Let me walk you through what you need to know.&quot;
           </p>
         </div>
 
@@ -237,7 +237,7 @@ export default function FlourGuidePage() {
               </div>
 
               <div className="bg-[#f9ede5] rounded-xl p-4">
-                <div className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-1">Miss Loretta Mae Says</div>
+                <div className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-1">Baker&apos;s Note</div>
                 <p className="font-lora italic text-sm text-[#7a4f3a]">&quot;{flour.tips}&quot;</p>
               </div>
             </div>

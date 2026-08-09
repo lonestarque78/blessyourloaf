@@ -23,7 +23,7 @@ export default async function HistoryPage() {
         <div>
           <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f]">Bake History</h1>
           <p className="font-lora italic text-[#9a7060] mt-1">
-            Every loaf tells a story, sugar.
+            Every loaf tells a story.
           </p>
         </div>
         <Link href="/dashboard/scheduler"
@@ -112,7 +112,7 @@ export default async function HistoryPage() {
       ) : (
         <div className="text-center py-20">
           <div className="text-6xl mb-6">📋</div>
-          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-3">No bakes saved yet, darlin&apos;</h2>
+          <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-3">No bakes saved yet</h2>
           <p className="font-lora italic text-[#9a7060] mb-8 max-w-sm mx-auto">
             &quot;Every great baker keeps records. Let&apos;s start yours.&quot;
           </p>

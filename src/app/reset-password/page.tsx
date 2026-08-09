@@ -15,7 +15,7 @@ export default function ResetPasswordPage() {
               <span className="text-3xl">🍞</span>
               <span className="font-playfair text-2xl font-bold text-[#3d2b1f]">Bless Your Loaf</span>
             </Link>
-            <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-2">Set a new password, honey.</h1>
+            <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-2">Set a new password.</h1>
             <p className="font-lora italic text-[#9a7060]">Make it a good one — and write it down this time.</p>
           </div>
           <ResetPasswordForm />

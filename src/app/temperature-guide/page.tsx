@@ -16,7 +16,7 @@ export default function TemperatureGuidePage() {
             Temperature Guide
           </h1>
           <p className="font-lora italic text-[#9a7060] max-w-lg mx-auto">
-            &quot;A recipe&apos;s just a starting point, sugar. Your kitchen has the final say.&quot;
+            &quot;A recipe&apos;s just a starting point. Your kitchen has the final say.&quot;
           </p>
         </div>
 
@@ -31,10 +31,10 @@ export default function TemperatureGuidePage() {
             The wild yeast and bacteria in your starter are living things — they eat, breathe, and multiply faster or slower depending on how warm they are, the same way most living things do. Recipe times are always written for one specific temperature, usually somewhere around 75-78°F. If your kitchen runs warmer or cooler than that, the recipe&apos;s clock stops being reliable.
           </p>
           <p className="font-lora text-[#6b4c3b] leading-relaxed mb-4">
-            That&apos;s why Miss Loretta Mae always says to watch the dough, not the clock — but knowing roughly how much extra (or less) time to expect helps you plan your day instead of getting surprised.
+            That&apos;s why we always say to watch the dough, not the clock — but knowing roughly how much extra (or less) time to expect helps you plan your day instead of getting surprised.
           </p>
           <p className="font-lora italic text-[#7a4f3a]">
-            &quot;Summer kitchen running hot? Your bulk ferment that usually takes 4 hours might be done in 2. Winter got you at 65°F? Budget most of the day for it, darlin&apos;.&quot;
+            &quot;Summer kitchen running hot? Your bulk ferment that usually takes 4 hours might be done in 2. Winter got you at 65°F? Budget most of the day for it.&quot;
           </p>
         </div>
 

@@ -50,7 +50,7 @@ export default function TermsPage() {
 
           <div>
             <h2 className="font-playfair text-2xl font-bold mb-3">AI features</h2>
-            <p>The Bake Scheduler and Starter Troubleshooter use AI powered by Anthropic&apos;s Claude. The advice provided is for informational purposes. We do our best to make it accurate but we&apos;re not responsible if a schedule or diagnosis doesn&apos;t work out for your specific situation. Sourdough has a mind of its own, honey.</p>
+            <p>The Bake Scheduler and Starter Troubleshooter use AI powered by Anthropic&apos;s Claude. The advice provided is for informational purposes. We do our best to make it accurate but we&apos;re not responsible if a schedule or diagnosis doesn&apos;t work out for your specific situation. Sourdough has a mind of its own.</p>
           </div>
 
           <div>

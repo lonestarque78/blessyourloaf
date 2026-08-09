@@ -15,7 +15,7 @@ export default function ForgotPasswordPage() {
               <span className="text-3xl">🍞</span>
               <span className="font-playfair text-2xl font-bold text-[#3d2b1f]">Bless Your Loaf</span>
             </Link>
-            <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-2">Forgot your password, hon?</h1>
+            <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-2">Forgot your password?</h1>
             <p className="font-lora italic text-[#9a7060]">No worries — happens to the best of us.</p>
           </div>
           <ForgotPasswordForm />

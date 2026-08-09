@@ -88,7 +88,7 @@ function NewMyRecipePageContent() {
 
   const handleImport = async () => {
     if (!importUrl.trim()) {
-      setError('Paste a recipe URL first, sugar.')
+      setError('Paste a recipe URL first.')
       return
     }
 
@@ -133,7 +133,7 @@ function NewMyRecipePageContent() {
   }
 
   const handleSave = async () => {
-    if (!form.title.trim()) { setError('Give your recipe a name, sugar!'); return }
+    if (!form.title.trim()) { setError('Give your recipe a name!'); return }
     setSaving(true)
     setError('')
 
@@ -180,9 +180,9 @@ function NewMyRecipePageContent() {
 
       <div className="text-center mb-10">
         <div className="text-5xl mb-4">📖</div>
-        <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f] mb-2">Add a Recipe, Darlin&apos;</h1>
+        <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f] mb-2">Add a Recipe</h1>
         <p className="font-lora italic text-[#9a7060]">
-          &quot;Your secret&apos;s safe with us, honey.&quot;
+          &quot;Your secret&apos;s safe with us.&quot;
         </p>
       </div>
 
@@ -226,7 +226,7 @@ function NewMyRecipePageContent() {
               <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Recipe Name *</label>
               <input type="text" value={form.title}
                 onChange={e => setForm({ ...form, title: e.target.value })}
-                placeholder="Grandmama's Jalapeño Cheddar Loaf..."
+                placeholder="Jalapeño Cheddar Loaf..."
                 className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6]" />
             </div>
             <div>

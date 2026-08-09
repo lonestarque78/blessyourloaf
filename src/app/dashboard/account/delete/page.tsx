@@ -13,7 +13,7 @@ export default function DeleteAccountPage() {
 
   const handleDelete = async () => {
     if (confirmation !== 'delete my account') {
-      setError('Please type the confirmation phrase exactly, sugar.')
+      setError('Please type the confirmation phrase exactly.')
       return
     }
 
@@ -47,7 +47,7 @@ export default function DeleteAccountPage() {
       <div className="bg-white rounded-2xl p-8 shadow-md border border-red-100">
         <h1 className="font-playfair text-3xl font-bold text-red-700 mb-3">Delete Account</h1>
         <p className="font-lora text-[#6b4c3b] leading-relaxed mb-6">
-          This is permanent and cannot be undone, honey. Everything will be deleted — your starters, feedings, bake schedules, personal recipes, and subscription. There is no coming back from this.
+          This is permanent and cannot be undone. Everything will be deleted — your starters, feedings, bake schedules, personal recipes, and subscription. There is no coming back from this.
         </p>
 
         <div className="bg-red-50 rounded-xl p-4 mb-6 border border-red-100">

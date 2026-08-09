@@ -33,7 +33,7 @@ export default function GrowthChart({ feedings }: Props) {
       <div className="bg-white rounded-2xl p-8 shadow-sm border border-[#f0e4db] text-center">
         <div className="text-3xl mb-2">📈</div>
         <p className="font-lora italic text-sm text-[#9a7060]">
-          Log a couple more feedings with a rise % and we&apos;ll chart her growth trend, sugar.
+          Log a couple more feedings with a rise % and we&apos;ll chart her growth trend.
         </p>
       </div>
     )
