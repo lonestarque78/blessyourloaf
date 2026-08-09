@@ -53,7 +53,7 @@ const recipes: Recipe[] = [
     title: 'Classic Sourdough Loaf',
     slug: 'classic-sourdough-loaf',
     description:
-      "Honey, this is the one that started it all. A golden, crackling crust hiding a chewy, open crumb with just the right tang — this classic sourdough loaf is your foundation recipe. Once you bake this one, sugar, you'll never go back to store-bought bread again.",
+      "This is the one that started it all. A golden, crackling crust hiding a chewy, open crumb with just the right tang — this classic sourdough loaf is your foundation recipe. Once you bake this one, you'll never go back to store-bought bread again.",
     category: 'loaf',
     is_premium: false,
     prep_time_minutes: 60,
@@ -109,7 +109,7 @@ const recipes: Recipe[] = [
       {
         title: 'Preheat Dutch oven',
         description:
-          'The next morning, place your Dutch oven (with the lid on) in the oven and preheat to 500°F. Let it heat for at least 45–60 minutes — the Dutch oven must be screaming hot, darlin\'. This is what gives you that gorgeous oven spring.',
+          'The next morning, place your Dutch oven (with the lid on) in the oven and preheat to 500°F. Let it heat for at least 45–60 minutes — the Dutch oven must be screaming hot. This is what gives you that gorgeous oven spring.',
         duration_minutes: 60,
       },
       {
@@ -161,7 +161,7 @@ const recipes: Recipe[] = [
       {
         title: 'Combine the batter',
         description:
-          'Pour the wet ingredients into the dry and stir gently with a spatula until just combined. A few lumps are your friend, sugar — overmixing makes flat, tough pancakes. Let the batter rest 5 minutes while the pan heats up.',
+          'Pour the wet ingredients into the dry and stir gently with a spatula until just combined. A few lumps are your friend — overmixing makes flat, tough pancakes. Let the batter rest 5 minutes while the pan heats up.',
         duration_minutes: 5,
       },
       {
@@ -193,7 +193,7 @@ const recipes: Recipe[] = [
     title: 'Jalapeño Cheddar Sourdough',
     slug: 'jalapeno-cheddar-sourdough',
     description:
-      "This loaf brings the heat, sugar — pockets of melted sharp cheddar woven right through a crackling sourdough crust, with jalapeño in every single bite. It's bold, it's beautiful, and it disappears faster than it takes to cool. Fair warning: this one will make you famous at every potluck.",
+      "This loaf brings the heat — pockets of melted sharp cheddar woven right through a crackling sourdough crust, with jalapeño in every single bite. It's bold, it's beautiful, and it disappears faster than it takes to cool. Fair warning: this one will make you famous at every potluck.",
     category: 'loaf',
     is_premium: true,
     prep_time_minutes: 75,
@@ -268,7 +268,7 @@ const recipes: Recipe[] = [
     title: 'Lemon Blueberry Sourdough',
     slug: 'lemon-blueberry-sourdough',
     description:
-      "Bright, jammy blueberries and fresh lemon zest baked right into a tender sourdough crumb — this loaf tastes like Sunday morning in June. It's sweet enough to serve with afternoon tea and sophisticated enough to gift. Slice it thin, darlin', and slather it with cultured butter.",
+      "Bright, jammy blueberries and fresh lemon zest baked right into a tender sourdough crumb — this loaf tastes like Sunday morning in June. It's sweet enough to serve with afternoon tea and sophisticated enough to gift. Slice it thin and slather it with cultured butter.",
     category: 'loaf',
     is_premium: true,
     prep_time_minutes: 60,
@@ -442,7 +442,7 @@ const recipes: Recipe[] = [
       {
         title: 'Prep raisins',
         description:
-          'Soak raisins in warm water for 20 minutes to plump them up. Drain thoroughly and pat dry with a kitchen towel. Damp raisins can make the dough sticky and uneven, so get them good and dry, honey.',
+          'Soak raisins in warm water for 20 minutes to plump them up. Drain thoroughly and pat dry with a kitchen towel. Damp raisins can make the dough sticky and uneven, so get them good and dry.',
         duration_minutes: 20,
       },
       {
@@ -496,7 +496,7 @@ const recipes: Recipe[] = [
     title: 'Whole Wheat Sourdough',
     slug: 'whole-wheat-sourdough',
     description:
-      "Earthy, nutty, and deeply satisfying, this 40% whole wheat sourdough is the daily bread this house was built on. A little honey softens the bran's bite, and the long cold ferment coaxes out a complexity you just can't rush. Slice it thick, sugar. It can hold anything you pile on it.",
+      "Earthy, nutty, and deeply satisfying, this 40% whole wheat sourdough is the daily bread this house was built on. A little honey softens the bran's bite, and the long cold ferment coaxes out a complexity you just can't rush. Slice it thick. It can hold anything you pile on it.",
     category: 'loaf',
     is_premium: true,
     prep_time_minutes: 60,
@@ -528,7 +528,7 @@ const recipes: Recipe[] = [
       {
         title: 'Stretch and fold',
         description:
-          'Perform 4 sets of stretch and folds every 30 minutes over 2 hours. Whole wheat develops a slightly different feel from white flour dough — a little more dense, a little less silky. That is totally fine, darlin\'.',
+          'Perform 4 sets of stretch and folds every 30 minutes over 2 hours. Whole wheat develops a slightly different feel from white flour dough — a little more dense, a little less silky. That is totally fine.',
         duration_minutes: 120,
       },
       {
@@ -570,7 +570,7 @@ const recipes: Recipe[] = [
     title: 'Dark Rye Sourdough',
     slug: 'dark-rye-sourdough',
     description:
-      "This is a serious loaf, darlin' — dense, dark, and full of deep caraway-kissed flavor that gets better every single day it sits. Dark rye honors a rich European tradition, and this recipe deepens it with molasses and espresso. Slice it thin with good butter and smoked salmon. You'll feel like you earned it.",
+      "This is a serious loaf — dense, dark, and full of deep caraway-kissed flavor that gets better every single day it sits. Dark rye honors a rich European tradition, and this recipe deepens it with molasses and espresso. Slice it thin with good butter and smoked salmon. You'll feel like you earned it.",
     category: 'loaf',
     is_premium: true,
     prep_time_minutes: 90,
@@ -634,7 +634,7 @@ const recipes: Recipe[] = [
       {
         title: 'Bake and rest',
         description:
-          'Preheat Dutch oven in a 475°F oven for 1 full hour. Flip dough onto parchment and score with shallow slashes — rye does not bloom dramatically, so deep scoring is not necessary. Bake covered 25 minutes at 475°F. Remove lid, reduce to 425°F, bake 25 more minutes until very dark brown. Now for the hardest part: wrap in a clean kitchen towel and rest on a wire rack 12–24 hours before slicing. The crumb needs time to set and the flavors deepen dramatically overnight. This loaf is worth every bit of patience, darlin\'.',
+          'Preheat Dutch oven in a 475°F oven for 1 full hour. Flip dough onto parchment and score with shallow slashes — rye does not bloom dramatically, so deep scoring is not necessary. Bake covered 25 minutes at 475°F. Remove lid, reduce to 425°F, bake 25 more minutes until very dark brown. Now for the hardest part: wrap in a clean kitchen towel and rest on a wire rack 12–24 hours before slicing. The crumb needs time to set and the flavors deepen dramatically overnight. This loaf is worth every bit of patience.',
         duration_minutes: 50,
       },
     ] as Step[],
@@ -846,7 +846,7 @@ const recipes: Recipe[] = [
       {
         title: 'Roll thin',
         description:
-          'Preheat oven to 350°F. Place dough between two sheets of parchment paper and roll as thin as you can — aim for 1/16 inch. The thinner the cracker, the crispier it will be. Paper thin is what you want, darlin\'.',
+          'Preheat oven to 350°F. Place dough between two sheets of parchment paper and roll as thin as you can — aim for 1/16 inch. The thinner the cracker, the crispier it will be. Paper thin is what you want.',
         duration_minutes: 5,
       },
       {
@@ -876,7 +876,7 @@ const recipes: Recipe[] = [
     title: "Mama's Pizza Dough",
     slug: 'mamas-pizza-dough',
     description:
-      "Your discard has been waiting for this moment, honey. This pizza dough is tender inside, beautifully crispy on the bottom, and carries just enough sourdough character to make people ask what your secret is. One batch makes two thin-crust pies or one gorgeous thick-crust pizza — your call.",
+      "Your discard has been waiting for this moment. This pizza dough is tender inside, beautifully crispy on the bottom, and carries just enough sourdough character to make people ask what your secret is. One batch makes two thin-crust pies or one gorgeous thick-crust pizza — your call.",
     category: 'discard',
     is_premium: true,
     prep_time_minutes: 20,
@@ -939,7 +939,7 @@ const recipes: Recipe[] = [
       {
         title: 'Slice and serve',
         description:
-          'Let cool 2–3 minutes before slicing — molten cheese burns, sugar. Best eaten right away while the crust is at peak crispiness.',
+          'Let cool 2–3 minutes before slicing — molten cheese burns. Best eaten right away while the crust is at peak crispiness.',
         duration_minutes: 3,
       },
     ] as Step[],
@@ -1011,7 +1011,7 @@ const recipes: Recipe[] = [
       {
         title: 'Bake',
         description:
-          'Bake 22–25 minutes until a toothpick inserted in the center of a muffin comes out clean and the streusel is golden brown. Do not overbake, darlin\' — dry muffins are a tragedy.',
+          'Bake 22–25 minutes until a toothpick inserted in the center of a muffin comes out clean and the streusel is golden brown. Do not overbake — dry muffins are a tragedy.',
         duration_minutes: 25,
       },
       {
@@ -1029,7 +1029,7 @@ const recipes: Recipe[] = [
     title: 'Sourdough Waffles',
     slug: 'sourdough-waffles',
     description:
-      "The crispiest, most flavorful waffles you will ever put in your mouth — and I mean that, sugar. The sourdough discard gives them a light tang and the buttermilk makes them impossibly fluffy. The outside shatters. The inside is soft and airy. They stay crispy, too, which is a miracle in waffle form.",
+      "The crispiest, most flavorful waffles you will ever put in your mouth — and we mean that. The sourdough discard gives them a light tang and the buttermilk makes them impossibly fluffy. The outside shatters. The inside is soft and airy. They stay crispy, too, which is a miracle in waffle form.",
     category: 'discard',
     is_premium: true,
     prep_time_minutes: 15,
@@ -1249,7 +1249,7 @@ const recipes: Recipe[] = [
     title: 'Sourdough Focaccia',
     slug: 'sourdough-focaccia',
     description:
-      "Pillowy, olive-oil-drenched, and dimpled all the way to the bottom of the pan — this focaccia is practically a religious experience. The long cold ferment builds incredible flavor, and the generous pour of good olive oil gives you that impossibly crispy bottom and tender, airy crumb. Top it with whatever your heart desires, darlin'.",
+      "Pillowy, olive-oil-drenched, and dimpled all the way to the bottom of the pan — this focaccia is practically a religious experience. The long cold ferment builds incredible flavor, and the generous pour of good olive oil gives you that impossibly crispy bottom and tender, airy crumb. Top it with whatever your heart desires.",
     category: 'focaccia',
     is_premium: true,
     prep_time_minutes: 45,
@@ -1289,7 +1289,7 @@ const recipes: Recipe[] = [
       {
         title: 'Bulk ferment',
         description:
-          'After folds, bulk ferment at room temperature until the dough is very puffy, jiggly, and has grown about 75%. This takes 2–4 more hours at room temp, or you can refrigerate overnight (8–16 hours) for a more flavorful result. Cold ferment is strongly recommended, darlin\'.',
+          'After folds, bulk ferment at room temperature until the dough is very puffy, jiggly, and has grown about 75%. This takes 2–4 more hours at room temp, or you can refrigerate overnight (8–16 hours) for a more flavorful result. Cold ferment is strongly recommended.',
         duration_minutes: 240,
       },
       {
@@ -1325,7 +1325,7 @@ const recipes: Recipe[] = [
     title: 'Sourdough Dinner Rolls',
     slug: 'sourdough-dinner-rolls',
     description:
-      "Soft, pillowy, slightly sweet dinner rolls with a gorgeous golden top and a pull-apart tenderness that makes everyone reach for seconds before they have finished their first. These are the rolls that make holiday tables feel special and weeknight suppers feel like celebrations. Make them ahead, honey — they hold beautifully.",
+      "Soft, pillowy, slightly sweet dinner rolls with a gorgeous golden top and a pull-apart tenderness that makes everyone reach for seconds before they have finished their first. These are the rolls that make holiday tables feel special and weeknight suppers feel like celebrations. Make them ahead — they hold beautifully.",
     category: 'rolls',
     is_premium: true,
     prep_time_minutes: 60,
@@ -1389,7 +1389,7 @@ const recipes: Recipe[] = [
       {
         title: 'Butter and serve',
         description:
-          'Immediately brush the hot rolls with melted butter — generously. Let cool 10 minutes before pulling apart. These rolls are worth every single step, I promise you, sugar.',
+          'Immediately brush the hot rolls with melted butter — generously. Let cool 10 minutes before pulling apart. These rolls are worth every single step, we promise.',
         duration_minutes: 10,
       },
     ] as Step[],
@@ -1401,7 +1401,7 @@ const recipes: Recipe[] = [
     title: 'Sourdough Cinnamon Rolls',
     slug: 'sourdough-cinnamon-rolls',
     description:
-      "Big, fluffy, gooey cinnamon rolls with swirls of brown sugar and cinnamon throughout, finished with a tangy cream cheese frosting that just barely melts into the hot rolls. The sourdough gives them a complexity that a can from the store simply cannot touch. These are a labor of love, and every single minute is worth it, sugar.",
+      "Big, fluffy, gooey cinnamon rolls with swirls of brown sugar and cinnamon throughout, finished with a tangy cream cheese frosting that just barely melts into the hot rolls. The sourdough gives them a complexity that a can from the store simply cannot touch. These are a labor of love, and every single minute is worth it.",
     category: 'rolls',
     is_premium: true,
     prep_time_minutes: 90,
@@ -1467,7 +1467,7 @@ const recipes: Recipe[] = [
       {
         title: 'Make frosting and serve',
         description:
-          'Beat softened cream cheese until fluffy. Add powdered sugar and heavy cream and beat until smooth and spreadable. Spread generously over rolls while they are still warm — the frosting will melt slightly into all those beautiful swirls. Serve immediately. These are best hot from the oven, honey, and nothing else even comes close.',
+          'Beat softened cream cheese until fluffy. Add powdered sugar and heavy cream and beat until smooth and spreadable. Spread generously over rolls while they are still warm — the frosting will melt slightly into all those beautiful swirls. Serve immediately. These are best hot from the oven, and nothing else even comes close.',
         duration_minutes: 5,
       },
     ] as Step[],
@@ -1479,7 +1479,7 @@ const recipes: Recipe[] = [
     title: 'Sourdough Pita',
     slug: 'sourdough-pita',
     description:
-      "Hot, puffy, soft pita bread that balloons up in the oven right before your eyes — it's pure magic, darlin'. The sourdough starter gives these pitas a gentle tang and a chewiness that store-bought pitas simply dream about. Stuff them, dip them in hummus, or just tear off pieces fresh from the oven.",
+      "Hot, puffy, soft pita bread that balloons up in the oven right before your eyes — it's pure magic. The sourdough starter gives these pitas a gentle tang and a chewiness that store-bought pitas simply dream about. Stuff them, dip them in hummus, or just tear off pieces fresh from the oven.",
     category: 'other',
     is_premium: true,
     prep_time_minutes: 30,
@@ -1541,7 +1541,7 @@ const recipes: Recipe[] = [
       {
         title: 'Wrap and serve',
         description:
-          'Wrap hot pitas immediately in a clean kitchen towel as they come out of the oven — the steam keeps them soft and pliable. Serve warm. If they do not all puff perfectly the first time, do not be discouraged, darlin\'. It takes one or two bakes to get the feel of it, and they taste wonderful either way.',
+          'Wrap hot pitas immediately in a clean kitchen towel as they come out of the oven — the steam keeps them soft and pliable. Serve warm. If they do not all puff perfectly the first time, do not be discouraged. It takes one or two bakes to get the feel of it, and they taste wonderful either way.',
         duration_minutes: 2,
       },
     ] as Step[],
@@ -1566,7 +1566,7 @@ async function seed() {
 
   console.log(`\nSuccessfully seeded ${data?.length ?? 0} recipes:\n`)
   data?.forEach(r => console.log(`  ✓ [${r.id}] ${r.title} (${r.slug})`))
-  console.log('\nDone, sugar.')
+  console.log('\nDone.')
 }
 
 seed()
