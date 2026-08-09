@@ -2,7 +2,7 @@
 -- how this was reconstructed and why the date prefix is nominal.
 
 create table if not exists public.recipes (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default extensions.uuid_generate_v4(),
   title text not null,
   slug text not null unique,
   description text,

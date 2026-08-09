@@ -2,7 +2,7 @@
 -- how this was reconstructed and why the date prefix is nominal.
 
 create table if not exists public.bake_schedules (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default extensions.uuid_generate_v4(),
   user_id uuid not null references public.profiles(id) on delete cascade,
   recipe_id uuid references public.recipes(id) on delete set null,
   target_ready_at timestamptz not null,

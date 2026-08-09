@@ -15,4 +15,8 @@
 -- keys, unique/check constraints, indexes, RLS-enabled status, RLS policy definitions,
 -- trigger wiring, and function bodies. Nothing here is guessed.
 
-create extension if not exists "uuid-ossp";
+-- Supabase provisions new projects with an `extensions` schema and installs extensions
+-- there rather than into `public` — matched explicitly here since the default schema an
+-- unqualified `create extension` lands in isn't guaranteed the same across environments,
+-- and every uuid_generate_v4() default in later migrations calls it schema-qualified.
+create extension if not exists "uuid-ossp" with schema extensions;

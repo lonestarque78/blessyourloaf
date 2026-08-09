@@ -6,7 +6,7 @@
 -- scheduled cleanup job found) — they're set on write and otherwise unused so far.
 
 create table if not exists public.troubleshooter_chats (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default extensions.uuid_generate_v4(),
   user_id uuid not null references public.profiles(id) on delete cascade,
   starter_id uuid references public.starters(id) on delete set null,
   messages jsonb not null default '[]'::jsonb,

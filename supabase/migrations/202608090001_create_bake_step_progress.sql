@@ -5,7 +5,7 @@
 -- live countdown, which is always recomputed from these timestamps, never a client interval.
 
 create table if not exists public.bake_step_progress (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default extensions.uuid_generate_v4(),
   bake_schedule_id uuid not null references public.bake_schedules(id) on delete cascade,
   user_id uuid not null references public.profiles(id) on delete cascade,
   step_index integer not null,

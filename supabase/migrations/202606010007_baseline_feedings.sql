@@ -2,7 +2,7 @@
 -- how this was reconstructed and why the date prefix is nominal.
 
 create table if not exists public.feedings (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default extensions.uuid_generate_v4(),
   starter_id uuid not null references public.starters(id) on delete cascade,
   user_id uuid not null references public.profiles(id) on delete cascade,
   fed_at timestamptz default now(),

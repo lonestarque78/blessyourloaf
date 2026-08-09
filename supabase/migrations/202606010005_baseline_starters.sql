@@ -2,7 +2,7 @@
 -- how this was reconstructed and why the date prefix is nominal.
 
 create table if not exists public.starters (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default extensions.uuid_generate_v4(),
   user_id uuid not null references public.profiles(id) on delete cascade,
   name text not null,
   nickname text,
