@@ -24,8 +24,8 @@ export default async function BakeCoachPage({ params }: { params: Promise<{ id: 
     .eq('bake_schedule_id', id)
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-12">
-      <Link href={`/dashboard/history/${id}`} className="font-lora text-sm text-[#b07d62] hover:underline mb-6 block">
+    <div className="max-w-5xl mx-auto px-6 py-6">
+      <Link href={`/dashboard/history/${id}`} className="font-lora text-sm text-[#b07d62] hover:underline mb-4 block">
         ← Back to Bake Details
       </Link>
 
