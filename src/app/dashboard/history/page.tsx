@@ -90,13 +90,19 @@ export default async function HistoryPage() {
                   </div>
                 )}
 
-                <div className="flex gap-3">
+                <div className="flex items-center gap-3">
                   <Link href={`/dashboard/history/${schedule.id}`}
                     className="font-lora text-sm text-[#b07d62] hover:underline">
                     View full schedule →
                   </Link>
                   {!schedule.completed && (
-                    <span className="text-[#e8d5c8]">·</span>
+                    <>
+                      <span className="text-[#e8d5c8]">·</span>
+                      <Link href={`/dashboard/bake/${schedule.id}`}
+                        className="font-lora text-sm text-[#b07d62] hover:underline">
+                        Start the Bake Coach →
+                      </Link>
+                    </>
                   )}
                 </div>
               </div>

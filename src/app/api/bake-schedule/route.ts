@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { normalizeBakePhase } from '@/lib/bake-timer'
 
 const client = new Anthropic()
 
@@ -34,12 +35,15 @@ The JSON object has exactly this structure:
       "time": "string — the full formatted date and time (e.g. 'Friday, June 6 at 8:00 PM')",
       "action": "string — what to do",
       "duration": "string — how long it takes",
-      "note": "string — your warm Southern tip or scientific explanation, in your voice"
+      "note": "string — your warm Southern tip or scientific explanation, in your voice",
+      "phase": "string — exactly one of: autolyse, bulk_fermentation, proofing, bake, other"
     }
   ]
 }
 
-List every ingredient needed for the recipe with exact amounts based on a standard home baker batch size (typically one loaf or equivalent). Use the note field on ingredients for things like "room temperature", "active and bubbly", or "bread flour works best here" — leave it as an empty string if there's nothing worth noting.`
+List every ingredient needed for the recipe with exact amounts based on a standard home baker batch size (typically one loaf or equivalent). Use the note field on ingredients for things like "room temperature", "active and bubbly", or "bread flour works best here" — leave it as an empty string if there's nothing worth noting.
+
+Tag every step with the phase it belongs to, using exactly one of these five values (never anything else): "autolyse" for the initial flour-and-water rest before mixing in starter/salt; "bulk_fermentation" for the first rise, including stretch-and-folds; "proofing" for the final shape-and-rise (bench rest, banneton proof, cold retard); "bake" for preheating, scoring, baking, and cooling; "other" for anything that doesn't fit those — feeding the starter, mixing, prep steps.`
 
 interface BakeScheduleRequest {
   recipe: string
@@ -128,7 +132,18 @@ Please calculate my complete bake schedule, working backwards from my target tim
         return NextResponse.json({ error: 'Claude returned unexpected JSON structure', raw: content.text }, { status: 500 })
       }
       ingredients = parsed.ingredients
-      steps = parsed.steps
+      // Coerce/default every field so a step missing a value (or an out-of-enum phase) can't
+      // break the coach UI, which relies on phase being one of the known values.
+      steps = parsed.steps.map((step: unknown) => {
+        const s = (step && typeof step === 'object' ? step : {}) as Record<string, unknown>
+        return {
+          time: typeof s.time === 'string' ? s.time : '',
+          action: typeof s.action === 'string' ? s.action : '',
+          duration: typeof s.duration === 'string' ? s.duration : '',
+          note: typeof s.note === 'string' ? s.note : '',
+          phase: normalizeBakePhase(s.phase),
+        }
+      })
       console.log('[bake-schedule] parse succeeded — ingredients:', ingredients.length, 'steps:', steps.length)
     } catch (parseErr) {
       console.error('[bake-schedule] JSON.parse failed:', parseErr)

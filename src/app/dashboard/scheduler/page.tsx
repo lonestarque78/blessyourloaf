@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { BAKE_PHASE_ICONS, BAKE_PHASE_LABELS, formatCountdown, normalizeBakePhase, parseDurationSeconds } from '@/lib/bake-timer'
 
 interface Starter {
   id: string
@@ -31,26 +32,7 @@ interface Step {
   action: string
   duration: string
   note: string
-}
-
-function parseDurationSeconds(duration: string): number | null {
-  const lower = duration.toLowerCase()
-  let total = 0
-  let found = false
-
-  const hourMatch = lower.match(/(\d+(?:\.\d+)?)\s*h(?:our)?s?/)
-  const minMatch = lower.match(/(\d+(?:\.\d+)?)\s*m(?:in(?:ute)?s?)?/)
-
-  if (hourMatch) { total += parseFloat(hourMatch[1]) * 3600; found = true }
-  if (minMatch)  { total += parseFloat(minMatch[1])  * 60;   found = true }
-
-  return found && total > 0 ? Math.round(total) : null
-}
-
-function formatCountdown(seconds: number): string {
-  const m = Math.floor(seconds / 60)
-  const s = seconds % 60
-  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+  phase?: string
 }
 
 export default function SchedulerPage() {
@@ -73,6 +55,7 @@ export default function SchedulerPage() {
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [saveError, setSaveError] = useState('')
+  const [savedId, setSavedId] = useState<string | null>(null)
 
   // Timer state
   const [activeTimerIndex, setActiveTimerIndex] = useState<number | null>(null)
@@ -185,6 +168,7 @@ export default function SchedulerPage() {
     setSchedule(null)
     setSaved(false)
     setSaveError('')
+    setSavedId(null)
     setActiveTimerIndex(null)
     setTimerSeconds({})
     setTimerFinished(new Set())
@@ -234,6 +218,7 @@ export default function SchedulerPage() {
         setSaveError(data.error ?? "Couldn't save, sugar — try again.")
       } else {
         setSaved(true)
+        setSavedId(data.id ?? null)
       }
     } catch {
       setSaveError("Couldn't reach the kitchen — please try again, darlin'.")
@@ -486,10 +471,10 @@ export default function SchedulerPage() {
                 >
                   {saving ? "Savin'..." : saved ? 'Saved ✓' : 'Save this Bake'}
                 </button>
-                {saved && (
-                  <p className="font-lora italic text-sm text-[#b07d62]">
-                    She&apos;s saved, sugar!
-                  </p>
+                {saved && savedId && (
+                  <Link href={`/dashboard/bake/${savedId}`} className="font-lora italic text-sm text-[#b07d62] hover:underline">
+                    Saved! Start the Bake Coach →
+                  </Link>
                 )}
                 {saveError && (
                   <p className="font-lora text-sm text-red-600">{saveError}</p>
@@ -537,6 +522,9 @@ export default function SchedulerPage() {
                           <div className="font-lora text-xs text-[#b07d62] tracking-wide mb-1">{step.time}</div>
                           <div className="flex items-center gap-3 mb-1 flex-wrap">
                             <div className="font-playfair font-bold text-[#3d2b1f]">{step.action}</div>
+                            <span className="font-lora text-xs uppercase tracking-wide text-[#b07d62] bg-[#f9ede5] px-2 py-0.5 rounded-full">
+                              {BAKE_PHASE_ICONS[normalizeBakePhase(step.phase)]} {BAKE_PHASE_LABELS[normalizeBakePhase(step.phase)]}
+                            </span>
                             <span className="font-lora text-xs text-[#9a7060] bg-[#f9ede5] px-2 py-0.5 rounded-full">
                               {step.duration}
                             </span>
@@ -588,10 +576,11 @@ export default function SchedulerPage() {
                 >
                   {saving ? "Savin'..." : saved ? 'Saved ✓' : 'Save this Bake'}
                 </button>
-                {saved && (
-                  <p className="font-lora italic text-sm text-[#b07d62]">
-                    She&apos;s saved, sugar!
-                  </p>
+                {saved && savedId && (
+                  <Link href={`/dashboard/bake/${savedId}`}
+                    className="font-lora text-sm px-5 py-2.5 rounded-full border border-[#c9956c] text-[#b07d62] hover:bg-[#f9ede5] transition-colors">
+                    Start the Bake Coach →
+                  </Link>
                 )}
                 {saveError && (
                   <p className="font-lora text-sm text-red-600">{saveError}</p>

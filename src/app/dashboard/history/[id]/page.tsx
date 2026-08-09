@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
+import { BAKE_PHASE_ICONS, BAKE_PHASE_LABELS, normalizeBakePhase } from '@/lib/bake-timer'
 
 export default async function HistoryDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -17,7 +18,7 @@ export default async function HistoryDetailPage({ params }: { params: Promise<{ 
 
   if (!schedule) notFound()
 
-  const steps = schedule.steps as Array<{ time: string; action: string; duration: string; note: string }>
+  const steps = schedule.steps as Array<{ time: string; action: string; duration: string; note: string; phase?: string }>
 
   async function markComplete() {
     'use server'
@@ -70,12 +71,19 @@ export default async function HistoryDetailPage({ params }: { params: Promise<{ 
         )}
 
         {!schedule.completed && (
-          <form action={markComplete} className="mt-6">
-            <button type="submit"
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              href={`/dashboard/bake/${id}`}
               className="bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-6 py-2.5 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-md">
-              Mark as Completed 🍞
-            </button>
-          </form>
+              Start the Bake Coach →
+            </Link>
+            <form action={markComplete}>
+              <button type="submit"
+                className="border border-[#c9956c] text-[#b07d62] px-6 py-2.5 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform">
+                Mark as Completed 🍞
+              </button>
+            </form>
+          </div>
         )}
 
         <div className="mt-3">
@@ -112,8 +120,11 @@ export default async function HistoryDetailPage({ params }: { params: Promise<{ 
                 </div>
                 <div className="flex-1 pb-2">
                   <div className="font-lora text-xs text-[#b07d62] tracking-wide mb-1">{step.time}</div>
-                  <div className="flex items-center gap-3 mb-1">
+                  <div className="flex items-center gap-3 mb-1 flex-wrap">
                     <div className="font-playfair font-bold text-[#3d2b1f]">{step.action}</div>
+                    <span className="font-lora text-xs uppercase tracking-wide text-[#b07d62] bg-[#f9ede5] px-2 py-0.5 rounded-full">
+                      {BAKE_PHASE_ICONS[normalizeBakePhase(step.phase)]} {BAKE_PHASE_LABELS[normalizeBakePhase(step.phase)]}
+                    </span>
                     <span className="font-lora text-xs text-[#9a7060] bg-[#f9ede5] px-2 py-0.5 rounded-full">
                       {step.duration}
                     </span>

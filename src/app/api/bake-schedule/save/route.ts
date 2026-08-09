@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
 
-  const { error } = await supabase.from('bake_schedules').insert({
+  const { data, error } = await supabase.from('bake_schedules').insert({
     user_id: user.id,
     recipe_name: recipe,
     target_date: targetDate,
@@ -37,12 +37,12 @@ export async function POST(request: Request) {
     target_ready_at: new Date(`${targetDate}T${targetTime}`).toISOString(),
     steps,
     completed: false,
-  })
+  }).select('id').single()
 
   if (error) {
     console.error('[bake-schedule/save] insert error:', error)
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
-  return NextResponse.json({ success: true })
+  return NextResponse.json({ success: true, id: data.id })
 }
