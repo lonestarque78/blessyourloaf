@@ -34,6 +34,20 @@ export default function LoginForm() {
     })
   }
 
+  const handleAppleLogin = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: 'apple',
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
+    })
+  }
+
+  const handleFacebookLogin = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: 'facebook',
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
+    })
+  }
+
   return (
     <div className="bg-white rounded-3xl p-8 shadow-lg border border-[#f0e4db]">
       {error && (
@@ -51,6 +65,22 @@ export default function LoginForm() {
           <path fill="#EA4335" d="M8.98 3.58c1.32 0 2.5.45 3.44 1.35l2.54-2.54A8 8 0 0 0 1.83 5.43L4.5 7.5c.67-2 2.54-3.92 4.48-3.92z"/>
         </svg>
         {t('continueWithGoogle')}
+      </button>
+
+      <button onClick={handleAppleLogin}
+        className="w-full flex items-center justify-center gap-3 border border-[#e8d5c8] rounded-xl py-3 font-lora text-sm text-[#3d2b1f] hover:bg-[#f9ede5] transition-colors mb-6">
+        <svg width="18" height="18" viewBox="0 0 24 24">
+          <path fill="#000000" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zm3.31-3.014c.83-1.012 1.389-2.428 1.24-3.83-1.19.045-2.635.79-3.49 1.802-.767.89-1.44 2.323-1.26 3.688 1.334.104 2.678-.68 3.51-1.66z"/>
+        </svg>
+        {t('continueWithApple')}
+      </button>
+
+      <button onClick={handleFacebookLogin}
+        className="w-full flex items-center justify-center gap-3 border border-[#e8d5c8] rounded-xl py-3 font-lora text-sm text-[#3d2b1f] hover:bg-[#f9ede5] transition-colors mb-6">
+        <svg width="18" height="18" viewBox="0 0 24 24">
+          <path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+        {t('continueWithFacebook')}
       </button>
 
       <div className="flex items-center gap-3 mb-6">
