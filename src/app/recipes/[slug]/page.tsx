@@ -3,6 +3,7 @@ import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import IngredientsList from '@/components/recipes/IngredientsList'
 import { getTranslations } from 'next-intl/server'
 
 export default async function RecipePage({ params }: { params: Promise<{ slug: string }> }) {
@@ -85,20 +86,7 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
         {/* Ingredients */}
         <div className="bg-white rounded-2xl p-7 shadow-md border border-[#f0e4db] mb-8">
           <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-5">{t('detail.whatYoullNeed')}</h2>
-          <div className="space-y-3">
-            {ingredients.map((ing, i) => (
-              <div key={i} className="flex items-start gap-4 py-2 border-b border-[#f9ede5] last:border-0">
-                <div className="w-2 h-2 rounded-full bg-[#c9956c] mt-2 flex-shrink-0" />
-                <div className="flex-1 flex items-baseline justify-between gap-4">
-                  <span className="font-lora text-[#3d2b1f]">{ing.item}</span>
-                  <span className="font-lora text-sm text-[#b07d62] flex-shrink-0">{ing.amount}</span>
-                </div>
-                {ing.note && (
-                  <span className="font-lora text-xs italic text-[#9a7060]">{ing.note}</span>
-                )}
-              </div>
-            ))}
-          </div>
+          <IngredientsList ingredients={ingredients} />
         </div>
 
         {/* Steps */}

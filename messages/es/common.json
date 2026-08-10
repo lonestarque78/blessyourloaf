@@ -56,5 +56,15 @@
     "temperatureGuide": "Guía de temperatura",
     "account": "Cuenta",
     "signOut": "Cerrar sesión"
+  },
+  "bakersPercentage": {
+    "simpleTab": "Simple",
+    "advancedTab": "Modo avanzado",
+    "totalFlourLabel": "Harina total",
+    "trueHydrationLabel": "Hidratación real",
+    "trueHydrationFootnote": "Incluye la harina y el agua que ya están dentro de tu masa madre, no solo lo que se añade aparte.",
+    "notEnoughDataNote": "Las cantidades de esta receta no están en gramos, así que todavía no hay suficiente información para calcular los porcentajes de panadero.",
+    "starterBreakdownAssumed": "≈{flour}g de harina + {water}g de agua · se asume {hydration}% de hidratación",
+    "starterBreakdownStated": "≈{flour}g de harina + {water}g de agua · {hydration}% de hidratación, según la receta"
   }
 }

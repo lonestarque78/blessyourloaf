@@ -56,5 +56,15 @@
     "temperatureGuide": "Temperature Guide",
     "account": "Account",
     "signOut": "Sign out"
+  },
+  "bakersPercentage": {
+    "simpleTab": "Simple",
+    "advancedTab": "Advanced Mode",
+    "totalFlourLabel": "Total Flour",
+    "trueHydrationLabel": "True Hydration",
+    "trueHydrationFootnote": "Includes the flour and water already inside your starter, not just what's measured in separately.",
+    "notEnoughDataNote": "This recipe's amounts aren't in grams, so there isn't enough here yet to calculate baker's percentages.",
+    "starterBreakdownAssumed": "≈{flour}g flour + {water}g water · assumed {hydration}% hydration",
+    "starterBreakdownStated": "≈{flour}g flour + {water}g water · {hydration}% hydration, per the recipe"
   }
 }
