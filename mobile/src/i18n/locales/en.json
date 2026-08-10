@@ -1,0 +1,63 @@
+{
+  "tabs": {
+    "home": "Home",
+    "starters": "Starters",
+    "bake": "Bake",
+    "recipes": "Recipes",
+    "ask": "Ask",
+    "brand": "🍞 Bless Your Loaf"
+  },
+  "home": {
+    "greetingMorning": "Good morning",
+    "greetingAfternoon": "Good afternoon",
+    "greetingEvening": "Good evening",
+    "greetingName": "{{greeting}}, baker!",
+    "subtitle": "Let's get your kitchen started.",
+    "starterJournalTitle": "Starter Journal",
+    "starterJournalDesc": "Name her, feed her, and watch her grow — day by day.",
+    "starterJournalCta": "Open Starter Journal →",
+    "bakeSchedulerTitle": "Bake Scheduler",
+    "bakeSchedulerDesc": "Tell us when you want fresh bread, and we'll work out the rest.",
+    "bakeSchedulerCta": "Open Bake Scheduler →",
+    "recipeLibraryTitle": "Recipe Library",
+    "recipeLibraryDesc": "Loaves, rolls, focaccia, and more — made with real ingredients.",
+    "recipeLibraryCta": "Browse Recipes →",
+    "discardVaultTitle": "Discard Vault",
+    "discardVaultDesc": "Don't throw that discard away — we've got recipes for every bit of it.",
+    "comingSoon": "Coming soon"
+  },
+  "starters": {
+    "title": "Your Starters",
+    "subtitle": "Track her rise, her feedings, and how she's growing.",
+    "emptyMessage": "Every great loaf starts with a starter. Let's name yours.",
+    "createFirst": "Create My First Starter"
+  },
+  "bake": {
+    "title": "Bake Scheduler",
+    "subtitle": "Autolyse, bulk ferment, proof, and bake — timed and in order.",
+    "emptyMessage": "Tell us when you want fresh bread and we'll work it all out for you.",
+    "scheduleABake": "Schedule a Bake"
+  },
+  "recipes": {
+    "title": "Recipe Library",
+    "subtitle": "Clean, ad-free recipes made with real ingredients.",
+    "categories": {
+      "loaves": "Loaves",
+      "rolls": "Rolls",
+      "focaccia": "Focaccia",
+      "discard": "Discard"
+    },
+    "emptyMessage": "Recipes are on their way. Soon you'll be able to browse, save, and cook from your phone."
+  },
+  "troubleshooter": {
+    "title": "Troubleshooter",
+    "subtitle": "Got a sourdough question? Describe what's going on and I'll help you sort it out.",
+    "suggestions": {
+      "notRising": "My starter isn't rising",
+      "tooSticky": "My dough is too sticky",
+      "ovenSpring": "How do I get better oven spring?"
+    },
+    "inputPlaceholder": "Ask about your starter, dough, or bake…",
+    "ask": "Ask"
+  }
+}

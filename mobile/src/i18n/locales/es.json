@@ -1,0 +1,63 @@
+{
+  "tabs": {
+    "home": "Inicio",
+    "starters": "Masas madre",
+    "bake": "Hornear",
+    "recipes": "Recetas",
+    "ask": "Preguntar",
+    "brand": "🍞 Bless Your Loaf"
+  },
+  "home": {
+    "greetingMorning": "Buenos días",
+    "greetingAfternoon": "Buenas tardes",
+    "greetingEvening": "Buenas noches",
+    "greetingName": "{{greeting}}, panadero",
+    "subtitle": "Pongamos en marcha tu cocina.",
+    "starterJournalTitle": "Diario de la masa madre",
+    "starterJournalDesc": "Ponle nombre, aliméntala y obsérvala crecer — día a día.",
+    "starterJournalCta": "Abrir el diario de la masa madre →",
+    "bakeSchedulerTitle": "Planificador de horneado",
+    "bakeSchedulerDesc": "Dinos cuándo quieres pan fresco, y nosotros calculamos el resto.",
+    "bakeSchedulerCta": "Abrir el planificador de horneado →",
+    "recipeLibraryTitle": "Biblioteca de recetas",
+    "recipeLibraryDesc": "Hogazas, panecillos, focaccia y más — hechos con ingredientes reales.",
+    "recipeLibraryCta": "Explorar recetas →",
+    "discardVaultTitle": "Bóveda del descarte",
+    "discardVaultDesc": "No tires ese descarte — tenemos recetas para cada gramo.",
+    "comingSoon": "Próximamente"
+  },
+  "starters": {
+    "title": "Tus masas madre",
+    "subtitle": "Registra su fermentación, sus alimentaciones y cómo va creciendo.",
+    "emptyMessage": "Toda gran hogaza empieza con una masa madre. Vamos a ponerle nombre a la tuya.",
+    "createFirst": "Crear mi primera masa madre"
+  },
+  "bake": {
+    "title": "Planificador de horneado",
+    "subtitle": "Autolisis, fermentación en bloque, fermentación final y horneado — con tiempos y en orden.",
+    "emptyMessage": "Dinos cuándo quieres pan fresco y nosotros lo organizamos todo.",
+    "scheduleABake": "Planificar un horneado"
+  },
+  "recipes": {
+    "title": "Biblioteca de recetas",
+    "subtitle": "Recetas limpias y sin publicidad, hechas con ingredientes reales.",
+    "categories": {
+      "loaves": "Hogazas",
+      "rolls": "Panecillos",
+      "focaccia": "Focaccia",
+      "discard": "Descarte"
+    },
+    "emptyMessage": "Las recetas están en camino. Pronto podrás explorar, guardar y cocinar desde tu teléfono."
+  },
+  "troubleshooter": {
+    "title": "Solucionador de problemas",
+    "subtitle": "¿Tienes una pregunta sobre masa madre? Cuéntame qué está pasando y te ayudo a resolverlo.",
+    "suggestions": {
+      "notRising": "Mi masa madre no sube",
+      "tooSticky": "Mi masa está muy pegajosa",
+      "ovenSpring": "¿Cómo consigo mejor resorte de horno?"
+    },
+    "inputPlaceholder": "Pregunta sobre tu masa madre, tu masa o tu horneado…",
+    "ask": "Preguntar"
+  }
+}
