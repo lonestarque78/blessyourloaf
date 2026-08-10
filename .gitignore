@@ -17,6 +17,14 @@
 /.next/
 /out/
 
+# serwist (generated service worker bundle)
+/public/sw.js
+/public/sw.js.map
+
+# esbuild (generated offline recipe viewer bundle, see package.json's build:offline-shell)
+/public/offline-recipe.js
+/public/offline-recipe.js.map
+
 # production
 /build
 
