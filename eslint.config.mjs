@@ -24,6 +24,9 @@ const eslintConfig = defineConfig([
     // run from mobile/) — the web config shouldn't reach into it. Same boundary as
     // tsconfig.json's "exclude".
     "mobile/**",
+    // Playwright's own generated output (npm run test:e2e), not source to lint.
+    "playwright-report/**",
+    "test-results/**",
   ]),
 ]);
 

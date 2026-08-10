@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
+    "test:e2e": "playwright test",
     "verify-schema": "node scripts/verify-schema.mjs"
   },
   "dependencies": {
@@ -28,6 +29,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@serwist/cli": "^9.5.12",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
