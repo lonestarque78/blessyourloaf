@@ -3,7 +3,9 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import { BAKE_PHASE_ICONS, BAKE_PHASE_LABELS, formatCountdown, normalizeBakePhase, parseDurationSeconds } from '@/lib/bake-timer'
+import { BAKE_PHASE_ICONS, formatCountdown, normalizeBakePhase, parseDurationSeconds } from '@/lib/bake-timer'
+import { useLocale, useTranslations } from 'next-intl'
+import { INTL_LOCALE, type Locale } from '@/i18n/locale'
 
 interface Starter {
   id: string
@@ -36,6 +38,9 @@ interface Step {
 }
 
 export default function SchedulerPage() {
+  const t = useTranslations('Bake.scheduler')
+  const tPhases = useTranslations('Bake.phases')
+  const locale = useLocale() as Locale
   const [loading, setLoading] = useState(true)
   const [starters, setStarters] = useState<Starter[]>([])
   const [latestFeedings, setLatestFeedings] = useState<Record<string, Feeding | null>>({})
@@ -191,13 +196,13 @@ export default function SchedulerPage() {
       })
       const data = await res.json()
       if (!res.ok) {
-        setError(data.error ?? "Something went wrong in the kitchen — try again.")
+        setError(data.error ?? t('genericError'))
       } else {
         setIngredients(data.ingredients ?? null)
         setSchedule(data.steps)
       }
     } catch {
-      setError("Couldn't reach the kitchen — please try again.")
+      setError(t('networkError'))
     } finally {
       setGenerating(false)
     }
@@ -215,13 +220,13 @@ export default function SchedulerPage() {
       })
       const data = await res.json()
       if (!res.ok) {
-        setSaveError(data.error ?? "Couldn't save — try again.")
+        setSaveError(data.error ?? t('saveGenericError'))
       } else {
         setSaved(true)
         setSavedId(data.id ?? null)
       }
     } catch {
-      setSaveError("Couldn't reach the kitchen — please try again.")
+      setSaveError(t('networkError'))
     } finally {
       setSaving(false)
     }
@@ -234,14 +239,14 @@ export default function SchedulerPage() {
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">
       <Link href="/dashboard" className="font-lora text-sm text-[#b07d62] hover:underline mb-6 block">
-        ← Back to Dashboard
+        {t('backToDashboard')}
       </Link>
 
       <div className="text-center mb-10">
         <div className="text-5xl mb-4">📅</div>
-        <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f] mb-2">Bake Scheduler</h1>
+        <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f] mb-2">{t('title')}</h1>
         <p className="font-lora italic text-[#9a7060]">
-          &quot;Tell me what you&apos;re baking and I&apos;ll tell you exactly when to get started.&quot;
+          {t('quote')}
         </p>
       </div>
 
@@ -249,14 +254,14 @@ export default function SchedulerPage() {
         <div className="bg-white rounded-2xl p-12 shadow-md border border-[#f0e4db] text-center">
           <div className="text-6xl mb-6">🫙</div>
           <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-3">
-            You&apos;ll need a starter first
+            {t('noStarterTitle')}
           </h2>
           <p className="font-lora italic text-[#9a7060] mb-8 max-w-sm mx-auto">
-            &quot;I can&apos;t schedule a bake without knowing about your starter — let&apos;s get one set up.&quot;
+            {t('noStarterQuote')}
           </p>
           <Link href="/dashboard/starters/new"
             className="inline-block bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-8 py-3 rounded-full font-lora hover:-translate-y-0.5 transition-transform shadow-md">
-            Create My First Starter
+            {t('createFirstStarter')}
           </Link>
         </div>
       ) : (
@@ -267,13 +272,13 @@ export default function SchedulerPage() {
               {/* What to bake */}
               <div>
                 <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-3">
-                  What are you baking?
+                  {t('whatBaking')}
                 </label>
                 <input
                   type="text"
                   value={recipe}
                   onChange={e => { setRecipe(e.target.value); setSchedule(null) }}
-                  placeholder="e.g. classic sourdough boule, focaccia with rosemary, rye bagels..."
+                  placeholder={t('whatBakingPlaceholder')}
                   className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6] placeholder:text-[#c8a99a]"
                 />
               </div>
@@ -281,7 +286,7 @@ export default function SchedulerPage() {
               {/* Starter selection */}
               <div>
                 <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-3">
-                  Which starter are you using?
+                  {t('whichStarter')}
                 </label>
                 {loading ? (
                   <div className="space-y-3">
@@ -314,20 +319,20 @@ export default function SchedulerPage() {
                               )}
                             </div>
                             <div className="font-lora text-xs text-[#9a7060] mt-1 capitalize">
-                              {starter.flour_type} · {starter.hydration_percent}% hydration
+                              {starter.flour_type} · {starter.hydration_percent}% {t('hydrationSuffix')}
                             </div>
                             {feeding ? (
                               <div className="font-lora text-xs text-[#b07d62] mt-1">
-                                Last fed{' '}
-                                {new Date(feeding.fed_at).toLocaleDateString('en-US', {
+                                {t('lastFed')}{' '}
+                                {new Date(feeding.fed_at).toLocaleDateString(INTL_LOCALE[locale], {
                                   weekday: 'long', month: 'long', day: 'numeric',
                                   hour: 'numeric', minute: '2-digit',
                                 })}
-                                {feeding.rise_percent != null ? ` · ${feeding.rise_percent}% rise` : ''}
+                                {feeding.rise_percent != null ? ` · ${feeding.rise_percent}% ${t('riseSuffix')}` : ''}
                               </div>
                             ) : (
                               <div className="font-lora text-xs text-[#9a7060] italic mt-1">
-                                No feedings logged yet
+                                {t('noFeedings')}
                               </div>
                             )}
                           </div>
@@ -348,12 +353,12 @@ export default function SchedulerPage() {
               {selectedStarter && (
                 <div>
                   <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">
-                    Current rise activity (%)
+                    {t('riseActivityLabel')}
                   </label>
                   <p className="font-lora text-xs italic text-[#9a7060] mb-3">
                     {selectedFeeding?.rise_percent != null
-                      ? `"Last logged at ${selectedFeeding.rise_percent}% — still accurate? Adjust if needed."`
-                      : `"No rise logged yet — give me your best guess. 75% is a good middle of the road."`}
+                      ? t('riseHintKnown', { percent: selectedFeeding.rise_percent })
+                      : t('riseHintUnknown')}
                   </p>
                   <div className="flex items-center gap-4 flex-wrap">
                     <input
@@ -388,7 +393,7 @@ export default function SchedulerPage() {
               <div className="grid grid-cols-2 gap-5">
                 <div>
                   <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">
-                    Date I want it ready
+                    {t('dateReadyLabel')}
                   </label>
                   <input
                     type="date"
@@ -400,7 +405,7 @@ export default function SchedulerPage() {
                 </div>
                 <div>
                   <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">
-                    Time I want it ready
+                    {t('timeReadyLabel')}
                   </label>
                   <input
                     type="time"
@@ -415,7 +420,7 @@ export default function SchedulerPage() {
                 onClick={handleSubmit}
                 disabled={!recipe.trim() || !targetDate || !selectedStarterId || generating}
                 className="w-full bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white py-4 rounded-xl font-lora text-lg hover:-translate-y-0.5 transition-transform shadow-md disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0">
-                Build My Bake Schedule →
+                {t('buildButton')}
               </button>
             </div>
           </div>
@@ -425,10 +430,10 @@ export default function SchedulerPage() {
             <div className="bg-white rounded-2xl p-10 shadow-md border border-[#f0e4db] text-center mb-6">
               <div className="text-5xl mb-4 animate-bounce">🍞</div>
               <p className="font-playfair text-xl text-[#3d2b1f] mb-2">
-                Working on your schedule...
+                {t('generating')}
               </p>
               <p className="font-lora italic text-sm text-[#9a7060]">
-                Calculating every step, right down to the minute.
+                {t('generatingSubtext')}
               </p>
             </div>
           )}
@@ -445,15 +450,18 @@ export default function SchedulerPage() {
             <div className="bg-white rounded-2xl p-8 shadow-md border border-[#f0e4db]">
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f]">Your Bake Timeline</h2>
+                  <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f]">{t('timelineTitle')}</h2>
                   <p className="font-lora italic text-sm text-[#9a7060] mt-1">
                     {recipe}
                     {targetDate && (
-                      <> · Ready {new Date(`${targetDate}T${targetTime}`).toLocaleDateString('en-US', {
-                        weekday: 'long', month: 'long', day: 'numeric',
-                      })} at {new Date(`${targetDate}T${targetTime}`).toLocaleTimeString('en-US', {
-                        hour: 'numeric', minute: '2-digit',
-                      })}</>
+                      t('readyAt', {
+                        date: new Date(`${targetDate}T${targetTime}`).toLocaleDateString(INTL_LOCALE[locale], {
+                          weekday: 'long', month: 'long', day: 'numeric',
+                        }),
+                        time: new Date(`${targetDate}T${targetTime}`).toLocaleTimeString(INTL_LOCALE[locale], {
+                          hour: 'numeric', minute: '2-digit',
+                        }),
+                      })
                     )}
                   </p>
                 </div>
@@ -469,7 +477,7 @@ export default function SchedulerPage() {
                     bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white border-transparent hover:-translate-y-0.5 hover:shadow-md
                     disabled:hover:translate-y-0 disabled:hover:shadow-sm"
                 >
-                  {saving ? 'Saving...' : saved ? 'Saved ✓' : 'Save this Bake'}
+                  {saving ? t('saving') : saved ? t('saved') : t('saveThisBake')}
                 </button>
                 {saveError && (
                   <p className="font-lora text-sm text-red-600">{saveError}</p>
@@ -479,14 +487,14 @@ export default function SchedulerPage() {
               {saved && savedId && (
                 <div className="mb-8 bg-gradient-to-r from-[#f9ede5] to-[#f0e4db] rounded-2xl p-6 border-2 border-[#c9956c] flex items-center justify-between gap-4 flex-wrap">
                   <div>
-                    <p className="font-playfair font-bold text-[#3d2b1f]">Saved! Ready to start baking?</p>
+                    <p className="font-playfair font-bold text-[#3d2b1f]">{t('savedBannerTitle')}</p>
                     <p className="font-lora italic text-sm text-[#7a4f3a]">
-                      The Bake Coach walks you through it step by step, with timers that keep count even if you close this tab.
+                      {t('savedBannerBody')}
                     </p>
                   </div>
                   <Link href={`/dashboard/bake/${savedId}`}
                     className="flex-shrink-0 bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-6 py-3 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-md">
-                    Open the Bake Coach →
+                    {t('openCoach')}
                   </Link>
                 </div>
               )}
@@ -494,7 +502,7 @@ export default function SchedulerPage() {
               {/* Ingredients */}
               {ingredients && ingredients.length > 0 && (
                 <div className="mb-8 bg-[#fdf9f6] rounded-xl border border-[#e8d5c8] p-6">
-                  <h3 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-4">What You&apos;ll Need</h3>
+                  <h3 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-4">{t('whatYoullNeed')}</h3>
                   <ul className="space-y-2.5">
                     {ingredients.map((ing, i) => (
                       <li key={i} className="flex items-baseline gap-3">
@@ -533,7 +541,7 @@ export default function SchedulerPage() {
                           <div className="flex items-center gap-3 mb-1 flex-wrap">
                             <div className="font-playfair font-bold text-[#3d2b1f]">{step.action}</div>
                             <span className="font-lora text-xs uppercase tracking-wide text-[#b07d62] bg-[#f9ede5] px-2 py-0.5 rounded-full">
-                              {BAKE_PHASE_ICONS[normalizeBakePhase(step.phase)]} {BAKE_PHASE_LABELS[normalizeBakePhase(step.phase)]}
+                              {BAKE_PHASE_ICONS[normalizeBakePhase(step.phase)]} {tPhases(normalizeBakePhase(step.phase))}
                             </span>
                             <span className="font-lora text-xs text-[#9a7060] bg-[#f9ede5] px-2 py-0.5 rounded-full">
                               {step.duration}
@@ -543,14 +551,14 @@ export default function SchedulerPage() {
                                 onClick={() => isRunning ? handlePauseTimer() : handleStartTimer(index, step)}
                                 className="font-lora text-xs px-2.5 py-0.5 rounded-full border border-[#c9956c] text-[#b07d62] hover:bg-[#f9ede5] transition-colors"
                               >
-                                {isRunning ? 'Pause' : isPaused ? 'Resume' : 'Preview Timer (not saved)'}
+                                {isRunning ? t('pause') : isPaused ? t('resume') : t('previewTimer')}
                               </button>
                             )}
                           </div>
                           {/* Timer display */}
                           {isFinished ? (
                             <p className="font-lora text-sm font-semibold mb-1" style={{ color: '#b5838d' }}>
-                              Time&apos;s up! 🍞
+                              {t('timesUp')}
                             </p>
                           ) : (isRunning || isPaused) && secsLeft !== undefined ? (
                             <div className="flex items-center gap-2 mb-1">
@@ -558,7 +566,7 @@ export default function SchedulerPage() {
                                 {formatCountdown(secsLeft)}
                               </span>
                               {isPaused && (
-                                <span className="font-lora text-xs text-[#9a7060] italic">paused</span>
+                                <span className="font-lora text-xs text-[#9a7060] italic">{t('paused')}</span>
                               )}
                             </div>
                           ) : null}
@@ -572,7 +580,7 @@ export default function SchedulerPage() {
 
               <div className="mt-8 bg-[#f9ede5] rounded-xl p-5 text-center">
                 <p className="font-lora italic text-sm text-[#7a4f3a]">
-                  &quot;Save this schedule somewhere you can see it. Your bread is counting on you.&quot;
+                  {t('footerQuote')}
                 </p>
               </div>
 
@@ -584,12 +592,12 @@ export default function SchedulerPage() {
                     bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white border-transparent hover:-translate-y-0.5 hover:shadow-md
                     disabled:hover:translate-y-0 disabled:hover:shadow-sm"
                 >
-                  {saving ? 'Saving...' : saved ? 'Saved ✓' : 'Save this Bake'}
+                  {saving ? t('saving') : saved ? t('saved') : t('saveThisBake')}
                 </button>
                 {saved && savedId && (
                   <Link href={`/dashboard/bake/${savedId}`}
                     className="font-lora text-sm px-5 py-2.5 rounded-full border border-[#c9956c] text-[#b07d62] hover:bg-[#f9ede5] transition-colors">
-                    Start the Bake Coach →
+                    {t('startCoach')}
                   </Link>
                 )}
                 {saveError && (

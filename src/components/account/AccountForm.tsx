@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { useTranslations } from 'next-intl'
 
 interface Profile {
   full_name: string | null
@@ -14,13 +15,13 @@ interface Props {
 }
 
 export default function AccountForm({ profile, userEmail }: Props) {
+  const t = useTranslations('Account.form')
   const supabase = createClient()
   const [fullName, setFullName] = useState(profile?.full_name || '')
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [error, setError] = useState('')
 
-  const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [savingPassword, setSavingPassword] = useState(false)
@@ -50,9 +51,9 @@ export default function AccountForm({ profile, userEmail }: Props) {
   }
 
   const handleChangePassword = async () => {
-    if (!newPassword) { setPasswordError('Enter a new password.'); return }
-    if (newPassword.length < 8) { setPasswordError('Password needs at least 8 characters.'); return }
-    if (newPassword !== confirmPassword) { setPasswordError("Those passwords don't match."); return }
+    if (!newPassword) { setPasswordError(t('errorEmpty')); return }
+    if (newPassword.length < 8) { setPasswordError(t('errorTooShort')); return }
+    if (newPassword !== confirmPassword) { setPasswordError(t('errorMismatch')); return }
 
     setSavingPassword(true)
     setPasswordError('')
@@ -64,7 +65,6 @@ export default function AccountForm({ profile, userEmail }: Props) {
       setPasswordError(error.message)
     } else {
       setPasswordSaved(true)
-      setCurrentPassword('')
       setNewPassword('')
       setConfirmPassword('')
       setTimeout(() => setPasswordSaved(false), 3000)
@@ -76,7 +76,7 @@ export default function AccountForm({ profile, userEmail }: Props) {
     <div className="space-y-6">
       {/* Profile info */}
       <div className="bg-white rounded-2xl p-7 shadow-md border border-[#f0e4db]">
-        <h2 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-5">Profile</h2>
+        <h2 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-5">{t('profileTitle')}</h2>
 
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 mb-4 font-lora text-sm">
@@ -86,13 +86,13 @@ export default function AccountForm({ profile, userEmail }: Props) {
 
         {saved && (
           <div className="bg-green-50 border border-green-200 text-green-700 rounded-xl px-4 py-3 mb-4 font-lora text-sm">
-            Profile updated!
+            {t('profileUpdated')}
           </div>
         )}
 
         <div className="space-y-4">
           <div>
-            <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Full Name</label>
+            <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('fullNameLabel')}</label>
             <input
               type="text"
               value={fullName}
@@ -101,26 +101,26 @@ export default function AccountForm({ profile, userEmail }: Props) {
             />
           </div>
           <div>
-            <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Email</label>
+            <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('emailLabel')}</label>
             <input
               type="email"
               value={userEmail}
               disabled
               className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#9a7060] bg-[#f9f5f2] cursor-not-allowed"
             />
-            <p className="font-lora text-xs text-[#b8896e] mt-1">Email cannot be changed.</p>
+            <p className="font-lora text-xs text-[#b8896e] mt-1">{t('emailCannotChange')}</p>
           </div>
         </div>
 
         <button onClick={handleSaveProfile} disabled={saving}
           className="mt-6 bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-6 py-2.5 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-md disabled:opacity-50">
-          {saving ? 'Saving...' : 'Save Changes'}
+          {saving ? t('saving') : t('saveChanges')}
         </button>
       </div>
 
       {/* Change password */}
       <div className="bg-white rounded-2xl p-7 shadow-md border border-[#f0e4db]">
-        <h2 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-5">Change Password</h2>
+        <h2 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-5">{t('passwordTitle')}</h2>
 
         {passwordError && (
           <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 mb-4 font-lora text-sm">
@@ -130,28 +130,28 @@ export default function AccountForm({ profile, userEmail }: Props) {
 
         {passwordSaved && (
           <div className="bg-green-50 border border-green-200 text-green-700 rounded-xl px-4 py-3 mb-4 font-lora text-sm">
-            Password updated!
+            {t('passwordUpdated')}
           </div>
         )}
 
         <div className="space-y-4">
           <div>
-            <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">New Password</label>
+            <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('newPasswordLabel')}</label>
             <input
               type="password"
               value={newPassword}
               onChange={e => setNewPassword(e.target.value)}
-              placeholder="At least 8 characters"
+              placeholder={t('newPasswordPlaceholder')}
               className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6]"
             />
           </div>
           <div>
-            <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Confirm New Password</label>
+            <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('confirmPasswordLabel')}</label>
             <input
               type="password"
               value={confirmPassword}
               onChange={e => setConfirmPassword(e.target.value)}
-              placeholder="Same thing again"
+              placeholder={t('confirmPasswordPlaceholder')}
               className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6]"
             />
           </div>
@@ -159,7 +159,7 @@ export default function AccountForm({ profile, userEmail }: Props) {
 
         <button onClick={handleChangePassword} disabled={savingPassword}
           className="mt-6 bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-6 py-2.5 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-md disabled:opacity-50">
-          {savingPassword ? 'Updating...' : 'Update Password'}
+          {savingPassword ? t('updating') : t('updatePassword')}
         </button>
       </div>
     </div>

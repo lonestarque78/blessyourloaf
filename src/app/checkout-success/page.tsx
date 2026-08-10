@@ -1,8 +1,11 @@
 import Link from 'next/link'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import { getTranslations } from 'next-intl/server'
 
-export default function CheckoutSuccessPage() {
+export default async function CheckoutSuccessPage() {
+  const t = await getTranslations('Checkout.success')
+
   return (
     <>
       <Navbar />
@@ -11,14 +14,14 @@ export default function CheckoutSuccessPage() {
         <div className="text-center max-w-md">
           <div className="text-6xl mb-6">🍞</div>
           <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f] mb-4">
-            Welcome to the kitchen!
+            {t('title')}
           </h1>
           <p className="font-lora italic text-[#9a7060] leading-relaxed mb-8">
-            &quot;Your subscription is active and the full kitchen is yours. Every recipe, every tool, every bit of sourdough wisdom — it&apos;s all waiting on you.&quot;
+            {t('body')}
           </p>
           <Link href="/dashboard"
             className="inline-block bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-8 py-4 rounded-full font-lora text-lg hover:-translate-y-0.5 transition-transform shadow-lg">
-            Go to My Dashboard →
+            {t('cta')}
           </Link>
         </div>
       </div>

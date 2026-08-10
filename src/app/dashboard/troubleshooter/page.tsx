@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { useLocale, useTranslations } from 'next-intl'
+import { INTL_LOCALE, type Locale } from '@/i18n/locale'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -70,15 +72,9 @@ function renderMarkdown(text: string): string {
   return blocks.join('')
 }
 
-const STARTER_QUESTIONS = [
-  "How does she smell? (yeasty, sour, like nail polish, like cheese...)",
-  "What does her surface look like? Any bubbles, hooch, or mold?",
-  "When did you last feed her?",
-  "Has her rise activity changed recently?",
-  "What's the temperature in your kitchen?",
-]
-
 export default function TroubleshooterPage() {
+  const t = useTranslations('Troubleshooter')
+  const locale = useLocale() as Locale
   const supabase = createClient()
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
@@ -93,6 +89,14 @@ export default function TroubleshooterPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const STARTER_QUESTIONS = [
+    t('quickQuestions.smell'),
+    t('quickQuestions.surface'),
+    t('quickQuestions.lastFedQuestion'),
+    t('quickQuestions.riseChanged'),
+    t('quickQuestions.temperature'),
+  ]
 
   async function loadData() {
     const { data: { user } } = await supabase.auth.getUser()
@@ -264,6 +268,7 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
       content: m.content,
     }))))
     formData.append('starterContext', getStarterContext())
+    formData.append('locale', locale)
     if (chatId) formData.append('chatId', chatId)
     if (compressedImage) formData.append('image', compressedImage)
 
@@ -308,10 +313,10 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
         <div className="max-w-3xl mx-auto flex items-start justify-between">
           <div>
             <div className="flex items-center gap-3 mb-1">
-              <h1 className="font-playfair text-2xl font-bold text-[#3d2b1f]">Starter Troubleshooter</h1>
+              <h1 className="font-playfair text-2xl font-bold text-[#3d2b1f]">{t('title')}</h1>
             </div>
             <p className="font-lora italic text-sm text-[#9a7060]">
-              &quot;Almost every starter can be brought back — let&apos;s figure out yours together.&quot;
+              {t('subtitle')}
             </p>
           </div>
 
@@ -341,16 +346,16 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
                 <strong>{selectedStarter.name}</strong>
               </span>
               <span className="font-lora text-xs text-[#7a4f3a]">
-                {selectedStarter.flour_type} · {selectedStarter.hydration_percent}% hydration
+                {selectedStarter.flour_type} · {selectedStarter.hydration_percent}% {t('hydrationSuffix')}
               </span>
               {lastFeeding && (
                 <>
                   <span className="font-lora text-xs text-[#7a4f3a]">
-                    Last fed: {new Date(lastFeeding.fed_at).toLocaleDateString()}
+                    {t('lastFed', { date: new Date(lastFeeding.fed_at).toLocaleDateString(INTL_LOCALE[locale]) })}
                   </span>
                   {lastFeeding.rise_percent && (
                     <span className="font-lora text-xs text-[#7a4f3a]">
-                      Rise: {lastFeeding.rise_percent}%
+                      {t('rise', { percent: lastFeeding.rise_percent })}
                     </span>
                   )}
                 </>
@@ -366,10 +371,10 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
           {messages.length === 0 && (
             <div className="text-center py-12">
               <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-3">
-                Tell us what&apos;s wrong with your starter.
+                {t('emptyTitle')}
               </h2>
               <p className="font-lora italic text-[#9a7060] mb-8 max-w-md mx-auto">
-                Describe what you&apos;re seeing, upload a photo, or answer one of these common questions to get started.
+                {t('emptySubtitle')}
               </p>
 
               {/* Quick questions */}
@@ -389,12 +394,13 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
               <div className={`max-w-[80%] ${msg.role === 'user' ? 'items-end' : 'items-start'} flex flex-col gap-1`}>
                 {msg.role === 'assistant' && (
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-lora text-xs text-[#b8896e]">Sourdough Guide</span>
+                    <span className="font-lora text-xs text-[#b8896e]">{t('assistantLabel')}</span>
                   </div>
                 )}
 
                 {msg.image && (
-                  <img src={msg.image} alt="Starter photo" className="rounded-xl max-w-xs mb-2 shadow-md" />
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={msg.image} alt={t('photoAlt')} className="rounded-xl max-w-xs mb-2 shadow-md" />
                 )}
 
                 <div className={`rounded-2xl px-5 py-4 ${
@@ -415,7 +421,7 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
                 </div>
 
                 <span className="font-lora text-xs text-[#b8896e]">
-                  {new Date(msg.timestamp).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
+                  {new Date(msg.timestamp).toLocaleTimeString(INTL_LOCALE[locale], { hour: 'numeric', minute: '2-digit' })}
                 </span>
               </div>
             </div>
@@ -443,7 +449,8 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
           {/* Image preview */}
           {imagePreview && (
             <div className="mb-3 relative inline-block">
-              <img src={imagePreview} alt="Preview" className="h-20 w-20 object-cover rounded-xl shadow-md" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={imagePreview} alt={t('previewAlt')} className="h-20 w-20 object-cover rounded-xl shadow-md" />
               <button
                 onClick={() => { setImagePreview(null); setImage(null) }}
                 className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full text-xs flex items-center justify-center">
@@ -457,7 +464,7 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
             <button
               onClick={() => fileInputRef.current?.click()}
               className="flex-shrink-0 h-10 px-3 rounded-xl bg-[#f9ede5] text-[#b07d62] font-lora text-sm flex items-center justify-center hover:bg-[#f0d5c0] transition-colors mb-0.5">
-              Photo
+              {t('photoButton')}
             </button>
             <input
               ref={fileInputRef}
@@ -473,7 +480,7 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Describe what's going on with your starter... (Shift+Enter for new line)"
+                placeholder={t('inputPlaceholder')}
                 rows={2}
                 className="w-full px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none bg-transparent resize-none"
               />
@@ -489,7 +496,7 @@ Last smell: ${lastFeeding.smell || 'not recorded'}` : 'No feedings logged yet'}
           </div>
 
           <p className="font-lora text-xs text-[#b8896e] mt-2 text-center">
-            Chat is saved for 48 hours · History kept for 2 weeks
+            {t('footerNote')}
           </p>
         </div>
       </div>

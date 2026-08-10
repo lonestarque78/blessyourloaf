@@ -9,6 +9,7 @@ import {
 } from '@/lib/recipe-import'
 import { createClient } from '@/lib/supabase/server'
 import { getRemainingFreeAiActions, recordAiUsage } from '@/lib/ai-usage'
+import { DEFAULT_LOCALE, isSupportedLocale } from '@/i18n/locale'
 
 const anthropic = process.env.ANTHROPIC_API_KEY ? new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY }) : null
 
@@ -26,7 +27,8 @@ export async function POST(request: Request) {
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   try {
-    const { url, rawText } = await request.json()
+    const { url, rawText, locale: localeField } = await request.json()
+    const locale = isSupportedLocale(localeField) ? localeField : DEFAULT_LOCALE
 
     if (!url && !rawText) {
       return NextResponse.json({ error: 'Please provide a recipe URL or raw text.' }, { status: 400 })
@@ -77,7 +79,7 @@ export async function POST(request: Request) {
 
       if (remaining > 0) {
         try {
-          recipe = await cleanupRecipeWithAnthropic(anthropic, text, typeof url === 'string' ? url : undefined)
+          recipe = await cleanupRecipeWithAnthropic(anthropic, text, typeof url === 'string' ? url : undefined, locale)
           source = 'anthropic'
         } catch (error) {
           console.warn('[recipe-import] AI cleanup failed, falling back to heuristic parser', error)

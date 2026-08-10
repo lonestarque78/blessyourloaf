@@ -1,0 +1,95 @@
+{
+  "hero": {
+    "eyebrow": "✦ Real Ingredients, Homemade ✦",
+    "titleLine1": "Sourdough you'll be",
+    "titleHighlight": "proud to pull from your own oven.",
+    "quote": "\"There's nothing quite like pulling a golden loaf from your own oven — grown from your own starter, made with nothing but real, simple ingredients.\"",
+    "startBaking": "Start Baking →",
+    "seeRecipes": "See the Recipes"
+  },
+  "starterJournal": {
+    "eyebrow": "✦ The Starter Journal ✦",
+    "title": "Name her. Feed her. Love her.",
+    "subtitle": "Every starter needs a name and someone who pays attention. Track her feedings and watch her grow day by day.",
+    "starterName": "Willow",
+    "bornOn": "Born May 27th · Feeding {day}",
+    "feeding": "Feeding {day}",
+    "logFeeding": "+ Log a Feeding",
+    "signInTooltip": "Sign in to track your starter",
+    "riseActivity": "Rise Activity",
+    "starterQuote": "\"Feed her equal parts flour and water. She's hungry!\"",
+    "schedulerTitle": "Bake Scheduler",
+    "schedulerQuote": "\"Tell me when you want fresh bread, and I'll tell you exactly when to get started.\"",
+    "readyOn": "I want my loaf ready on...",
+    "readyOnValue": "Saturday morning · 8:00 AM",
+    "dayStatus": {
+      "1": "Just born, full of potential",
+      "2": "Getting a little bubbly",
+      "3": "She's showing some real life!"
+    },
+    "schedule": {
+      "feed": { "time": "Thursday 7pm", "action": "Feed your starter" },
+      "mix": { "time": "Friday 8am", "action": "Mix your dough & autolyse" },
+      "add": { "time": "Friday 10am", "action": "Add starter + salt, stretch & fold" },
+      "shape": { "time": "Friday 4pm", "action": "Shape & into the fridge she goes" },
+      "preheat": { "time": "Saturday 7:30am", "action": "Preheat your Dutch oven" }
+    }
+  },
+  "discardVault": {
+    "eyebrow": "✦ The Discard Vault ✦",
+    "title": "Don't you dare throw that away.",
+    "quote": "\"Discard is just starter that hasn't reached its full potential yet. We make it shine.\"",
+    "explore": "Explore Discard Recipes →",
+    "recipes": {
+      "pancakes": { "name": "Sunday Morning Pancakes", "time": "20 min", "tag": "Breakfast" },
+      "crackers": { "name": "Herb & Sea Salt Crackers", "time": "45 min", "tag": "Snacking" },
+      "pizza": { "name": "Discard Pizza Dough", "time": "1 hr", "tag": "Dinner" },
+      "muffins": { "name": "Peach Cobbler Muffins", "time": "35 min", "tag": "Dessert" }
+    }
+  },
+  "features": {
+    "eyebrow": "✦ Everything You Need ✦",
+    "title": "Your full sourdough kitchen.",
+    "items": {
+      "starterJournal": { "label": "Starter Journal", "desc": "Name her, track her feedings, and watch her grow from a tiny flour paste into something glorious." },
+      "bakeScheduler": { "label": "Bake Scheduler", "desc": "Tell us when you want fresh bread. We'll work backwards and hand you a step-by-step timeline." },
+      "discardVault": { "label": "Discard Vault", "desc": "A growing library of recipes for your leftover starter. Pancakes, crackers, pasta — not a drop goes to waste." },
+      "troubleshooter": { "label": "Starter Troubleshooter", "desc": "Starter smells funny? Not rising? Tell us what's going on and we'll help nurse her back to health." },
+      "recipeLibrary": { "label": "Recipe Library", "desc": "Loaves, rolls, focaccia, and more — each one made with real ingredients, tested in a real kitchen." },
+      "flourGuide": { "label": "Flour Guide", "desc": "All-purpose, whole wheat, rye — we break down every flour so you know exactly what you're working with." }
+    }
+  },
+  "pricing": {
+    "eyebrow": "✦ Join the Kitchen ✦",
+    "title": "Good bread doesn't cost much.",
+    "free": {
+      "badge": "Free Forever",
+      "price": "$0",
+      "subtitle": "Dip your toe in the dough",
+      "features": ["5 recipes", "Starter day tracker", "Basic discard ideas", "Community access"],
+      "cta": "Get Started Free"
+    },
+    "pro": {
+      "badge": "Baker's Pass",
+      "mostPopular": "Most Popular",
+      "price": "$5.99",
+      "period": "/mo",
+      "subtitle": "Full run of the kitchen",
+      "features": ["Full recipe library (300+)", "Starter Journal + alerts", "Bake Scheduler", "Full Discard Vault", "Starter Troubleshooter", "Flour & hydration guides", "New recipes every week"],
+      "cta": "Subscribe now →"
+    },
+    "annual": {
+      "badge": "Annual",
+      "price": "$55.99",
+      "period": "/yr",
+      "saveBadge": "Save 20% · Best Value",
+      "features": ["All Baker's Pass features", "Priority support", "Early recipe access", "Annual baking planner"],
+      "cta": "Go Annual"
+    }
+  },
+  "footerCta": {
+    "title": "Ready to rise?",
+    "quote": "\"Your starter's waiting on you. Let's bake something real — made with your own hands, no additives, no shortcuts.\"",
+    "cta": "Start Baking Free Today →"
+  }
+}

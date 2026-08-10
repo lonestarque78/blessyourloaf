@@ -1,3 +1,5 @@
+import { DEFAULT_LOCALE, type Locale } from '@/i18n/locale'
+
 export interface AnthropicRecipeClient {
   messages: {
     create(params: {
@@ -365,15 +367,26 @@ function isJsonObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
+// Appended to the cleanup system prompt when the user's locale isn't English. category and
+// difficulty are excluded on purpose — the app looks those values up as fixed English enum
+// keys (Starters.flourTypeLabels-style t.has() lookups) wherever they're displayed, so
+// translating the stored value itself would break that lookup rather than localize anything.
+const RECIPE_CLEANUP_LANGUAGE_INSTRUCTIONS: Record<Locale, string> = {
+  en: '',
+  es: ' Write the title, description, notes, ingredient items/notes, and step titles/descriptions in Spanish (español), using correct sourdough baking terminology (for example "masa madre" for starter, "hidratación" for hydration, "fermentación en bloque" for bulk fermentation, "fermentación final" for proofing, "autolisis" for autolyse). The "category" and "difficulty" field values are internal keys, not shown to the user directly — keep them in English exactly as one of: loaf, discard, rolls, focaccia, other (category) or beginner, intermediate, advanced (difficulty). Do not translate those two field values.',
+}
+
 export async function cleanupRecipeWithAnthropic(
   anthropic: AnthropicRecipeClient,
   text: string,
-  sourceUrl?: string
+  sourceUrl?: string,
+  locale: Locale = DEFAULT_LOCALE
 ): Promise<ImportedRecipe> {
   const response = await anthropic.messages.create({
     model: 'claude-sonnet-4-6',
     max_tokens: 2400,
-    system: 'You are a recipe editor. Convert messy recipe text into a clean JSON object with title, description, category, difficulty, prep_time_minutes, bake_time_minutes, notes, ingredients, and steps. Return only valid JSON. If a field is unknown, use null or an empty string.',
+    system: 'You are a recipe editor. Convert messy recipe text into a clean JSON object with title, description, category, difficulty, prep_time_minutes, bake_time_minutes, notes, ingredients, and steps. Return only valid JSON. If a field is unknown, use null or an empty string.'
+      + RECIPE_CLEANUP_LANGUAGE_INSTRUCTIONS[locale],
     messages: [{ role: 'user', content: `Clean this recipe text from ${sourceUrl ?? 'an unknown source'} into a JSON object. Keep the original intent, but structure it clearly.\n\n${text}` }],
   })
 

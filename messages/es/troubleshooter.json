@@ -1,0 +1,22 @@
+{
+  "title": "Solucionador de problemas de la masa madre",
+  "subtitle": "«Casi cualquier masa madre puede recuperarse — averigüemos juntos qué le pasa a la tuya.»",
+  "hydrationSuffix": "hidratación",
+  "lastFed": "Última alimentación: {date}",
+  "rise": "Fermentación: {percent}%",
+  "emptyTitle": "Cuéntanos qué le pasa a tu masa madre.",
+  "emptySubtitle": "Describe lo que estás viendo, sube una foto o responde una de estas preguntas frecuentes para empezar.",
+  "quickQuestions": {
+    "smell": "¿A qué huele? (a levadura, ácido, quitaesmalte, queso...)",
+    "surface": "¿Cómo se ve la superficie? ¿Burbujas, hooch (líquido) o moho?",
+    "lastFedQuestion": "¿Cuándo la alimentaste por última vez?",
+    "riseChanged": "¿Su actividad de fermentación ha cambiado últimamente?",
+    "temperature": "¿Qué temperatura hace en tu cocina?"
+  },
+  "assistantLabel": "Guía de masa madre",
+  "photoAlt": "Foto de la masa madre",
+  "previewAlt": "Vista previa",
+  "photoButton": "Foto",
+  "inputPlaceholder": "Describe qué está pasando con tu masa madre... (Mayús+Enter para nueva línea)",
+  "footerNote": "La conversación se guarda por 48 horas · El historial se conserva por 2 semanas"
+}

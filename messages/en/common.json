@@ -1,0 +1,60 @@
+{
+  "siteName": "Bless Your Loaf",
+  "nav": {
+    "recipes": "Recipes",
+    "starterGuide": "Starter Guide",
+    "discardVault": "Discard Vault",
+    "flourGuide": "Flour Guide",
+    "pricing": "Pricing",
+    "dashboard": "Dashboard",
+    "logIn": "Log In",
+    "joinTheKitchen": "Join the Kitchen",
+    "helloName": "Hello, {name}",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "footer": {
+    "tagline": "\"Good bread takes time — real ingredients, no shortcuts. We've got all the time in the world for you.\"",
+    "bakeHeading": "Bake",
+    "accountHeading": "Account",
+    "legalHeading": "Legal",
+    "hydrationCalculator": "Hydration Calculator",
+    "temperatureGuide": "Temperature Guide",
+    "signOut": "Sign Out",
+    "signUp": "Sign Up",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "copyright": "© {year} Bless Your Loaf · A Lone Star Que LLC product",
+    "madeWith": "Made with love in Texas 🤠"
+  },
+  "buttons": {
+    "save": "Save",
+    "saving": "Saving…",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "back": "Back",
+    "loading": "Loading…"
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "es": "Español"
+  },
+  "dashboardNav": {
+    "myStarters": "My Starters",
+    "bakeScheduler": "Bake Scheduler",
+    "bakeHistory": "Bake History",
+    "troubleshooter": "Troubleshooter",
+    "library": "Library",
+    "myRecipes": "My Recipes",
+    "recipes": "Recipes",
+    "discardVault": "Discard Vault",
+    "flourGuide": "Flour Guide",
+    "starterGuide": "Starter Guide",
+    "hydrationCalculator": "Hydration Calculator",
+    "temperatureGuide": "Temperature Guide",
+    "account": "Account",
+    "signOut": "Sign out"
+  }
+}

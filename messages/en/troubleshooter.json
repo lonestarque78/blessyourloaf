@@ -1,0 +1,22 @@
+{
+  "title": "Starter Troubleshooter",
+  "subtitle": "\"Almost every starter can be brought back — let's figure out yours together.\"",
+  "hydrationSuffix": "hydration",
+  "lastFed": "Last fed: {date}",
+  "rise": "Rise: {percent}%",
+  "emptyTitle": "Tell us what's wrong with your starter.",
+  "emptySubtitle": "Describe what you're seeing, upload a photo, or answer one of these common questions to get started.",
+  "quickQuestions": {
+    "smell": "How does she smell? (yeasty, sour, like nail polish, like cheese...)",
+    "surface": "What does her surface look like? Any bubbles, hooch, or mold?",
+    "lastFedQuestion": "When did you last feed her?",
+    "riseChanged": "Has her rise activity changed recently?",
+    "temperature": "What's the temperature in your kitchen?"
+  },
+  "assistantLabel": "Sourdough Guide",
+  "photoAlt": "Starter photo",
+  "previewAlt": "Preview",
+  "photoButton": "Photo",
+  "inputPlaceholder": "Describe what's going on with your starter... (Shift+Enter for new line)",
+  "footerNote": "Chat is saved for 48 hours · History kept for 2 weeks"
+}

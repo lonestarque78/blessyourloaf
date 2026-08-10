@@ -4,8 +4,10 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { useTranslations } from 'next-intl'
 
 export default function ResetPasswordForm() {
+  const t = useTranslations('Auth')
   const router = useRouter()
   const supabase = createClient()
   const [password, setPassword] = useState('')
@@ -24,9 +26,9 @@ export default function ResetPasswordForm() {
   }, [])
 
   const handleReset = async () => {
-    if (!password) { setError('Enter a new password.'); return }
-    if (password.length < 8) { setError('Password needs to be at least 8 characters.'); return }
-    if (password !== confirm) { setError("Those passwords don't match."); return }
+    if (!password) { setError(t('resetPassword.errorEmpty')); return }
+    if (password.length < 8) { setError(t('resetPassword.errorTooShort')); return }
+    if (password !== confirm) { setError(t('resetPassword.errorMismatch')); return }
 
     setLoading(true)
     setError('')
@@ -46,9 +48,9 @@ export default function ResetPasswordForm() {
     return (
       <div className="text-center max-w-md">
         <div className="text-6xl mb-6">🍞</div>
-        <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-4">You&apos;re all set!</h1>
+        <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-4">{t('resetPassword.successTitle')}</h1>
         <p className="font-lora italic text-[#9a7060] leading-relaxed">
-          Your password has been updated. Taking you to your dashboard now...
+          {t('resetPassword.successBody')}
         </p>
       </div>
     )
@@ -64,22 +66,22 @@ export default function ResetPasswordForm() {
 
       <div className="space-y-4 mb-6">
         <div>
-          <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">New Password</label>
+          <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('resetPassword.newPassword')}</label>
           <input
             type="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
-            placeholder="At least 8 characters"
+            placeholder={t('resetPassword.newPasswordPlaceholder')}
             className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] transition-colors bg-[#fdf9f6]"
           />
         </div>
         <div>
-          <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Confirm Password</label>
+          <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('resetPassword.confirmPassword')}</label>
           <input
             type="password"
             value={confirm}
             onChange={e => setConfirm(e.target.value)}
-            placeholder="Same thing again"
+            placeholder={t('resetPassword.confirmPasswordPlaceholder')}
             className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] transition-colors bg-[#fdf9f6]"
           />
         </div>
@@ -87,11 +89,11 @@ export default function ResetPasswordForm() {
 
       <button onClick={handleReset} disabled={loading}
         className="w-full bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white py-3 rounded-xl font-lora hover:-translate-y-0.5 transition-transform shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
-        {loading ? 'Updating...' : 'Update My Password'}
+        {loading ? t('resetPassword.updating') : t('resetPassword.updateButton')}
       </button>
 
       <p className="text-center mt-5 font-lora text-xs text-[#9a7060]">
-        <Link href="/login" className="text-[#b07d62] hover:underline">Back to Log In</Link>
+        <Link href="/login" className="text-[#b07d62] hover:underline">{t('form.backToLogIn')}</Link>
       </p>
     </div>
   )

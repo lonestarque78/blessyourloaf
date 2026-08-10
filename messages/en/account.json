@@ -1,0 +1,56 @@
+{
+  "backToDashboard": "← Back to Dashboard",
+  "title": "Account Settings",
+  "subtitle": "Your kitchen, your rules.",
+  "subscription": {
+    "title": "Subscription",
+    "freePlan": "Free Plan",
+    "planName": "{tier} Plan",
+    "active": "Active",
+    "freeTrial": "Free Trial",
+    "pastDue": "Payment past due",
+    "inactive": "Inactive",
+    "renews": "Renews {date}",
+    "expires": "Expires {date}",
+    "upgrade": "Upgrade"
+  },
+  "form": {
+    "profileTitle": "Profile",
+    "profileUpdated": "Profile updated!",
+    "fullNameLabel": "Full Name",
+    "emailLabel": "Email",
+    "emailCannotChange": "Email cannot be changed.",
+    "saving": "Saving...",
+    "saveChanges": "Save Changes",
+    "passwordTitle": "Change Password",
+    "passwordUpdated": "Password updated!",
+    "newPasswordLabel": "New Password",
+    "newPasswordPlaceholder": "At least 8 characters",
+    "confirmPasswordLabel": "Confirm New Password",
+    "confirmPasswordPlaceholder": "Same thing again",
+    "updating": "Updating...",
+    "updatePassword": "Update Password",
+    "errorEmpty": "Enter a new password.",
+    "errorTooShort": "Password needs at least 8 characters.",
+    "errorMismatch": "Those passwords don't match."
+  },
+  "dangerZone": {
+    "title": "Danger Zone",
+    "body": "Deleting your account is permanent and cannot be undone. All your starters, feedings, schedules, and recipes will be lost forever.",
+    "deleteLink": "Delete my account"
+  },
+  "delete": {
+    "backToAccount": "← Back to Account Settings",
+    "title": "Delete Account",
+    "body": "This is permanent and cannot be undone. Everything will be deleted — your starters, feedings, bake schedules, personal recipes, and subscription. There is no coming back from this.",
+    "billingNote": "Your subscription will be cancelled immediately. You will not receive a refund for any remaining time in your billing period.",
+    "confirmLabel": "Type <b>delete my account</b> to confirm",
+    "confirmPlaceholder": "delete my account",
+    "confirmPhrase": "delete my account",
+    "confirmError": "Please type the confirmation phrase exactly.",
+    "genericError": "Something went wrong. Please try again.",
+    "deleting": "Deleting everything...",
+    "deleteButton": "Permanently Delete My Account",
+    "cancel": "Cancel"
+  }
+}

@@ -1,13 +1,19 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
-import { BAKE_PHASE_ICONS, BAKE_PHASE_LABELS, normalizeBakePhase } from '@/lib/bake-timer'
+import { BAKE_PHASE_ICONS, normalizeBakePhase } from '@/lib/bake-timer'
+import { getTranslations, getLocale } from 'next-intl/server'
+import { INTL_LOCALE, type Locale } from '@/i18n/locale'
 
 export default async function HistoryDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
+
+  const t = await getTranslations('Bake.historyDetail')
+  const tPhases = await getTranslations('Bake.phases')
+  const locale = (await getLocale()) as Locale
 
   const { data: schedule } = await supabase
     .from('bake_schedules')
@@ -33,7 +39,7 @@ export default async function HistoryDetailPage({ params }: { params: Promise<{ 
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">
       <Link href="/dashboard/history" className="font-lora text-sm text-[#b07d62] hover:underline mb-6 block">
-        ← Back to Bake History
+        {t('backToHistory')}
       </Link>
 
       {/* Header */}
@@ -41,11 +47,13 @@ export default async function HistoryDetailPage({ params }: { params: Promise<{ 
         <div className="flex items-start justify-between">
           <div>
             <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-1">
-              {schedule.recipe_name || 'Sourdough Bake'}
+              {schedule.recipe_name || t('defaultRecipeName')}
             </h1>
             <div className="font-lora text-xs text-[#9a7060]">
-              Saved {new Date(schedule.created_at).toLocaleDateString('en-US', {
-                weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+              {t('savedOn', {
+                date: new Date(schedule.created_at).toLocaleDateString(INTL_LOCALE[locale], {
+                  weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+                }),
               })}
             </div>
           </div>
@@ -54,15 +62,15 @@ export default async function HistoryDetailPage({ params }: { params: Promise<{ 
               ? 'bg-green-50 text-green-700'
               : 'bg-[#f9ede5] text-[#b07d62]'
           }`}>
-            {schedule.completed ? '✓ Completed' : 'In Progress'}
+            {schedule.completed ? t('completed') : t('inProgress')}
           </span>
         </div>
 
         {schedule.target_ready_at && (
           <div className="mt-5 flex items-center gap-2">
-            <span className="font-lora text-xs uppercase tracking-widest text-[#b8896e]">Target ready</span>
+            <span className="font-lora text-xs uppercase tracking-widest text-[#b8896e]">{t('targetReady')}</span>
             <span className="font-lora text-sm text-[#3d2b1f]">
-              {new Date(schedule.target_ready_at).toLocaleDateString('en-US', {
+              {new Date(schedule.target_ready_at).toLocaleDateString(INTL_LOCALE[locale], {
                 weekday: 'long', month: 'long', day: 'numeric',
                 hour: 'numeric', minute: '2-digit'
               })}
@@ -75,12 +83,12 @@ export default async function HistoryDetailPage({ params }: { params: Promise<{ 
             <Link
               href={`/dashboard/bake/${id}`}
               className="bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-6 py-2.5 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-md">
-              Start the Bake Coach →
+              {t('startCoach')}
             </Link>
             <form action={markComplete}>
               <button type="submit"
                 className="border border-[#c9956c] text-[#b07d62] px-6 py-2.5 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform">
-                Mark as Completed 🍞
+                {t('markCompleted')}
               </button>
             </form>
           </div>
@@ -88,22 +96,22 @@ export default async function HistoryDetailPage({ params }: { params: Promise<{ 
 
         <div className="mt-3">
           <Link
-            href={`/dashboard/my-recipes/new?title=${encodeURIComponent(schedule.recipe_name || 'Sourdough Bake')}`}
+            href={`/dashboard/my-recipes/new?title=${encodeURIComponent(schedule.recipe_name || t('defaultRecipeName'))}`}
             className="inline-block border border-[#c9956c] text-[#b07d62] px-6 py-2.5 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform">
-            Save to My Recipes 📖
+            {t('saveToMyRecipes')}
           </Link>
         </div>
 
         {schedule.completed && (
           <div className="mt-6 bg-green-50 rounded-xl p-4 font-lora italic text-sm text-green-700">
-            🍞 &quot;You did it! Another beautiful loaf in the books.&quot;
+            {t('completedBanner')}
           </div>
         )}
       </div>
 
       {/* Timeline */}
       <div className="bg-white rounded-2xl p-8 shadow-md border border-[#f0e4db]">
-        <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-6">Bake Timeline</h2>
+        <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-6">{t('timelineTitle')}</h2>
 
         <div className="relative">
           <div className="absolute left-4 top-2 bottom-2 w-0.5 bg-gradient-to-b from-[#c9956c] to-[#b5838d]" />
@@ -123,7 +131,7 @@ export default async function HistoryDetailPage({ params }: { params: Promise<{ 
                   <div className="flex items-center gap-3 mb-1 flex-wrap">
                     <div className="font-playfair font-bold text-[#3d2b1f]">{step.action}</div>
                     <span className="font-lora text-xs uppercase tracking-wide text-[#b07d62] bg-[#f9ede5] px-2 py-0.5 rounded-full">
-                      {BAKE_PHASE_ICONS[normalizeBakePhase(step.phase)]} {BAKE_PHASE_LABELS[normalizeBakePhase(step.phase)]}
+                      {BAKE_PHASE_ICONS[normalizeBakePhase(step.phase)]} {tPhases(normalizeBakePhase(step.phase))}
                     </span>
                     <span className="font-lora text-xs text-[#9a7060] bg-[#f9ede5] px-2 py-0.5 rounded-full">
                       {step.duration}

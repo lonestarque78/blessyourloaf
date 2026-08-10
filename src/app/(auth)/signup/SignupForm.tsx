@@ -4,8 +4,10 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 export default function SignupForm() {
+  const t = useTranslations('Auth')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [fullName, setFullName] = useState('')
@@ -45,9 +47,9 @@ export default function SignupForm() {
     return (
       <div className="text-center max-w-md">
         <div className="text-6xl mb-6">🍞</div>
-        <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-4">Check your email!</h1>
+        <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-4">{t('signup.checkEmailTitle')}</h1>
         <p className="font-lora italic text-[#9a7060] leading-relaxed">
-          We sent a confirmation link to <strong>{email}</strong>. Click it and your starter journal will be waiting on you.
+          {t.rich('signup.checkEmailBody', { email, b: (chunks) => <strong>{chunks}</strong> })}
         </p>
       </div>
     )
@@ -69,43 +71,43 @@ export default function SignupForm() {
           <path fill="#FBBC05" d="M4.5 10.48A4.8 4.8 0 0 1 4.5 7.5V5.43H1.83a8 8 0 0 0 0 7.14z"/>
           <path fill="#EA4335" d="M8.98 3.58c1.32 0 2.5.45 3.44 1.35l2.54-2.54A8 8 0 0 0 1.83 5.43L4.5 7.5c.67-2 2.54-3.92 4.48-3.92z"/>
         </svg>
-        Continue with Google
+        {t('form.continueWithGoogle')}
       </button>
 
       <div className="flex items-center gap-3 mb-6">
         <div className="flex-1 h-px bg-[#e8d5c8]" />
-        <span className="font-lora text-xs text-[#b8896e]">or</span>
+        <span className="font-lora text-xs text-[#b8896e]">{t('form.or')}</span>
         <div className="flex-1 h-px bg-[#e8d5c8]" />
       </div>
 
       <div className="space-y-4 mb-6">
         <div>
-          <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Your Name</label>
+          <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('form.yourName')}</label>
           <input
             type="text"
             value={fullName}
             onChange={e => setFullName(e.target.value)}
-            placeholder="Jane Baker"
+            placeholder={t('form.namePlaceholder')}
             className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] transition-colors bg-[#fdf9f6]"
           />
         </div>
         <div>
-          <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Email</label>
+          <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('form.email')}</label>
           <input
             type="email"
             value={email}
             onChange={e => setEmail(e.target.value)}
-            placeholder="you@example.com"
+            placeholder={t('form.emailPlaceholder')}
             className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] transition-colors bg-[#fdf9f6]"
           />
         </div>
         <div>
-          <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Password</label>
+          <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('form.password')}</label>
           <input
             type="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
-            placeholder="••••••••"
+            placeholder={t('form.passwordPlaceholder')}
             className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] transition-colors bg-[#fdf9f6]"
           />
         </div>
@@ -113,12 +115,12 @@ export default function SignupForm() {
 
       <button onClick={handleEmailSignup} disabled={loading}
         className="w-full bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white py-3 rounded-xl font-lora hover:-translate-y-0.5 transition-transform shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
-        {loading ? 'Creating your account...' : 'Create Free Account'}
+        {loading ? t('form.creatingAccount') : t('form.createAccount')}
       </button>
 
       <p className="text-center mt-5 font-lora text-xs text-[#9a7060]">
-        Already have an account?{' '}
-        <Link href="/login" className="text-[#b07d62] hover:underline">Log in here</Link>
+        {t('form.alreadyHaveAccount')}{' '}
+        <Link href="/login" className="text-[#b07d62] hover:underline">{t('form.logInHere')}</Link>
       </p>
     </div>
   )

@@ -1,0 +1,254 @@
+{
+  "eyebrow": "✦ Herramientas del panadero ✦",
+  "startFreeToday": "Empieza gratis hoy →",
+  "hydration": {
+    "title": "Calculadora de hidratación",
+    "quote": "«La hidratación es solo harina y agua conociéndose. Hagamos las cuentas.»",
+    "explainerTitle": "¿Qué es la hidratación del panadero?",
+    "explainerBody": "La hidratación es el peso del agua en una masa como porcentaje del peso de la harina — 500 g de harina y 375 g de agua es 75% de hidratación. Es la palanca más importante que tienes sobre cómo se siente y se hornea una masa: una hidratación más alta produce una masa más húmeda y pegajosa con una miga más abierta y aireada; una hidratación más baja produce una masa más firme, más fácil de manejar y formar.",
+    "explainerQuote": "«¿Eres nuevo en esto? Mantente alrededor del 65-70% hasta que le agarres el truco a manejar masas húmedas. Siempre puedes ir subiendo.»",
+    "ctaTitle": "¿Quieres una calculadora de hidratación que conozca tu masa madre?",
+    "ctaBody": "Guarda tus masas madre en Bless Your Loaf y cada plan de horneado tendrá en cuenta su hidratación automáticamente.",
+    "tabAmounts": "Tengo mis cantidades",
+    "tabTarget": "Tengo un objetivo",
+    "amountsQuote": "«Dime tu harina y tu agua, y te diré su hidratación.»",
+    "flourLabel": "Harina (g)",
+    "waterLabel": "Agua (g)",
+    "hydrationResultLabel": "Hidratación",
+    "targetQuote": "«Dime tu hidratación objetivo y qué tan grande quieres la masa, y yo hago el resto.»",
+    "targetHydrationLabel": "Hidratación objetivo (%)",
+    "totalWeightLabel": "Peso total de la masa (g)",
+    "flourResultLabel": "Harina",
+    "waterResultLabel": "Agua",
+    "targetFootnote": "No incluye la harina y el agua de tu propia masa madre — reserva un poco si también quieres contar la de ella."
+  },
+  "temperature": {
+    "title": "Guía de temperatura",
+    "quote": "«Una receta es solo un punto de partida. Tu cocina tiene la última palabra.»",
+    "explainerTitle": "Por qué la temperatura importa tanto",
+    "explainerBody1": "La levadura salvaje y las bacterias de tu masa madre son seres vivos — comen, respiran y se multiplican más rápido o más lento según la temperatura, igual que la mayoría de los seres vivos. Los tiempos de las recetas siempre están escritos para una temperatura específica, normalmente entre 24 y 26 °C. Si tu cocina está más cálida o más fría que eso, el reloj de la receta deja de ser confiable.",
+    "explainerBody2": "Por eso siempre decimos que hay que observar la masa, no el reloj — pero saber aproximadamente cuánto tiempo extra (o menos) esperar te ayuda a planear tu día en lugar de llevarte una sorpresa.",
+    "explainerQuote": "«¿Tu cocina está calurosa en verano? Tu fermentación en bloque que normalmente toma 4 horas podría estar lista en 2. ¿El invierno te tiene a 18 °C? Reserva la mayor parte del día para ella.»",
+    "ctaTitle": "¿Quieres que esto se tenga en cuenta en todo tu plan de horneado?",
+    "ctaBody": "El Planificador de horneado ya tiene en cuenta la actividad de tu masa madre al calcular los tiempos — regístrate y pruébalo.",
+    "toolQuote": "«Dame el tiempo de tu receta y la temperatura de tu cocina, y te diré qué esperar de verdad.»",
+    "recipeTimeLabel": "Tiempo de la receta a {temp}°F (horas)",
+    "kitchenTempLabel": "Temperatura de tu cocina (°F)",
+    "expectLabel": "Espera que tome aproximadamente",
+    "warmerNote": "Tu cocina está más cálida que {temp}°F, así que se moverá más rápido de lo que dice la receta — vigílala de cerca, no solo mires el reloj.",
+    "coolerNote": "Tu cocina está más fría que {temp}°F, así que dale tiempo extra — solo está tomándoselo con calma, no está haciendo nada mal.",
+    "referenceTableLabel": "Referencia rápida — cada 10°F aproximadamente duplica o reduce a la mitad la velocidad de fermentación"
+  },
+  "flourGuide": {
+    "eyebrow": "✦ La guía de harinas ✦",
+    "title": "Conoce tu harina, conoce tu pan.",
+    "quote": "«La harina que elijas lo cambia todo — el sabor, la textura, los tiempos. Déjame guiarte por lo que necesitas saber.»",
+    "comparisonTitle": "Comparación rápida",
+    "colFlour": "Harina",
+    "colProtein": "Proteína",
+    "colHydration": "Hidratación",
+    "colFermentation": "Fermentación",
+    "colLevel": "Nivel",
+    "characteristicsLabel": "Características",
+    "bestForLabel": "Ideal para",
+    "fermentationLabel": "Fermentación",
+    "bakersNoteLabel": "Nota del panadero",
+    "difficulty": {
+      "Beginner": "Principiante",
+      "Intermediate": "Intermedio",
+      "Advanced": "Avanzado"
+    },
+    "flours": {
+      "allPurpose": {
+        "name": "Harina todo uso",
+        "bestFor": "Hogazas para principiantes, recetas de descarte, panqueques, galletas saladas",
+        "description": "El caballo de batalla de la cocina casera. La harina todo uso es tolerante, ampliamente disponible y produce una hogaza de sabor suave con una miga blanda y abierta. Tu masa madre estará feliz con ella.",
+        "characteristics": [
+          "El contenido moderado de proteína significa un desarrollo moderado de gluten",
+          "Produce una miga más ligera y abierta que las harinas integrales",
+          "Sabor suave que deja brillar a tu masa madre",
+          "Fermenta a un ritmo predecible y moderado",
+          "La harina más fácil de trabajar para panaderos nuevos"
+        ],
+        "tips": "Si apenas estás empezando, esta es tu harina. Familiarízate con la harina todo uso antes de experimentar con otras.",
+        "fermentation": "Moderada — espera de 4 a 6 horas de fermentación en bloque a 24°C"
+      },
+      "bread": {
+        "name": "Harina de fuerza",
+        "bestFor": "Hogazas artesanales, bagels, panecillos, cualquier cosa que necesite estructura fuerte",
+        "description": "Esto es lo que buscan la mayoría de los panaderos profesionales. El mayor contenido de proteína forma redes de gluten más fuertes, dándote mejor resorte de horno y esa hermosa greña en tu hogaza.",
+        "characteristics": [
+          "Mayor proteína forma un gluten más fuerte y extensible",
+          "Mejor resorte de horno y hogazas más altas",
+          "Miga más masticable con alvéolos más grandes e irregulares",
+          "Puede manejar masas de mayor hidratación",
+          "Produce un sabor más complejo, ligeramente más a fruto seco"
+        ],
+        "tips": "Una vez que tengas algunas hogazas con harina todo uso en tu haber, cambia a harina de fuerza. Notarás la diferencia de inmediato — más resorte, mejor estructura, greñado más bonito.",
+        "fermentation": "Moderada — similar a la todo uso pero soporta bien fermentaciones más largas"
+      },
+      "wholeWheat": {
+        "name": "Harina integral",
+        "bestFor": "Hogazas contundentes, pan nutritivo del día a día, añadir profundidad a las mezclas",
+        "description": "La harina integral incluye el salvado y el germen, lo que significa más nutrición, más sabor y — aquí está el detalle — fermentación más rápida. El salvado corta las hebras de gluten, así que tendrás que ajustar tus tiempos.",
+        "characteristics": [
+          "El salvado y el germen añaden complejidad de sabor a frutos secos y tierra",
+          "Fermenta considerablemente más rápido que las harinas blancas",
+          "El salvado corta las hebras de gluten, produciendo una miga más densa",
+          "Más nutritiva que las harinas refinadas",
+          "Absorbe más agua que la harina blanca"
+        ],
+        "tips": "Empieza sustituyendo solo un 20-30% de harina integral en tu receta habitual antes de ir al 100%. Las hogazas 100% integrales son densas pero profundamente sabrosas — vale la pena llegar a ellas poco a poco.",
+        "fermentation": "Rápida — reduce el tiempo de fermentación en bloque un 20-30% respecto a la harina blanca"
+      },
+      "rye": {
+        "name": "Harina de centeno",
+        "bestFor": "Hogazas de centeno oscuro, alimentación de la masa madre, añadir complejidad ácida",
+        "description": "El centeno es el arma secreta de los panaderos de masa madre serios. Fermenta más rápido que cualquier otra harina, alimenta a tu masa madre como ninguna otra, y añade una complejidad profunda y terrosa que las hogazas blancas simples no pueden igualar.",
+        "characteristics": [
+          "Contiene pentosanos en lugar de gluten — produce una masa pegajosa y densa",
+          "Fermenta extremadamente rápido por su alta actividad enzimática",
+          "Añade un sabor profundo, terroso y ligeramente ácido",
+          "Excelente para el mantenimiento de la masa madre — reactiva masas madre perezosas",
+          "Alta en fibra y nutrientes"
+        ],
+        "tips": "Hasta una cucharada de centeno en la alimentación de tu masa madre la despertará de inmediato. Para hornear, empieza con una mezcla de 10-20% de centeno antes de intentar una hogaza 100% centeno — el centeno puro es una bestia completamente distinta.",
+        "fermentation": "Muy rápida — puede duplicarse en 2-3 horas a temperatura ambiente"
+      },
+      "spelt": {
+        "name": "Harina de espelta",
+        "bestFor": "Hogazas integrales más ligeras, horneado enfocado en digestibilidad",
+        "description": "La espelta es un grano ancestral que está teniendo su momento. Tiene un buen contenido de proteína, pero su gluten es más frágil que el del trigo moderno — lo que significa que fermenta rápido y puede sobrefermentarse si no le prestas atención.",
+        "characteristics": [
+          "Grano ancestral con un sabor dulce y a frutos secos",
+          "El gluten es más extensible pero menos fuerte que el del trigo moderno",
+          "Más digerible para algunas personas sensibles al trigo moderno",
+          "Fermenta más rápido que la harina de fuerza",
+          "Produce una miga más ligera que la harina integral"
+        ],
+        "tips": "Maneja la masa de espelta con delicadeza — se rasga fácilmente si la trabajas de más. Tiempos de fermentación más cortos y un formado más suave son tus aliados aquí.",
+        "fermentation": "Rápida — ritmo similar a la harina integral"
+      },
+      "einkorn": {
+        "name": "Harina de einkorn",
+        "bestFor": "Entusiastas de granos ancestrales, hogazas muy digeribles",
+        "description": "El einkorn es el trigo más antiguo de la tierra, y se hornea como ningún otro. Alto en proteína pero con una estructura de gluten débil — produce una hogaza densa, húmeda y profundamente sabrosa, distinta a cualquier pan de trigo moderno que hayas probado.",
+        "characteristics": [
+          "La mayor proteína de cualquier trigo pero la estructura de gluten más débil",
+          "Perfil de sabor rico, mantecoso, casi dulce",
+          "Masa muy pegajosa y difícil de trabajar",
+          "No desarrolla el gluten de la misma forma que el trigo moderno",
+          "Muy digerible — a menudo tolerado por personas sensibles al trigo"
+        ],
+        "tips": "No intentes desarrollar el gluten del einkorn como lo harías con harina de fuerza. Usa un enfoque sin amasado, mantén la hidratación más baja de lo que crees, y ten paciencia con una fermentación en frío larga.",
+        "fermentation": "Lenta a moderada — la actividad enzimática es distinta a la del trigo moderno"
+      },
+      "glutenFree": {
+        "name": "Mezclas sin gluten",
+        "bestFor": "Panaderos sin gluten, hogazas aptas para celíacos",
+        "description": "La masa madre sin gluten es un oficio completamente distinto. Sin gluten, dependes de goma xantana, cáscara de psyllium u otros aglutinantes para mantener la estructura unida. Requiere paciencia y experimentación, pero se puede lograr.",
+        "characteristics": [
+          "Sin gluten significa sin desarrollo de masa tradicional",
+          "Requiere aglutinantes como cáscara de psyllium o goma xantana",
+          "La masa madre debe mantenerse con harinas sin gluten (arroz, sorgo, trigo sarraceno)",
+          "Produce una masa más parecida a una mezcla líquida que a una masa formable",
+          "El sabor varía considerablemente según la mezcla usada"
+        ],
+        "tips": "Usa una masa madre sin gluten certificada, alimentada con harina de arroz o una mezcla certificada sin gluten. La cáscara de psyllium es tu mejor aliada para la estructura. Hornea en un molde en lugar de forma libre.",
+        "fermentation": "Variable — las masas madre sin gluten pueden ser impredecibles"
+      }
+    }
+  },
+  "starterGuide": {
+    "eyebrow": "✦ La guía de la masa madre ✦",
+    "title": "Cultiva tu masa madre desde cero.",
+    "quote": "«Solo necesitas harina, agua y paciencia. Tu masa madre hará el resto.»",
+    "whatIsTitle": "¿Qué es una masa madre?",
+    "whatIsBody1": "Una masa madre es un cultivo vivo de levadura salvaje y bacterias que cultivas en casa usando solo harina y agua. Es el agente leudante que hace subir el pan de masa madre — sin necesidad de levadura comercial.",
+    "whatIsBody2": "La levadura salvaje produce dióxido de carbono (que hace subir el pan) y las bacterias producen ácidos láctico y acético (que le dan a la masa madre su característico sabor ácido). Juntos crean algo que ninguna levadura comercial puede replicar.",
+    "whatIsQuote": "«Piensa en ella como una mascota. Aliméntala regularmente, mantenla cómoda, y ella cuidará de ti durante años.»",
+    "whatYoullNeedTitle": "Lo que necesitarás",
+    "supplies": {
+      "jar": { "item": "Un frasco de vidrio limpio", "note": "De al menos 1 litro — necesita espacio para crecer" },
+      "scale": { "item": "Una balanza de cocina", "note": "Medir por peso es mucho más preciso que por tazas" },
+      "flour": { "item": "Harina todo uso o de fuerza", "note": "Sin blanquear funciona mejor" },
+      "water": { "item": "Agua sin cloro", "note": "Filtrada, o reposada toda la noche si tu agua del grifo tiene mucho cloro" },
+      "band": { "item": "Una liga de goma", "note": "Para marcar su nivel de fermentación después de cada alimentación" },
+      "spot": { "item": "Un lugar cálido", "note": "24-26°C es ideal — encima del refrigerador o cerca del horno" }
+    },
+    "dayByDayTitle": "La guía día a día",
+    "bakersNoteLabel": "Nota del panadero",
+    "whatToExpectLabel": "Qué esperar",
+    "steps": {
+      "day1": {
+        "day": "Día 1",
+        "title": "Prepara tu primera alimentación",
+        "description": "En un frasco limpio, mezcla 50 g de harina y 50 g de agua a temperatura ambiente hasta que no quede harina seca. Cubre sin apretar — necesita aire para respirar. Déjala en un lugar cálido, alrededor de 24-26°C.",
+        "tip": "Usa una liga de goma para marcar dónde empieza. Así podrás ver si ha subido.",
+        "whatToExpect": "Todavía no pasará mucho. Puede verse grumosa y oler a harina cruda. Eso es perfectamente normal."
+      },
+      "days23": {
+        "day": "Días 2-3",
+        "title": "Primeras señales de vida",
+        "description": "Descarta toda tu masa madre excepto 50 g. Aliméntala con 50 g de harina y 50 g de agua. Repite esto cada 24 horas. Mantenla en ese lugar cálido.",
+        "tip": "No tires el descarte — guárdalo en un frasco aparte en el refrigerador. Puedes usarlo para panqueques incluso en esta etapa temprana.",
+        "whatToExpect": "Puede que veas algunas burbujas formándose. Puede oler un poco raro — casi como queso o acetona. Esto es normal y temporal."
+      },
+      "days47": {
+        "day": "Días 4-7",
+        "title": "Ganando fuerza",
+        "description": "Sigue descartando y alimentando cada 24 horas. Si sube y baja de forma predecible, prueba alimentarla dos veces al día — una vez en la mañana y otra en la noche.",
+        "tip": "Si huele a quitaesmalte, tiene demasiada hambre. Aliméntala con más frecuencia.",
+        "whatToExpect": "Burbujas por todas partes, una superficie abombada, y un olor más agradable, entre levaduroso y ácido. Debería duplicar su tamaño entre 4 y 8 horas después de una alimentación."
+      },
+      "week2": {
+        "day": "Semana 2 en adelante",
+        "title": "La prueba de flotación",
+        "description": "Deja caer una cucharadita de tu masa madre en un vaso de agua. Si flota, está lista para hornear. Si se hunde, sigue alimentándola unos días más.",
+        "tip": "La prueba de flotación no es infalible — algunas masas madre saludables se hunden. La mejor señal es que duplique su tamaño de forma constante entre 4 y 6 horas después de alimentarla.",
+        "whatToExpect": "Una masa madre madura huele agradablemente ácida y levadurosa, duplica su tamaño de forma confiable, y tiene una superficie abombada con muchas burbujas en su punto máximo."
+      }
+    },
+    "faqTitle": "Preguntas frecuentes",
+    "faqs": {
+      "howLong": {
+        "q": "¿Cuánto tiempo toma hacer una masa madre?",
+        "a": "La mayoría de las masas madre están listas para hornear en 7-14 días, pero algunas toman de 3 a 4 semanas. La temperatura, el tipo de harina y la levadura salvaje de tu entorno influyen. No la apresures."
+      },
+      "whatFlour": {
+        "q": "¿Qué harina debo usar?",
+        "a": "La harina todo uso o de fuerza funciona muy bien para principiantes. Añadir una cucharada de harina integral o de centeno acelera el proceso — esas harinas tienen más levadura salvaje y nutrientes. Consulta nuestra Guía de harinas para más detalles."
+      },
+      "smellsBad": {
+        "q": "Mi masa madre huele mal. ¿Está muerta?",
+        "a": "Casi seguro que no. Las masas madre jóvenes pasan por una fase olorosa — acetona, queso, incluso olores a vómito son normales en la primera semana. Sigue alimentándola y se recuperará. Consulta el Solucionador de problemas de la masa madre si te preocupa."
+      },
+      "liquidOnTop": {
+        "q": "Hay líquido en la superficie. ¿Es moho?",
+        "a": "Eso es hooch — una capa de alcohol que se produce cuando tu masa madre tiene hambre. Es de color gris u oscuro, no es velloso. Solo mézclalo o viértelo y aliméntala. El moho es velloso y de colores (rosa, naranja, negro). Si ves moho de verdad, retíralo y espera lo mejor."
+      },
+      "storeLongTerm": {
+        "q": "¿Cómo guardo mi masa madre a largo plazo?",
+        "a": "Una vez establecida, guárdala en el refrigerador y aliméntala una vez por semana. Sácala la noche antes de hornear, aliméntala, y deja que alcance su actividad máxima a temperatura ambiente antes de usarla."
+      },
+      "unfedMonths": {
+        "q": "¿Puedo usar una masa madre que no se ha alimentado en meses?",
+        "a": "Generalmente sí. Descarta la mayor parte, alimenta lo que queda, y dale unos días de alimentaciones regulares para que despierte de nuevo. Las masas madre son más resistentes de lo que crees."
+      }
+    },
+    "ctaTitle": "¿Listo para seguir el camino de tu masa madre?",
+    "ctaBody": "Ponle nombre, registra sus alimentaciones y obsérvala crecer — justo aquí en Bless Your Loaf."
+  },
+  "discardVault": {
+    "eyebrow": "✦ La bóveda del descarte ✦",
+    "title": "No te atrevas a tirar eso.",
+    "quote": "«El descarte es solo masa madre que aún no ha alcanzado su máximo potencial. Cada gramo merece una segunda oportunidad.»",
+    "explainerTitle": "¿Qué es el descarte de masa madre?",
+    "explainerBody": "Cada vez que alimentas tu masa madre, retiras una parte antes de añadir harina y agua frescas. Esa parte retirada se llama descarte — y no tiene nada de desperdicio. Está llena de levadura salvaje y bacterias que añaden un sabor increíble a todo lo que tocan, sin nada artificial añadido. Estas recetas están diseñadas específicamente para el descarte en cualquier etapa, desde una masa madre recién creada hasta una bien establecida.",
+    "recipesTitle": "Recetas de descarte",
+    "noRecipes": "No se encontraron recetas de descarte.",
+    "ctaTitle": "Desbloquea la Bóveda del descarte completa 🫙",
+    "ctaBody": "Suscríbete para acceder a cada receta de descarte además de la biblioteca completa de recetas, el Diario de la masa madre, el Planificador de horneado y más.",
+    "subscribeNow": "Suscribirse ahora →"
+  }
+}

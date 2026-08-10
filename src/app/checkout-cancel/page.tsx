@@ -1,8 +1,11 @@
 import Link from 'next/link'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import { getTranslations } from 'next-intl/server'
 
-export default function CheckoutCancelPage() {
+export default async function CheckoutCancelPage() {
+  const t = await getTranslations('Checkout.cancel')
+
   return (
     <>
       <Navbar />
@@ -11,19 +14,19 @@ export default function CheckoutCancelPage() {
         <div className="text-center max-w-md">
           <div className="text-5xl mb-6">🫙</div>
           <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-4">
-            No worries.
+            {t('title')}
           </h1>
           <p className="font-lora italic text-[#9a7060] leading-relaxed mb-8">
-            &quot;You can always come back when you&apos;re ready. The kitchen will be here waiting on you.&quot;
+            {t('body')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/pricing"
               className="inline-block bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-6 py-3 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-md">
-              See Pricing Again
+              {t('seePricing')}
             </Link>
             <Link href="/dashboard"
               className="inline-block border border-[#c9956c] text-[#7a4f3a] px-6 py-3 rounded-full font-lora text-sm hover:bg-[#c9956c] hover:text-white transition-all">
-              Back to Dashboard
+              {t('backToDashboard')}
             </Link>
           </div>
         </div>

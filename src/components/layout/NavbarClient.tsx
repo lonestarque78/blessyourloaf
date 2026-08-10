@@ -2,23 +2,26 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import LanguageSwitcher from './LanguageSwitcher'
 
 interface NavbarClientProps {
   user: { firstName: string } | null
 }
 
-const navLinks = [
-  { href: '/recipes', label: 'Recipes' },
-  { href: '/starter-guide', label: 'Starter Guide' },
-  { href: '/discard', label: 'Discard Vault' },
-  { href: '/flour-guide', label: 'Flour Guide' },
-  { href: '/pricing', label: 'Pricing' },
-]
-
 export default function NavbarClient({ user }: NavbarClientProps) {
+  const t = useTranslations('Common.nav')
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+
+  const navLinks = [
+    { href: '/recipes', label: t('recipes') },
+    { href: '/starter-guide', label: t('starterGuide') },
+    { href: '/discard', label: t('discardVault') },
+    { href: '/flour-guide', label: t('flourGuide') },
+    { href: '/pricing', label: t('pricing') },
+  ]
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40)
@@ -50,18 +53,19 @@ export default function NavbarClient({ user }: NavbarClientProps) {
           {navLinks.map(({ href, label }) => (
             <Link key={href} href={href} className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">{label}</Link>
           ))}
+          <LanguageSwitcher />
           {user ? (
             <>
               <span className="font-lora text-sm text-[#7a4f3a]">{user.firstName}</span>
               <Link href="/dashboard" className="bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-5 py-2 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-md">
-                Dashboard
+                {t('dashboard')}
               </Link>
             </>
           ) : (
             <>
-              <Link href="/login" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">Log In</Link>
+              <Link href="/login" className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">{t('logIn')}</Link>
               <Link href="/signup" className="bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-5 py-2 rounded-full font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-md">
-                Join the Kitchen
+                {t('joinTheKitchen')}
               </Link>
             </>
           )}
@@ -70,7 +74,7 @@ export default function NavbarClient({ user }: NavbarClientProps) {
         <button
           className="md:hidden flex flex-col justify-center items-center w-9 h-9 gap-1.5 rounded-md hover:bg-[#f0e0d0]/60 transition-colors"
           onClick={() => setMenuOpen(o => !o)}
-          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-label={menuOpen ? t('closeMenu') : t('openMenu')}
         >
           <span className={`block w-5 h-0.5 bg-[#7a4f3a] transition-all duration-300 origin-center ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
           <span className={`block w-5 h-0.5 bg-[#7a4f3a] transition-all duration-300 ${menuOpen ? 'opacity-0 scale-x-0' : ''}`} />
@@ -92,16 +96,17 @@ export default function NavbarClient({ user }: NavbarClientProps) {
               {label}
             </Link>
           ))}
-          <div className="border-t border-[#e8d5c4] pt-4 flex flex-col gap-3">
+          <div className="border-t border-[#e8d5c4] pt-4 flex flex-col gap-4">
+            <LanguageSwitcher />
             {user ? (
               <>
-                <span className="font-lora text-sm text-[#7a4f3a]">Hello, {user.firstName}</span>
+                <span className="font-lora text-sm text-[#7a4f3a]">{t('helloName', { name: user.firstName })}</span>
                 <Link
                   href="/dashboard"
                   className="bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-5 py-2.5 rounded-full font-lora text-sm text-center shadow-md"
                   onClick={() => setMenuOpen(false)}
                 >
-                  Dashboard
+                  {t('dashboard')}
                 </Link>
               </>
             ) : (
@@ -111,14 +116,14 @@ export default function NavbarClient({ user }: NavbarClientProps) {
                   className="font-lora text-base text-[#7a4f3a] hover:text-[#b07d62] transition-colors py-1"
                   onClick={() => setMenuOpen(false)}
                 >
-                  Log In
+                  {t('logIn')}
                 </Link>
                 <Link
                   href="/signup"
                   className="bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-5 py-2.5 rounded-full font-lora text-sm text-center shadow-md"
                   onClick={() => setMenuOpen(false)}
                 >
-                  Join the Kitchen
+                  {t('joinTheKitchen')}
                 </Link>
               </>
             )}

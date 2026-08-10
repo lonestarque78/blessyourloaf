@@ -1,0 +1,60 @@
+{
+  "siteName": "Bless Your Loaf",
+  "nav": {
+    "recipes": "Recetas",
+    "starterGuide": "Guía de la masa madre",
+    "discardVault": "Bóveda del descarte",
+    "flourGuide": "Guía de harinas",
+    "pricing": "Precios",
+    "dashboard": "Panel",
+    "logIn": "Iniciar sesión",
+    "joinTheKitchen": "Únete a la cocina",
+    "helloName": "Hola, {name}",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú"
+  },
+  "footer": {
+    "tagline": "«El buen pan lleva tiempo — ingredientes reales, sin atajos. Nosotros tenemos todo el tiempo del mundo para ti.»",
+    "bakeHeading": "Hornear",
+    "accountHeading": "Cuenta",
+    "legalHeading": "Legal",
+    "hydrationCalculator": "Calculadora de hidratación",
+    "temperatureGuide": "Guía de temperatura",
+    "signOut": "Cerrar sesión",
+    "signUp": "Registrarse",
+    "privacy": "Privacidad",
+    "terms": "Términos",
+    "copyright": "© {year} Bless Your Loaf · Un producto de Lone Star Que LLC",
+    "madeWith": "Hecho con cariño en Texas 🤠"
+  },
+  "buttons": {
+    "save": "Guardar",
+    "saving": "Guardando…",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "back": "Volver",
+    "loading": "Cargando…"
+  },
+  "language": {
+    "label": "Idioma",
+    "en": "English",
+    "es": "Español"
+  },
+  "dashboardNav": {
+    "myStarters": "Mis masas madre",
+    "bakeScheduler": "Planificador de horneado",
+    "bakeHistory": "Historial de horneados",
+    "troubleshooter": "Solucionador de problemas",
+    "library": "Biblioteca",
+    "myRecipes": "Mis recetas",
+    "recipes": "Recetas",
+    "discardVault": "Bóveda del descarte",
+    "flourGuide": "Guía de harinas",
+    "starterGuide": "Guía de la masa madre",
+    "hydrationCalculator": "Calculadora de hidratación",
+    "temperatureGuide": "Guía de temperatura",
+    "account": "Cuenta",
+    "signOut": "Cerrar sesión"
+  }
+}

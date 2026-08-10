@@ -1,0 +1,45 @@
+{
+  "signInPrompt": {
+    "title": "Primero necesitas iniciar sesión",
+    "subtitle": "Vuelve a entrar y prepararemos el panel de tu cocina.",
+    "cta": "Ir a iniciar sesión"
+  },
+  "greeting": {
+    "morning": "Buenos días",
+    "afternoon": "Buenas tardes",
+    "evening": "Buenas noches",
+    "greetingName": "{greeting}, {name}!",
+    "bakerFallback": "panadero",
+    "waitingOnYou": "{name} te está esperando.",
+    "getStarted": "Pongamos en marcha tu cocina."
+  },
+  "starterJournal": {
+    "title": "Diario de la masa madre",
+    "activeCount": "{count} activas",
+    "born": "Nacida el {date}",
+    "view": "Ver →",
+    "manageAll": "Gestionar todas las masas madre",
+    "emptyQuote": "«Toda gran hogaza empieza con una masa madre. Vamos a ponerle nombre a la tuya.»",
+    "createFirst": "Crear mi primera masa madre"
+  },
+  "scheduler": {
+    "title": "Planificador de horneado",
+    "quote": "«Dime cuándo quieres pan fresco y yo me encargo de calcular todo lo demás.»",
+    "cta": "Planificar un horneado"
+  },
+  "recipes": {
+    "title": "Biblioteca de recetas",
+    "desc": "Hogazas, panecillos, focaccia y más — hechos con ingredientes reales, probados en una cocina real.",
+    "cta": "Explorar recetas →"
+  },
+  "discard": {
+    "title": "Bóveda del descarte",
+    "desc": "No te atrevas a tirar eso. Tenemos recetas para cada gramo de descarte.",
+    "cta": "Explorar recetas de descarte →"
+  },
+  "subscriptionBanner": {
+    "title": "Desbloquea la cocina completa 🍞",
+    "desc": "Obtén el Diario de la masa madre completo, el Planificador de horneado, la Bóveda del descarte y más por $5.99/mes.",
+    "cta": "Suscribirse ahora →"
+  }
+}

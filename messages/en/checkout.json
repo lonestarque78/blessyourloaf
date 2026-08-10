@@ -1,0 +1,13 @@
+{
+  "success": {
+    "title": "Welcome to the kitchen!",
+    "body": "\"Your subscription is active and the full kitchen is yours. Every recipe, every tool, every bit of sourdough wisdom — it's all waiting on you.\"",
+    "cta": "Go to My Dashboard →"
+  },
+  "cancel": {
+    "title": "No worries.",
+    "body": "\"You can always come back when you're ready. The kitchen will be here waiting on you.\"",
+    "seePricing": "See Pricing Again",
+    "backToDashboard": "Back to Dashboard"
+  }
+}

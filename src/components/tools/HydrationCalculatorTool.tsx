@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { calculateFlourWaterFromTarget, calculateHydrationPercent } from '@/lib/baker-math'
+import { useTranslations } from 'next-intl'
 
 type Mode = 'from-amounts' | 'from-target'
 
@@ -11,6 +12,7 @@ function toNumber(value: string): number | null {
 }
 
 export default function HydrationCalculatorTool() {
+  const t = useTranslations('Tools.hydration')
   const [mode, setMode] = useState<Mode>('from-amounts')
 
   // Mode: I know my flour + water, tell me the hydration %
@@ -40,7 +42,7 @@ export default function HydrationCalculatorTool() {
             mode === 'from-amounts' ? 'bg-white text-[#b07d62] shadow-sm' : 'text-[#9a7060]'
           }`}
         >
-          I have my amounts
+          {t('tabAmounts')}
         </button>
         <button
           onClick={() => setMode('from-target')}
@@ -48,18 +50,18 @@ export default function HydrationCalculatorTool() {
             mode === 'from-target' ? 'bg-white text-[#b07d62] shadow-sm' : 'text-[#9a7060]'
           }`}
         >
-          I have a target
+          {t('tabTarget')}
         </button>
       </div>
 
       {mode === 'from-amounts' ? (
         <div>
           <p className="font-lora italic text-sm text-[#9a7060] text-center mb-6">
-            &quot;Tell me your flour and water, and I&apos;ll tell you her hydration.&quot;
+            {t('amountsQuote')}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-md mx-auto mb-8">
             <div>
-              <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Flour (g)</label>
+              <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('flourLabel')}</label>
               <input
                 type="number" inputMode="decimal" min="0" value={flourInput}
                 onChange={e => setFlourInput(e.target.value)}
@@ -67,7 +69,7 @@ export default function HydrationCalculatorTool() {
               />
             </div>
             <div>
-              <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Water (g)</label>
+              <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('waterLabel')}</label>
               <input
                 type="number" inputMode="decimal" min="0" value={waterInput}
                 onChange={e => setWaterInput(e.target.value)}
@@ -77,7 +79,7 @@ export default function HydrationCalculatorTool() {
           </div>
 
           <div className="text-center bg-[#f9ede5] rounded-2xl py-8">
-            <div className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-2">Hydration</div>
+            <div className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-2">{t('hydrationResultLabel')}</div>
             <div className="font-playfair text-5xl font-bold text-[#3d2b1f]">
               {hydrationResult !== null ? `${hydrationResult.toFixed(1)}%` : '—'}
             </div>
@@ -86,11 +88,11 @@ export default function HydrationCalculatorTool() {
       ) : (
         <div>
           <p className="font-lora italic text-sm text-[#9a7060] text-center mb-6">
-            &quot;Tell me your target hydration and how big a dough you want, and I&apos;ll do the rest.&quot;
+            {t('targetQuote')}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-md mx-auto mb-8">
             <div>
-              <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Target hydration (%)</label>
+              <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('targetHydrationLabel')}</label>
               <input
                 type="number" inputMode="decimal" min="0" value={targetHydration}
                 onChange={e => setTargetHydration(e.target.value)}
@@ -98,7 +100,7 @@ export default function HydrationCalculatorTool() {
               />
             </div>
             <div>
-              <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Total dough weight (g)</label>
+              <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('totalWeightLabel')}</label>
               <input
                 type="number" inputMode="decimal" min="0" value={totalWeight}
                 onChange={e => setTotalWeight(e.target.value)}
@@ -109,20 +111,20 @@ export default function HydrationCalculatorTool() {
 
           <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
             <div className="text-center bg-[#f9ede5] rounded-2xl py-8">
-              <div className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-2">Flour</div>
+              <div className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-2">{t('flourResultLabel')}</div>
               <div className="font-playfair text-3xl font-bold text-[#3d2b1f]">
                 {flourResult !== null ? `${Math.round(flourResult)}g` : '—'}
               </div>
             </div>
             <div className="text-center bg-[#f9ede5] rounded-2xl py-8">
-              <div className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-2">Water</div>
+              <div className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-2">{t('waterResultLabel')}</div>
               <div className="font-playfair text-3xl font-bold text-[#3d2b1f]">
                 {waterResult !== null ? `${Math.round(waterResult)}g` : '—'}
               </div>
             </div>
           </div>
           <p className="font-lora text-xs italic text-[#9a7060] text-center mt-4">
-            Doesn&apos;t include your starter&apos;s own flour and water — hold a little back if you&apos;re counting hers too.
+            {t('targetFootnote')}
           </p>
         </div>
       )}

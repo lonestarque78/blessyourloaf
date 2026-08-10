@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { BAKE_PHASE_ICONS, BAKE_PHASE_LABELS, formatCountdown, normalizeBakePhase, parseDurationSeconds } from '@/lib/bake-timer'
+import { useTranslations } from 'next-intl'
+import { BAKE_PHASE_ICONS, formatCountdown, normalizeBakePhase, parseDurationSeconds } from '@/lib/bake-timer'
 
 interface Step {
   time: string
@@ -40,6 +41,8 @@ function toProgressMap(rows: ProgressRow[]): ProgressMap {
 }
 
 export default function BakeCoach({ schedule, initialProgress }: Props) {
+  const t = useTranslations('Bake.coach')
+  const tPhases = useTranslations('Bake.phases')
   const steps = schedule.steps
   const [progress, setProgress] = useState<ProgressMap>(() => toProgressMap(initialProgress))
   const [busyIndex, setBusyIndex] = useState<number | null>(null)
@@ -95,7 +98,7 @@ export default function BakeCoach({ schedule, initialProgress }: Props) {
       })
       const data = await res.json()
       if (!res.ok) {
-        setError(data.error ?? "Couldn't update that step — try again.")
+        setError(data.error ?? t('stepUpdateError'))
         return
       }
       setProgress(prev => ({
@@ -103,7 +106,7 @@ export default function BakeCoach({ schedule, initialProgress }: Props) {
         [stepIndex]: { started_at: data.progress.started_at, completed_at: data.progress.completed_at },
       }))
     } catch {
-      setError("Couldn't reach the kitchen — please try again.")
+      setError(t('networkError'))
     } finally {
       setBusyIndex(null)
     }
@@ -114,14 +117,14 @@ export default function BakeCoach({ schedule, initialProgress }: Props) {
       <div className="bg-white rounded-2xl p-10 shadow-md border border-[#f0e4db] text-center">
         <div className="text-6xl mb-6">🍞</div>
         <h1 className="font-playfair text-3xl font-bold text-[#3d2b1f] mb-3">
-          You did it!
+          {t('youDidIt')}
         </h1>
         <p className="font-lora italic text-[#9a7060] mb-8 max-w-sm mx-auto">
-          &quot;Another beautiful loaf in the books. Go on and admire your work.&quot;
+          {t('doneQuote')}
         </p>
         <Link href={`/dashboard/history/${schedule.id}`}
           className="inline-block bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-8 py-3 rounded-full font-lora hover:-translate-y-0.5 transition-transform shadow-md">
-          View This Bake
+          {t('viewThisBake')}
         </Link>
       </div>
     )
@@ -144,10 +147,10 @@ export default function BakeCoach({ schedule, initialProgress }: Props) {
       <aside className="order-2 lg:order-1 lg:w-64 flex-shrink-0 lg:overflow-y-auto lg:pr-1">
         <div className="mb-5">
           <h1 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-1">
-            {schedule.recipe_name || 'Your Bake'}
+            {schedule.recipe_name || t('defaultRecipeName')}
           </h1>
           <p className="font-lora italic text-xs text-[#9a7060] mb-2">
-            Step {currentIndex + 1} of {steps.length}
+            {t('stepOf', { current: currentIndex + 1, total: steps.length })}
           </p>
           <div className="w-full h-2 bg-[#f0e4db] rounded-full overflow-hidden">
             <div
@@ -181,7 +184,7 @@ export default function BakeCoach({ schedule, initialProgress }: Props) {
                     disabled={busyIndex === index}
                     className="font-lora text-[10px] text-[#b07d62] hover:underline flex-shrink-0 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity disabled:opacity-50"
                   >
-                    Undo
+                    {t('undo')}
                   </button>
                 </div>
               )
@@ -218,7 +221,7 @@ export default function BakeCoach({ schedule, initialProgress }: Props) {
           <div className="text-6xl mb-2">{BAKE_PHASE_ICONS[phase]}</div>
           <div className="flex items-center justify-center gap-2 flex-wrap">
             <span className="font-lora text-xs uppercase tracking-widest px-2.5 py-1 rounded-full bg-white/70 text-[#b07d62]">
-              {BAKE_PHASE_LABELS[phase]}
+              {tPhases(phase)}
             </span>
             {step.duration && (
               <span className="font-lora text-xs text-[#7a4f3a] bg-white/70 px-2.5 py-1 rounded-full">
@@ -233,7 +236,7 @@ export default function BakeCoach({ schedule, initialProgress }: Props) {
         <div className="flex-1 min-h-0 overflow-y-auto px-6 py-4">
           <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-1">{step.action}</h2>
           {step.time && (
-            <p className="font-lora text-xs text-[#9a7060] mb-3">Originally planned for {step.time}</p>
+            <p className="font-lora text-xs text-[#9a7060] mb-3">{t('originallyPlannedFor', { time: step.time })}</p>
           )}
           {step.note && (
             <p className="font-lora italic text-[#7a4f3a]">&quot;{step.note}&quot;</p>
@@ -249,11 +252,11 @@ export default function BakeCoach({ schedule, initialProgress }: Props) {
                   disabled={busyIndex === currentIndex}
                   className="font-lora text-sm px-5 py-2.5 rounded-full border border-[#c9956c] text-[#b07d62] hover:bg-[#f9ede5] transition-colors disabled:opacity-50"
                 >
-                  Start Timer
+                  {t('startTimer')}
                 </button>
               ) : isReady ? (
                 <p className="font-lora text-lg font-semibold" style={{ color: '#b5838d' }}>
-                  Time&apos;s up! 🍞
+                  {t('timesUp')}
                 </p>
               ) : (
                 <div className="flex items-center gap-3 flex-wrap">
@@ -265,7 +268,7 @@ export default function BakeCoach({ schedule, initialProgress }: Props) {
                     disabled={busyIndex === currentIndex}
                     className="font-lora text-xs text-[#9a7060] hover:underline disabled:opacity-50"
                   >
-                    Cancel
+                    {t('cancel')}
                   </button>
                 </div>
               )}
@@ -277,7 +280,7 @@ export default function BakeCoach({ schedule, initialProgress }: Props) {
             disabled={busyIndex === currentIndex}
             className="w-full bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white py-3 rounded-xl font-lora hover:-translate-y-0.5 transition-transform shadow-md disabled:opacity-50 disabled:hover:translate-y-0"
           >
-            {busyIndex === currentIndex ? 'Saving...' : 'Mark Done →'}
+            {busyIndex === currentIndex ? t('saving') : t('markDone')}
           </button>
         </div>
       </main>

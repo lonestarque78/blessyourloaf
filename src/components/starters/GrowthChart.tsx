@@ -1,6 +1,8 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import { useLocale, useTranslations } from 'next-intl'
+import { INTL_LOCALE, type Locale } from '@/i18n/locale'
 
 interface Feeding {
   id: string
@@ -20,6 +22,8 @@ const PAD_TOP = 16
 const PAD_BOTTOM = 28
 
 export default function GrowthChart({ feedings }: Props) {
+  const t = useTranslations('Starters.growthChart')
+  const locale = useLocale() as Locale
   const [hoverIndex, setHoverIndex] = useState<number | null>(null)
 
   const points = useMemo(() => {
@@ -33,7 +37,7 @@ export default function GrowthChart({ feedings }: Props) {
       <div className="bg-white rounded-2xl p-8 shadow-sm border border-[#f0e4db] text-center">
         <div className="text-3xl mb-2">📈</div>
         <p className="font-lora italic text-sm text-[#9a7060]">
-          Log a couple more feedings with a rise % and we&apos;ll chart her growth trend.
+          {t('notEnoughData')}
         </p>
       </div>
     )
@@ -70,18 +74,18 @@ export default function GrowthChart({ feedings }: Props) {
   return (
     <div className="bg-white rounded-2xl p-6 shadow-sm border border-[#f0e4db]">
       <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
-        <h3 className="font-playfair text-lg font-bold text-[#3d2b1f]">Growth Trend</h3>
+        <h3 className="font-playfair text-lg font-bold text-[#3d2b1f]">{t('title')}</h3>
         <div className="flex items-center gap-5">
           <div className="text-right">
-            <div className="font-lora text-[10px] uppercase tracking-widest text-[#b8896e]">Latest</div>
+            <div className="font-lora text-[10px] uppercase tracking-widest text-[#b8896e]">{t('latest')}</div>
             <div className="font-playfair text-lg font-bold text-[#3d2b1f]">{latest}%</div>
           </div>
           <div className="text-right">
-            <div className="font-lora text-[10px] uppercase tracking-widest text-[#b8896e]">Average</div>
+            <div className="font-lora text-[10px] uppercase tracking-widest text-[#b8896e]">{t('average')}</div>
             <div className="font-playfair text-lg font-bold text-[#3d2b1f]">{average}%</div>
           </div>
           <div className="text-right">
-            <div className="font-lora text-[10px] uppercase tracking-widest text-[#b8896e]">Trend</div>
+            <div className="font-lora text-[10px] uppercase tracking-widest text-[#b8896e]">{t('trend')}</div>
             <div className={`font-playfair text-lg font-bold ${trend > 0 ? 'text-green-700' : trend < 0 ? 'text-[#b5838d]' : 'text-[#3d2b1f]'}`}>
               {trend > 0 ? '↑' : trend < 0 ? '↓' : '→'} {Math.abs(trend)}%
             </div>
@@ -132,7 +136,7 @@ export default function GrowthChart({ feedings }: Props) {
             />
             {labelIndexes.includes(i) && (
               <text x={xFor(i)} y={HEIGHT - 6} textAnchor="middle" className="fill-[#9a7060]" fontSize={10} fontFamily="var(--font-lora), sans-serif">
-                {new Date(p.fed_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                {new Date(p.fed_at).toLocaleDateString(INTL_LOCALE[locale], { month: 'short', day: 'numeric' })}
               </text>
             )}
           </g>
@@ -151,7 +155,7 @@ export default function GrowthChart({ feedings }: Props) {
       <div className="h-6 mt-1 text-center">
         {active && (
           <span className="font-lora text-xs text-[#7a4f3a] bg-[#f9ede5] px-3 py-1 rounded-full">
-            {new Date(active.fed_at).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} — {active.rise_percent}% rise
+            {new Date(active.fed_at).toLocaleDateString(INTL_LOCALE[locale], { weekday: 'short', month: 'short', day: 'numeric' })} — {active.rise_percent}% {t('riseSuffix')}
           </span>
         )}
       </div>

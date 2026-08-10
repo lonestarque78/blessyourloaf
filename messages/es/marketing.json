@@ -1,0 +1,95 @@
+{
+  "hero": {
+    "eyebrow": "✦ Ingredientes reales, hechos en casa ✦",
+    "titleLine1": "Una masa madre que estarás",
+    "titleHighlight": "orgulloso de sacar de tu propio horno.",
+    "quote": "«No hay nada como sacar una hogaza dorada de tu propio horno — nacida de tu propia masa madre, hecha solo con ingredientes reales y simples.»",
+    "startBaking": "Empieza a hornear →",
+    "seeRecipes": "Ver las recetas"
+  },
+  "starterJournal": {
+    "eyebrow": "✦ El diario de la masa madre ✦",
+    "title": "Ponle nombre. Aliméntala. Quiérela.",
+    "subtitle": "Toda masa madre necesita un nombre y alguien que le preste atención. Registra sus alimentaciones y obsérvala crecer día a día.",
+    "starterName": "Willow",
+    "bornOn": "Nacida el 27 de mayo · Alimentación {day}",
+    "feeding": "Alimentación {day}",
+    "logFeeding": "+ Registrar alimentación",
+    "signInTooltip": "Inicia sesión para seguir tu masa madre",
+    "riseActivity": "Actividad de fermentación",
+    "starterQuote": "«Aliméntala con partes iguales de harina y agua. ¡Tiene hambre!»",
+    "schedulerTitle": "Planificador de horneado",
+    "schedulerQuote": "«Dime cuándo quieres pan fresco y te diré exactamente cuándo empezar.»",
+    "readyOn": "Quiero mi hogaza lista el...",
+    "readyOnValue": "Sábado por la mañana · 8:00 a. m.",
+    "dayStatus": {
+      "1": "Recién nacida, llena de potencial",
+      "2": "Ya empieza a burbujear un poco",
+      "3": "¡Ya está mostrando señales de vida!"
+    },
+    "schedule": {
+      "feed": { "time": "Jueves 7:00 p. m.", "action": "Alimenta tu masa madre" },
+      "mix": { "time": "Viernes 8:00 a. m.", "action": "Mezcla la masa y haz la autolisis" },
+      "add": { "time": "Viernes 10:00 a. m.", "action": "Añade la masa madre y la sal, estira y dobla" },
+      "shape": { "time": "Viernes 4:00 p. m.", "action": "Dale forma y llévala al refrigerador" },
+      "preheat": { "time": "Sábado 7:30 a. m.", "action": "Precalienta tu olla holandesa" }
+    }
+  },
+  "discardVault": {
+    "eyebrow": "✦ La bóveda del descarte ✦",
+    "title": "No te atrevas a tirar eso.",
+    "quote": "«El descarte es solo masa madre que aún no ha alcanzado su máximo potencial. Nosotros la hacemos brillar.»",
+    "explore": "Explorar recetas de descarte →",
+    "recipes": {
+      "pancakes": { "name": "Panqueques de domingo por la mañana", "time": "20 min", "tag": "Desayuno" },
+      "crackers": { "name": "Galletas saladas de hierbas y sal marina", "time": "45 min", "tag": "Para picar" },
+      "pizza": { "name": "Masa de pizza con descarte", "time": "1 h", "tag": "Cena" },
+      "muffins": { "name": "Muffins de cobbler de durazno", "time": "35 min", "tag": "Postre" }
+    }
+  },
+  "features": {
+    "eyebrow": "✦ Todo lo que necesitas ✦",
+    "title": "Tu cocina completa de masa madre.",
+    "items": {
+      "starterJournal": { "label": "Diario de la masa madre", "desc": "Ponle nombre, registra sus alimentaciones y obsérvala crecer desde una pequeña pasta de harina hasta algo espectacular." },
+      "bakeScheduler": { "label": "Planificador de horneado", "desc": "Dinos cuándo quieres pan fresco. Calcularemos hacia atrás y te daremos un cronograma paso a paso." },
+      "discardVault": { "label": "Bóveda del descarte", "desc": "Una biblioteca creciente de recetas para tu descarte de masa madre. Panqueques, galletas, pasta — no se desperdicia ni una gota." },
+      "troubleshooter": { "label": "Solucionador de problemas de la masa madre", "desc": "¿Tu masa madre huele raro? ¿No sube? Cuéntanos qué pasa y te ayudaremos a devolverle la salud." },
+      "recipeLibrary": { "label": "Biblioteca de recetas", "desc": "Hogazas, panecillos, focaccia y más — cada una hecha con ingredientes reales, probada en una cocina real." },
+      "flourGuide": { "label": "Guía de harinas", "desc": "Harina todo uso, integral, centeno — desglosamos cada harina para que sepas exactamente con qué estás trabajando." }
+    }
+  },
+  "pricing": {
+    "eyebrow": "✦ Únete a la cocina ✦",
+    "title": "El buen pan no cuesta mucho.",
+    "free": {
+      "badge": "Gratis para siempre",
+      "price": "$0",
+      "subtitle": "Moja el dedo en la masa",
+      "features": ["5 recetas", "Seguimiento diario de la masa madre", "Ideas básicas de descarte", "Acceso a la comunidad"],
+      "cta": "Empezar gratis"
+    },
+    "pro": {
+      "badge": "Pase del Panadero",
+      "mostPopular": "Más popular",
+      "price": "$5.99",
+      "period": "/mes",
+      "subtitle": "Acceso completo a la cocina",
+      "features": ["Biblioteca completa de recetas (300+)", "Diario de la masa madre + alertas", "Planificador de horneado", "Bóveda del descarte completa", "Solucionador de problemas de la masa madre", "Guías de harina e hidratación", "Recetas nuevas cada semana"],
+      "cta": "Suscribirse ahora →"
+    },
+    "annual": {
+      "badge": "Anual",
+      "price": "$55.99",
+      "period": "/año",
+      "saveBadge": "Ahorra 20% · Mejor valor",
+      "features": ["Todas las funciones del Pase del Panadero", "Soporte prioritario", "Acceso anticipado a recetas", "Planificador anual de horneado"],
+      "cta": "Pasar al plan anual"
+    }
+  },
+  "footerCta": {
+    "title": "¿Listo para que suba?",
+    "quote": "«Tu masa madre te está esperando. Horneemos algo real — hecho con tus propias manos, sin aditivos, sin atajos.»",
+    "cta": "Empieza a hornear gratis hoy →"
+  }
+}

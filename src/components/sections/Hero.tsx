@@ -1,8 +1,11 @@
 'use client'
 
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 export default function Hero() {
+  const t = useTranslations('Marketing.hero')
+
   return (
     <section className="min-h-screen flex items-center relative overflow-hidden px-8 md:px-16 pt-28 pb-20"
       style={{ background: 'linear-gradient(160deg, #fdf6f0 0%, #f5e6d8 50%, #ede0d4 100%)' }}>
@@ -16,22 +19,22 @@ export default function Hero() {
       <div className="max-w-6xl mx-auto w-full flex flex-col md:flex-row items-center gap-16 relative">
         {/* Text */}
         <div className="flex-1 animate-fadeInUp">
-          <p className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-3">✦ Real Ingredients, Homemade ✦</p>
+          <p className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-3">{t('eyebrow')}</p>
           <h1 className="font-playfair text-4xl md:text-5xl font-black leading-[1.1] mb-5">
-            Sourdough you&apos;ll be{' '}
+            {t('titleLine1')}{' '}
             <span className="bg-gradient-to-r from-[#e8b4a0] via-[#c9956c] to-[#b5838d] bg-clip-text text-transparent">
-              proud to pull from your own oven.
+              {t('titleHighlight')}
             </span>
           </h1>
           <p className="font-lora italic text-lg leading-relaxed text-[#6b4c3b] max-w-lg mb-8">
-            &quot;There&apos;s nothing quite like pulling a golden loaf from your own oven — grown from your own starter, made with nothing but real, simple ingredients.&quot;
+            {t('quote')}
           </p>
           <div className="flex flex-wrap gap-6">
             <Link href="/signup" className="bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-8 py-4 rounded-full font-lora hover:-translate-y-0.5 transition-transform shadow-lg shadow-[#b07d62]/30">
-              Start Baking →
+              {t('startBaking')}
             </Link>
             <Link href="/recipes" className="border border-[#c9956c] text-[#7a4f3a] px-7 py-3.5 rounded-full font-lora text-sm hover:bg-[#c9956c] hover:text-white transition-all">
-              See the Recipes
+              {t('seeRecipes')}
             </Link>
           </div>
         </div>

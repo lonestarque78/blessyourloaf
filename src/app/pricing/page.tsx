@@ -2,10 +2,26 @@ import { createClient } from '@/lib/supabase/server'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import PricingCards from '@/components/pricing/PricingCards'
+import { getTranslations } from 'next-intl/server'
+
+const featureRows = [
+  { key: 'starterJournal', free: true, paid: true },
+  { key: 'feedingLog', free: true, paid: true },
+  { key: 'freeRecipes', free: true, paid: true },
+  { key: 'flourGuide', free: true, paid: true },
+  { key: 'fullLibrary', free: false, paid: true },
+  { key: 'discardVault', free: false, paid: true },
+  { key: 'aiScheduler', free: false, paid: true },
+  { key: 'aiTroubleshooter', free: false, paid: true },
+  { key: 'bakeHistory', free: false, paid: true },
+  { key: 'personalRecipeBox', free: false, paid: true },
+  { key: 'newRecipes', free: false, paid: true },
+] as const
 
 export default async function PricingPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
+  const t = await getTranslations('Pricing')
 
   const { data: profile } = user ? await supabase
     .from('profiles')
@@ -21,12 +37,12 @@ export default async function PricingPage() {
 
       <div className="max-w-5xl mx-auto px-6 pt-24 pb-20">
         <div className="text-center mb-16">
-          <p className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-3">✦ Join the Kitchen ✦</p>
+          <p className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-3">{t('eyebrow')}</p>
           <h1 className="font-playfair text-5xl font-bold text-[#3d2b1f] mb-4">
-            Good bread doesn&apos;t cost much.
+            {t('title')}
           </h1>
           <p className="font-lora italic text-[#9a7060] max-w-lg mx-auto">
-            &quot;Start free and bake your first loaf. Upgrade when you&apos;re ready for the full kitchen.&quot;
+            {t('quote')}
           </p>
         </div>
 
@@ -40,33 +56,21 @@ export default async function PricingPage() {
         {/* Feature comparison */}
         <div className="mt-20 bg-white rounded-2xl shadow-md border border-[#f0e4db] overflow-hidden">
           <div className="p-6 border-b border-[#f0e4db]">
-            <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f]">What&apos;s included</h2>
+            <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f]">{t('whatsIncluded')}</h2>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="bg-[#f9ede5]">
-                  <th className="text-left font-lora text-xs uppercase tracking-widest text-[#b8896e] px-6 py-4">Feature</th>
-                  <th className="text-center font-lora text-xs uppercase tracking-widest text-[#b8896e] px-6 py-4">Free</th>
-                  <th className="text-center font-lora text-xs uppercase tracking-widest text-[#b8896e] px-6 py-4">Subscriber</th>
+                  <th className="text-left font-lora text-xs uppercase tracking-widest text-[#b8896e] px-6 py-4">{t('colFeature')}</th>
+                  <th className="text-center font-lora text-xs uppercase tracking-widest text-[#b8896e] px-6 py-4">{t('colFree')}</th>
+                  <th className="text-center font-lora text-xs uppercase tracking-widest text-[#b8896e] px-6 py-4">{t('colSubscriber')}</th>
                 </tr>
               </thead>
               <tbody>
-                {[
-                  { feature: 'Starter Journal', free: true, paid: true },
-                  { feature: 'Feeding Log', free: true, paid: true },
-                  { feature: 'Free Recipes (2)', free: true, paid: true },
-                  { feature: 'Flour Guide', free: true, paid: true },
-                  { feature: 'Full Recipe Library (20+)', free: false, paid: true },
-                  { feature: 'Discard Vault', free: false, paid: true },
-                  { feature: 'Bake Scheduler (AI-powered)', free: false, paid: true },
-                  { feature: 'Starter Troubleshooter (AI)', free: false, paid: true },
-                  { feature: 'Bake History', free: false, paid: true },
-                  { feature: 'Personal Recipe Box', free: false, paid: true },
-                  { feature: 'New recipes added regularly', free: false, paid: true },
-                ].map(({ feature, free, paid }, i) => (
-                  <tr key={feature} className={i % 2 === 0 ? 'bg-white' : 'bg-[#fdf6f0]'}>
-                    <td className="font-lora text-sm text-[#3d2b1f] px-6 py-3">{feature}</td>
+                {featureRows.map(({ key, free, paid }, i) => (
+                  <tr key={key} className={i % 2 === 0 ? 'bg-white' : 'bg-[#fdf6f0]'}>
+                    <td className="font-lora text-sm text-[#3d2b1f] px-6 py-3">{t(`features.${key}`)}</td>
                     <td className="text-center px-6 py-3">
                       {free
                         ? <span className="text-green-600 font-bold">✓</span>
@@ -86,7 +90,7 @@ export default async function PricingPage() {
 
         <div className="mt-12 text-center">
           <p className="font-lora italic text-sm text-[#9a7060]">
-            Cancel anytime. No contracts. No funny business.
+            {t('footerNote')}
           </p>
         </div>
       </div>

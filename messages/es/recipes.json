@@ -1,0 +1,38 @@
+{
+  "list": {
+    "eyebrow": "✦ La biblioteca de recetas ✦",
+    "title": "Cada receta que desearías que alguien hubiera anotado.",
+    "quote": "«Estas son las de verdad. Ingredientes reales, probados en una cocina real hasta que quedaron perfectas.»",
+    "premium": "Premium",
+    "subscribeToUnlock": "Suscríbete para desbloquear",
+    "unlock": "Desbloquear →",
+    "viewRecipe": "Ver receta →",
+    "minTotal": "{minutes} min en total"
+  },
+  "categoryLabels": {
+    "loaf": "Hogazas",
+    "discard": "Descarte",
+    "rolls": "Panecillos",
+    "focaccia": "Panes planos",
+    "other": "Otros"
+  },
+  "difficultyLabels": {
+    "beginner": "Principiante",
+    "intermediate": "Intermedio",
+    "advanced": "Avanzado"
+  },
+  "detail": {
+    "backToRecipes": "← Volver a Recetas",
+    "premium": "Premium",
+    "prep": "Preparación",
+    "bake": "Horneado",
+    "difficulty": "Dificultad",
+    "total": "Total",
+    "minutesShort": "{count} min",
+    "whatYoullNeed": "Lo que necesitarás",
+    "letsGetBaking": "Manos a la masa",
+    "ctaTitle": "¿Quieres las 20 recetas? 🍞",
+    "ctaBody": "Únete a Bless Your Loaf y obtén la biblioteca completa, además del Diario de la masa madre, el Planificador de horneado y más.",
+    "ctaButton": "Empieza gratis hoy →"
+  }
+}

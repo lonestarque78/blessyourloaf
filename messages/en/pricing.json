@@ -1,0 +1,56 @@
+{
+  "eyebrow": "✦ Join the Kitchen ✦",
+  "title": "Good bread doesn't cost much.",
+  "quote": "\"Start free and bake your first loaf. Upgrade when you're ready for the full kitchen.\"",
+  "whatsIncluded": "What's included",
+  "colFeature": "Feature",
+  "colFree": "Free",
+  "colSubscriber": "Subscriber",
+  "features": {
+    "starterJournal": "Starter Journal",
+    "feedingLog": "Feeding Log",
+    "freeRecipes": "Free Recipes (2)",
+    "flourGuide": "Flour Guide",
+    "fullLibrary": "Full Recipe Library (20+)",
+    "discardVault": "Discard Vault",
+    "aiScheduler": "Bake Scheduler (AI-powered)",
+    "aiTroubleshooter": "Starter Troubleshooter (AI)",
+    "bakeHistory": "Bake History",
+    "personalRecipeBox": "Personal Recipe Box",
+    "newRecipes": "New recipes added regularly"
+  },
+  "footerNote": "Cancel anytime. No contracts. No funny business.",
+  "cards": {
+    "alreadySubscribed": "You're already in the kitchen!",
+    "alreadySubscribedBody": "You have full access to everything Bless Your Loaf has to offer.",
+    "goToDashboard": "Go to Dashboard →",
+    "genericError": "Something went wrong. Try again in a moment.",
+    "free": {
+      "badge": "Free Forever",
+      "price": "$0",
+      "subtitle": "Dip your toe in the dough",
+      "features": ["Starter Journal", "Feeding Log", "2 free recipes", "Flour Guide"],
+      "ctaLoggedIn": "Go to Dashboard",
+      "ctaLoggedOut": "Get Started Free"
+    },
+    "monthly": {
+      "badge": "Monthly",
+      "mostPopular": "Most Popular",
+      "price": "$5.99",
+      "period": "/mo",
+      "subtitle": "Full run of the kitchen",
+      "features": ["Full recipe library (20+)", "Starter Journal + feeding log", "AI Bake Scheduler", "Full Discard Vault", "Starter Troubleshooter", "Personal Recipe Box", "New recipes regularly"],
+      "loading": "Loading...",
+      "cta": "Subscribe now →"
+    },
+    "annual": {
+      "badge": "Annual",
+      "price": "$55.99",
+      "period": "/yr",
+      "saveBadge": "Save 20% · Best Value",
+      "features": ["Everything in Monthly", "Priority support", "Early recipe access", "Annual baking planner"],
+      "loading": "Loading...",
+      "cta": "Subscribe now →"
+    }
+  }
+}

@@ -1,0 +1,254 @@
+{
+  "eyebrow": "✦ Baker's Tools ✦",
+  "startFreeToday": "Start Free Today →",
+  "hydration": {
+    "title": "Hydration Calculator",
+    "quote": "\"Hydration is just flour and water getting to know each other. Let's do the math.\"",
+    "explainerTitle": "What is baker's hydration?",
+    "explainerBody": "Hydration is the weight of water in a dough as a percentage of the weight of flour — 500g flour and 375g water is 75% hydration. It's the single biggest lever you have over how a dough feels and bakes: higher hydration makes a wetter, stickier dough with a more open, airy crumb; lower hydration makes a firmer dough that's easier to handle and shape.",
+    "explainerQuote": "\"New to this? Stay around 65-70% until you get a feel for handling wet dough. You can always work your way up.\"",
+    "ctaTitle": "Want a hydration calculator that knows your starter?",
+    "ctaBody": "Save your starters in Bless Your Loaf and every bake schedule accounts for her hydration automatically.",
+    "tabAmounts": "I have my amounts",
+    "tabTarget": "I have a target",
+    "amountsQuote": "\"Tell me your flour and water, and I'll tell you her hydration.\"",
+    "flourLabel": "Flour (g)",
+    "waterLabel": "Water (g)",
+    "hydrationResultLabel": "Hydration",
+    "targetQuote": "\"Tell me your target hydration and how big a dough you want, and I'll do the rest.\"",
+    "targetHydrationLabel": "Target hydration (%)",
+    "totalWeightLabel": "Total dough weight (g)",
+    "flourResultLabel": "Flour",
+    "waterResultLabel": "Water",
+    "targetFootnote": "Doesn't include your starter's own flour and water — hold a little back if you're counting hers too."
+  },
+  "temperature": {
+    "title": "Temperature Guide",
+    "quote": "\"A recipe's just a starting point. Your kitchen has the final say.\"",
+    "explainerTitle": "Why temperature matters so much",
+    "explainerBody1": "The wild yeast and bacteria in your starter are living things — they eat, breathe, and multiply faster or slower depending on how warm they are, the same way most living things do. Recipe times are always written for one specific temperature, usually somewhere around 75-78°F. If your kitchen runs warmer or cooler than that, the recipe's clock stops being reliable.",
+    "explainerBody2": "That's why we always say to watch the dough, not the clock — but knowing roughly how much extra (or less) time to expect helps you plan your day instead of getting surprised.",
+    "explainerQuote": "\"Summer kitchen running hot? Your bulk ferment that usually takes 4 hours might be done in 2. Winter got you at 65°F? Budget most of the day for it.\"",
+    "ctaTitle": "Want this factored into your whole bake schedule?",
+    "ctaBody": "The Bake Scheduler already accounts for your starter's activity when it plans your timing — sign up and try it.",
+    "toolQuote": "\"Give me your recipe's timing and your kitchen's temperature, and I'll tell you what to really expect.\"",
+    "recipeTimeLabel": "Recipe time at {temp}°F (hours)",
+    "kitchenTempLabel": "Your kitchen's temperature (°F)",
+    "expectLabel": "Expect it to take about",
+    "warmerNote": "Your kitchen's warmer than {temp}°F, so she'll move faster than the recipe says — keep an eye on her, don't just watch the clock.",
+    "coolerNote": "Your kitchen's cooler than {temp}°F, so give her extra time — she's just taking it slow, not doing anything wrong.",
+    "referenceTableLabel": "Quick reference — every 10°F roughly doubles or halves fermentation speed"
+  },
+  "flourGuide": {
+    "eyebrow": "✦ The Flour Guide ✦",
+    "title": "Know your flour, know your bread.",
+    "quote": "\"The flour you choose changes everything — the flavor, the texture, the timing. Let me walk you through what you need to know.\"",
+    "comparisonTitle": "Quick Comparison",
+    "colFlour": "Flour",
+    "colProtein": "Protein",
+    "colHydration": "Hydration",
+    "colFermentation": "Fermentation",
+    "colLevel": "Level",
+    "characteristicsLabel": "Characteristics",
+    "bestForLabel": "Best For",
+    "fermentationLabel": "Fermentation",
+    "bakersNoteLabel": "Baker's Note",
+    "difficulty": {
+      "Beginner": "Beginner",
+      "Intermediate": "Intermediate",
+      "Advanced": "Advanced"
+    },
+    "flours": {
+      "allPurpose": {
+        "name": "All-Purpose Flour",
+        "bestFor": "Beginner loaves, discard recipes, pancakes, crackers",
+        "description": "The workhorse of the home kitchen. All-purpose is forgiving, widely available, and produces a mild-flavored loaf with a soft, open crumb. Your starter will be happy on it.",
+        "characteristics": [
+          "Moderate protein content means moderate gluten development",
+          "Produces a lighter, more open crumb than whole grain flours",
+          "Mild flavor that lets your starter shine",
+          "Ferments at a predictable, moderate pace",
+          "Easiest flour to work with for new bakers"
+        ],
+        "tips": "If you're just starting out, this is your flour. Get comfortable with AP before you start experimenting with others.",
+        "fermentation": "Moderate — expect 4–6 hours bulk at 75°F"
+      },
+      "bread": {
+        "name": "Bread Flour",
+        "bestFor": "Artisan loaves, bagels, rolls, anything needing strong structure",
+        "description": "This is what most professional bakers reach for. The higher protein content builds stronger gluten networks, giving you better oven spring and that gorgeous ear on your scored loaf.",
+        "characteristics": [
+          "Higher protein builds stronger, more extensible gluten",
+          "Better oven spring and taller loaves",
+          "Chewier crumb with larger, more irregular holes",
+          "Can handle higher hydration doughs",
+          "Produces a more complex, slightly nuttier flavor"
+        ],
+        "tips": "Once you've got a few AP loaves under your belt, switch to bread flour. You'll notice the difference immediately — more spring, better structure, prettier scoring.",
+        "fermentation": "Moderate — similar to AP but handles longer ferments well"
+      },
+      "wholeWheat": {
+        "name": "Whole Wheat Flour",
+        "bestFor": "Hearty loaves, nutritious everyday bread, adding depth to blends",
+        "description": "Whole wheat includes the bran and germ, which means more nutrition, more flavor, and — here's the thing — faster fermentation. The bran cuts gluten strands, so you'll need to adjust your timing.",
+        "characteristics": [
+          "Bran and germ add nutty, earthy flavor complexity",
+          "Ferments significantly faster than white flours",
+          "Bran cuts gluten strands, producing a denser crumb",
+          "More nutritious than refined flours",
+          "Absorbs more water than white flour"
+        ],
+        "tips": "Start by substituting just 20–30% whole wheat in your usual recipe before going 100%. Pure whole wheat loaves are dense but deeply flavorful — worth working up to.",
+        "fermentation": "Fast — reduce bulk time by 20–30% compared to white flour"
+      },
+      "rye": {
+        "name": "Rye Flour",
+        "bestFor": "Dark rye loaves, starter feedings, adding sour complexity",
+        "description": "Rye is the secret weapon of serious sourdough bakers. It ferments faster than any other flour, feeds your starter like nothing else, and adds a deep, earthy complexity that plain white loaves just can't match.",
+        "characteristics": [
+          "Contains pentosans instead of gluten — produces sticky, dense dough",
+          "Ferments extremely fast due to high enzyme activity",
+          "Adds deep, earthy, slightly sour flavor",
+          "Excellent for starter maintenance — activates sluggish starters",
+          "High in fiber and nutrients"
+        ],
+        "tips": "Even a tablespoon of rye in your starter feeding will wake her right up. For baking, start with a 10–20% rye blend before attempting a full rye loaf — pure rye is a whole different beast.",
+        "fermentation": "Very fast — can double in 2–3 hours at room temperature"
+      },
+      "spelt": {
+        "name": "Spelt Flour",
+        "bestFor": "Lighter whole grain loaves, digestibility-focused baking",
+        "description": "Spelt is an ancient grain that's having a moment. It has good protein content but the gluten is more fragile than modern wheat — which means it ferments quickly and can over-proof on you if you're not paying attention.",
+        "characteristics": [
+          "Ancient grain with a sweet, nutty flavor",
+          "Gluten is more extensible but less strong than modern wheat",
+          "More digestible for some people sensitive to modern wheat",
+          "Ferments faster than bread flour",
+          "Produces a lighter crumb than whole wheat"
+        ],
+        "tips": "Handle spelt dough gently — it tears easily if you overwork it. Shorter fermentation times and gentler shaping are your friends here.",
+        "fermentation": "Fast — similar pace to whole wheat"
+      },
+      "einkorn": {
+        "name": "Einkorn Flour",
+        "bestFor": "Ancient grain enthusiasts, highly digestible loaves",
+        "description": "Einkorn is the oldest wheat on earth, and it bakes like nothing else. High in protein but with weak gluten structure — it produces a dense, moist, deeply flavorful loaf that's unlike any modern wheat bread you've tasted.",
+        "characteristics": [
+          "Highest protein of any wheat but weakest gluten structure",
+          "Rich, buttery, almost sweet flavor profile",
+          "Very sticky dough that's difficult to work with",
+          "Does not develop gluten the same way modern wheat does",
+          "Highly digestible — often tolerated by those with wheat sensitivities"
+        ],
+        "tips": "Don't try to develop gluten with einkorn the way you would bread flour. Use a no-knead approach, keep hydration lower than you think, and be patient with a long cold proof.",
+        "fermentation": "Slow to moderate — enzyme activity is different from modern wheat"
+      },
+      "glutenFree": {
+        "name": "Gluten-Free Blends",
+        "bestFor": "Gluten-free bakers, celiac-friendly loaves",
+        "description": "Gluten-free sourdough is a whole different craft. Without gluten, you're relying on xanthan gum, psyllium husk, or other binders to hold the structure together. It takes patience and experimentation, but it can be done.",
+        "characteristics": [
+          "No gluten means no traditional dough development",
+          "Requires binders like psyllium husk or xanthan gum",
+          "Starter must be maintained on GF flours (rice, sorghum, buckwheat)",
+          "Produces a batter-like dough rather than a shapeable dough",
+          "Flavor varies significantly by blend used"
+        ],
+        "tips": "Use a certified GF sourdough starter fed on rice flour or a certified GF blend. Psyllium husk is your best friend for structure. Bake in a loaf pan rather than free-form.",
+        "fermentation": "Varies — GF starters can be unpredictable"
+      }
+    }
+  },
+  "starterGuide": {
+    "eyebrow": "✦ The Starter Guide ✦",
+    "title": "Grow your starter from scratch.",
+    "quote": "\"All you need is flour, water, and patience. Your starter will do the rest.\"",
+    "whatIsTitle": "What is a sourdough starter?",
+    "whatIsBody1": "A sourdough starter is a living culture of wild yeast and bacteria that you grow at home using nothing but flour and water. It's the leavening agent that makes sourdough bread rise — no commercial yeast needed.",
+    "whatIsBody2": "The wild yeast produces carbon dioxide (which makes the bread rise) and the bacteria produce lactic and acetic acids (which give sourdough its signature tangy flavor). Together they create something no commercial yeast can replicate.",
+    "whatIsQuote": "\"Think of her as a pet. Feed her regularly, keep her comfortable, and she'll take care of you for years.\"",
+    "whatYoullNeedTitle": "What you'll need",
+    "supplies": {
+      "jar": { "item": "A clean glass jar", "note": "At least 1 quart — she needs room to grow" },
+      "scale": { "item": "A kitchen scale", "note": "Measuring by weight is far more accurate than cups" },
+      "flour": { "item": "All-purpose or bread flour", "note": "Unbleached works best" },
+      "water": { "item": "Non-chlorinated water", "note": "Filtered or left out overnight if your tap is heavily chlorinated" },
+      "band": { "item": "A rubber band", "note": "To mark her rise level after each feeding" },
+      "spot": { "item": "A warm spot", "note": "70-75°F is ideal — on top of the fridge or near the oven" }
+    },
+    "dayByDayTitle": "The day-by-day guide",
+    "bakersNoteLabel": "Baker's Note",
+    "whatToExpectLabel": "What to expect",
+    "steps": {
+      "day1": {
+        "day": "Day 1",
+        "title": "Mix your first feeding",
+        "description": "In a clean jar, mix 50g of flour and 50g of room temperature water until no dry flour remains. Cover loosely — she needs air to breathe. Leave her somewhere warm, around 70-75°F.",
+        "tip": "Use a rubber band to mark where she starts. That way you can see if she's risen.",
+        "whatToExpect": "Nothing much yet. She might look lumpy and smell like raw flour. That is perfectly normal."
+      },
+      "days23": {
+        "day": "Days 2-3",
+        "title": "First signs of life",
+        "description": "Discard all but 50g of your starter. Feed with 50g flour and 50g water. Repeat this every 24 hours. Keep her in that warm spot.",
+        "tip": "Don't throw away the discard — save it in a separate jar in the fridge. You can use it for pancakes even this early.",
+        "whatToExpect": "You might see some bubbles forming. She might smell a little funky — almost like cheese or acetone. This is normal and temporary."
+      },
+      "days47": {
+        "day": "Days 4-7",
+        "title": "Building strength",
+        "description": "Keep discarding and feeding every 24 hours. If she is rising and falling predictably, try feeding twice a day — once in the morning and once at night.",
+        "tip": "If she smells like nail polish remover, she's too hungry. Feed her more frequently.",
+        "whatToExpect": "Bubbles throughout, a domed top, and a more pleasant yeasty or tangy smell. She should be doubling in size within 4-8 hours of a feeding."
+      },
+      "week2": {
+        "day": "Week 2+",
+        "title": "The float test",
+        "description": "Drop a small spoonful of your starter into a glass of water. If it floats, she is ready to bake with. If it sinks, keep feeding for a few more days.",
+        "tip": "The float test isn't perfect — some healthy starters sink. The best sign is consistent doubling within 4-6 hours of feeding.",
+        "whatToExpect": "A mature starter smells pleasantly sour and yeasty, doubles reliably, and has a domed top with lots of bubbles when at peak."
+      }
+    },
+    "faqTitle": "Common questions",
+    "faqs": {
+      "howLong": {
+        "q": "How long does it take to make a starter?",
+        "a": "Most starters are ready to bake with in 7-14 days, but some take 3-4 weeks. Temperature, flour type, and the wild yeast in your environment all play a role. Don't rush her."
+      },
+      "whatFlour": {
+        "q": "What flour should I use?",
+        "a": "All-purpose or bread flour works great for beginners. Adding a tablespoon of whole wheat or rye flour speeds things up — those flours have more wild yeast and nutrients. Check our Flour Guide for more detail."
+      },
+      "smellsBad": {
+        "q": "My starter smells bad. Is it dead?",
+        "a": "Almost certainly not. Young starters go through a smelly phase — acetone, cheese, even vomit smells are all normal in the first week. Keep feeding and she'll come around. Check the Starter Troubleshooter if you're worried."
+      },
+      "liquidOnTop": {
+        "q": "There's liquid on top. Is that mold?",
+        "a": "That's hooch — a layer of alcohol produced when your starter is hungry. It's gray or dark in color, not fuzzy. Just stir it in or pour it off and feed her. Mold is fuzzy and colorful (pink, orange, black). If you see actual mold, scoop it out and hope for the best."
+      },
+      "storeLongTerm": {
+        "q": "How do I store my starter long term?",
+        "a": "Once established, keep her in the fridge and feed once a week. Take her out the night before baking, feed her, and let her come to peak activity at room temperature before using."
+      },
+      "unfedMonths": {
+        "q": "Can I use a starter that hasn't been fed in months?",
+        "a": "Usually yes. Discard most of it, feed what's left, and give her a few days of regular feedings to wake back up. Starters are more resilient than you think."
+      }
+    },
+    "ctaTitle": "Ready to track your starter's journey?",
+    "ctaBody": "Name her, log her feedings, and watch her grow — right here in Bless Your Loaf."
+  },
+  "discardVault": {
+    "eyebrow": "✦ The Discard Vault ✦",
+    "title": "Don't you dare throw that away.",
+    "quote": "\"Discard is just starter that hasn't reached its full potential yet. Every bit of it deserves a second chance.\"",
+    "explainerTitle": "What is sourdough discard?",
+    "explainerBody": "Every time you feed your starter, you remove a portion before adding fresh flour and water. That removed portion is called discard — and it is anything but waste. It's packed with wild yeast and bacteria that add incredible flavor to everything it touches, with nothing artificial added. These recipes are designed specifically for discard at any stage, from brand new starter to a well-established one.",
+    "recipesTitle": "Discard Recipes",
+    "noRecipes": "No discard recipes found.",
+    "ctaTitle": "Unlock the full Discard Vault 🫙",
+    "ctaBody": "Subscribe to access every discard recipe plus the full recipe library, Starter Journal, Bake Scheduler, and more.",
+    "subscribeNow": "Subscribe now →"
+  }
+}

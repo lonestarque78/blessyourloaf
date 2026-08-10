@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import LanguageSwitcher from '@/components/layout/LanguageSwitcher'
 
 interface DashboardNavClientProps {
   signOut: () => Promise<void>
@@ -11,6 +13,8 @@ const linkClass = 'font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transit
 const mobileLinkClass = 'font-lora text-base text-[#7a4f3a] hover:text-[#b07d62] transition-colors py-1'
 
 export default function DashboardNavClient({ signOut }: DashboardNavClientProps) {
+  const t = useTranslations('Common.dashboardNav')
+  const tCommon = useTranslations('Common.nav')
   const [mobileOpen, setMobileOpen] = useState(false)
   const [libraryOpen, setLibraryOpen] = useState(false)
   const libraryRef = useRef<HTMLDivElement>(null)
@@ -39,10 +43,10 @@ export default function DashboardNavClient({ signOut }: DashboardNavClientProps)
     <>
       {/* Desktop nav */}
       <div className="hidden md:flex items-center gap-6">
-        <Link href="/dashboard/starters" className={linkClass}>My Starters</Link>
-        <Link href="/dashboard/scheduler" className={linkClass}>Bake Scheduler</Link>
-        <Link href="/dashboard/history" className={linkClass}>Bake History</Link>
-        <Link href="/dashboard/troubleshooter" className={linkClass}>Troubleshooter</Link>
+        <Link href="/dashboard/starters" className={linkClass}>{t('myStarters')}</Link>
+        <Link href="/dashboard/scheduler" className={linkClass}>{t('bakeScheduler')}</Link>
+        <Link href="/dashboard/history" className={linkClass}>{t('bakeHistory')}</Link>
+        <Link href="/dashboard/troubleshooter" className={linkClass}>{t('troubleshooter')}</Link>
 
         {/* Library dropdown */}
         <div
@@ -56,7 +60,7 @@ export default function DashboardNavClient({ signOut }: DashboardNavClientProps)
             onClick={() => setLibraryOpen(o => !o)}
             aria-expanded={libraryOpen}
           >
-            Library
+            {t('library')}
             <svg
               className={`w-3 h-3 transition-transform duration-200 ${libraryOpen ? 'rotate-180' : ''}`}
               fill="none"
@@ -76,57 +80,58 @@ export default function DashboardNavClient({ signOut }: DashboardNavClientProps)
               className="block px-4 py-2 font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] hover:bg-[#fdf6f0] transition-colors"
               onClick={() => setLibraryOpen(false)}
             >
-              My Recipes
+              {t('myRecipes')}
             </Link>
             <Link
               href="/recipes"
               className="block px-4 py-2 font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] hover:bg-[#fdf6f0] transition-colors"
               onClick={() => setLibraryOpen(false)}
             >
-              Recipes
+              {t('recipes')}
             </Link>
             <Link
               href="/discard"
               className="block px-4 py-2 font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] hover:bg-[#fdf6f0] transition-colors"
               onClick={() => setLibraryOpen(false)}
             >
-              Discard Vault
+              {t('discardVault')}
             </Link>
             <Link
               href="/flour-guide"
               className="block px-4 py-2 font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] hover:bg-[#fdf6f0] transition-colors"
               onClick={() => setLibraryOpen(false)}
             >
-              Flour Guide
+              {t('flourGuide')}
             </Link>
             <Link
               href="/starter-guide"
               className="block px-4 py-2 font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] hover:bg-[#fdf6f0] transition-colors"
               onClick={() => setLibraryOpen(false)}
             >
-              Starter Guide
+              {t('starterGuide')}
             </Link>
             <Link
               href="/hydration-calculator"
               className="block px-4 py-2 font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] hover:bg-[#fdf6f0] transition-colors"
               onClick={() => setLibraryOpen(false)}
             >
-              Hydration Calculator
+              {t('hydrationCalculator')}
             </Link>
             <Link
               href="/temperature-guide"
               className="block px-4 py-2 font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] hover:bg-[#fdf6f0] transition-colors"
               onClick={() => setLibraryOpen(false)}
             >
-              Temperature Guide
+              {t('temperatureGuide')}
             </Link>
           </div>
         </div>
 
-        <Link href="/dashboard/account" className={linkClass}>Account</Link>
+        <Link href="/dashboard/account" className={linkClass}>{t('account')}</Link>
+        <LanguageSwitcher />
         <form action={signOut}>
           <button type="submit" className="font-lora text-sm text-[#9a7060] hover:text-[#b07d62] transition-colors">
-            Sign out
+            {t('signOut')}
           </button>
         </form>
       </div>
@@ -135,7 +140,7 @@ export default function DashboardNavClient({ signOut }: DashboardNavClientProps)
       <button
         className="md:hidden flex flex-col justify-center items-center w-9 h-9 gap-1.5 rounded-md hover:bg-[#f0e0d0]/60 transition-colors"
         onClick={() => setMobileOpen(o => !o)}
-        aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+        aria-label={mobileOpen ? tCommon('closeMenu') : tCommon('openMenu')}
       >
         <span className={`block w-5 h-0.5 bg-[#7a4f3a] transition-all duration-300 origin-center ${mobileOpen ? 'rotate-45 translate-y-2' : ''}`} />
         <span className={`block w-5 h-0.5 bg-[#7a4f3a] transition-all duration-300 ${mobileOpen ? 'opacity-0 scale-x-0' : ''}`} />
@@ -144,25 +149,26 @@ export default function DashboardNavClient({ signOut }: DashboardNavClientProps)
 
       {/* Mobile dropdown */}
       <div className={`md:hidden absolute left-0 right-0 top-full bg-white border-b border-[#f0e4db] shadow-md overflow-hidden transition-all duration-300 ease-in-out ${
-        mobileOpen ? 'max-h-[480px] opacity-100' : 'max-h-0 opacity-0'
+        mobileOpen ? 'max-h-[520px] opacity-100' : 'max-h-0 opacity-0'
       }`}>
         <div className="px-6 pt-3 pb-6 flex flex-col gap-4 border-t border-[#f0e4db]">
-          <Link href="/dashboard/starters" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>My Starters</Link>
-          <Link href="/dashboard/scheduler" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Bake Scheduler</Link>
-          <Link href="/dashboard/history" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Bake History</Link>
-          <Link href="/dashboard/my-recipes" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>My Recipes</Link>
-          <Link href="/dashboard/troubleshooter" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Troubleshooter</Link>
-          <Link href="/recipes" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Recipes</Link>
-          <Link href="/discard" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Discard Vault</Link>
-          <Link href="/flour-guide" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Flour Guide</Link>
-          <Link href="/starter-guide" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Starter Guide</Link>
-          <Link href="/hydration-calculator" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Hydration Calculator</Link>
-          <Link href="/temperature-guide" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Temperature Guide</Link>
-          <div className="border-t border-[#f0e4db] pt-3 flex flex-col gap-3">
-            <Link href="/dashboard/account" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>Account</Link>
+          <Link href="/dashboard/starters" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>{t('myStarters')}</Link>
+          <Link href="/dashboard/scheduler" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>{t('bakeScheduler')}</Link>
+          <Link href="/dashboard/history" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>{t('bakeHistory')}</Link>
+          <Link href="/dashboard/my-recipes" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>{t('myRecipes')}</Link>
+          <Link href="/dashboard/troubleshooter" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>{t('troubleshooter')}</Link>
+          <Link href="/recipes" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>{t('recipes')}</Link>
+          <Link href="/discard" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>{t('discardVault')}</Link>
+          <Link href="/flour-guide" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>{t('flourGuide')}</Link>
+          <Link href="/starter-guide" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>{t('starterGuide')}</Link>
+          <Link href="/hydration-calculator" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>{t('hydrationCalculator')}</Link>
+          <Link href="/temperature-guide" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>{t('temperatureGuide')}</Link>
+          <div className="border-t border-[#f0e4db] pt-3 flex flex-col gap-4">
+            <LanguageSwitcher />
+            <Link href="/dashboard/account" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>{t('account')}</Link>
             <form action={signOut}>
               <button type="submit" className="font-lora text-base text-[#9a7060] hover:text-[#b07d62] transition-colors py-1">
-                Sign out
+                {t('signOut')}
               </button>
             </form>
           </div>

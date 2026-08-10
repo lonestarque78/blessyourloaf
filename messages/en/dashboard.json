@@ -1,0 +1,45 @@
+{
+  "signInPrompt": {
+    "title": "You need to sign in first",
+    "subtitle": "Hop back in and we will get your kitchen dashboard ready.",
+    "cta": "Go to Login"
+  },
+  "greeting": {
+    "morning": "Good morning",
+    "afternoon": "Good afternoon",
+    "evening": "Good evening",
+    "greetingName": "{greeting}, {name}!",
+    "bakerFallback": "baker",
+    "waitingOnYou": "{name} is waiting on you.",
+    "getStarted": "Let's get your kitchen started."
+  },
+  "starterJournal": {
+    "title": "Starter Journal",
+    "activeCount": "{count} active",
+    "born": "Born {date}",
+    "view": "View →",
+    "manageAll": "Manage all starters",
+    "emptyQuote": "\"Every great loaf starts with a starter. Let's name yours.\"",
+    "createFirst": "Create My First Starter"
+  },
+  "scheduler": {
+    "title": "Bake Scheduler",
+    "quote": "\"Tell me when you want fresh bread and I'll work it all out for you.\"",
+    "cta": "Schedule a Bake"
+  },
+  "recipes": {
+    "title": "Recipe Library",
+    "desc": "Loaves, rolls, focaccia, and more — made with real ingredients, tested in a real kitchen.",
+    "cta": "Browse recipes →"
+  },
+  "discard": {
+    "title": "Discard Vault",
+    "desc": "Don't you dare throw that away. We've got recipes for every bit of discard.",
+    "cta": "Explore discard recipes →"
+  },
+  "subscriptionBanner": {
+    "title": "Unlock the full kitchen 🍞",
+    "desc": "Get the full Starter Journal, Bake Scheduler, Discard Vault, and more for $5.99/month.",
+    "cta": "Subscribe now →"
+  }
+}

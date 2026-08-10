@@ -1,0 +1,13 @@
+{
+  "success": {
+    "title": "¡Bienvenido a la cocina!",
+    "body": "«Tu suscripción está activa y la cocina completa es tuya. Cada receta, cada herramienta, cada consejo de masa madre — todo te está esperando.»",
+    "cta": "Ir a mi panel →"
+  },
+  "cancel": {
+    "title": "No te preocupes.",
+    "body": "«Siempre puedes volver cuando estés listo. La cocina te estará esperando aquí.»",
+    "seePricing": "Ver precios de nuevo",
+    "backToDashboard": "Volver al panel"
+  }
+}

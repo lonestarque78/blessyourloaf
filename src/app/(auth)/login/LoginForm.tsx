@@ -4,8 +4,10 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 export default function LoginForm() {
+  const t = useTranslations('Auth.form')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -48,33 +50,33 @@ export default function LoginForm() {
           <path fill="#FBBC05" d="M4.5 10.48A4.8 4.8 0 0 1 4.5 7.5V5.43H1.83a8 8 0 0 0 0 7.14z"/>
           <path fill="#EA4335" d="M8.98 3.58c1.32 0 2.5.45 3.44 1.35l2.54-2.54A8 8 0 0 0 1.83 5.43L4.5 7.5c.67-2 2.54-3.92 4.48-3.92z"/>
         </svg>
-        Continue with Google
+        {t('continueWithGoogle')}
       </button>
 
       <div className="flex items-center gap-3 mb-6">
         <div className="flex-1 h-px bg-[#e8d5c8]" />
-        <span className="font-lora text-xs text-[#b8896e]">or</span>
+        <span className="font-lora text-xs text-[#b8896e]">{t('or')}</span>
         <div className="flex-1 h-px bg-[#e8d5c8]" />
       </div>
 
       <div className="space-y-4 mb-6">
         <div>
-          <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Email</label>
+          <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('email')}</label>
           <input
             type="email"
             value={email}
             onChange={e => setEmail(e.target.value)}
-            placeholder="you@example.com"
+            placeholder={t('emailPlaceholder')}
             className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] transition-colors bg-[#fdf9f6]"
           />
         </div>
         <div>
-          <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Password</label>
+          <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('password')}</label>
           <input
             type="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
-            placeholder="••••••••"
+            placeholder={t('passwordPlaceholder')}
             className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] transition-colors bg-[#fdf9f6]"
           />
         </div>
@@ -82,15 +84,15 @@ export default function LoginForm() {
 
       <button onClick={handleEmailLogin} disabled={loading}
         className="w-full bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white py-3 rounded-xl font-lora hover:-translate-y-0.5 transition-transform shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
-        {loading ? 'Signin in...' : 'Log In'}
+        {loading ? t('loggingIn') : t('logIn')}
       </button>
 
       <div className="flex justify-between mt-5">
         <Link href="/forgot-password" className="font-lora text-xs text-[#b07d62] hover:underline">
-          Forgot your password?
+          {t('forgotPasswordLink')}
         </Link>
         <Link href="/signup" className="font-lora text-xs text-[#b07d62] hover:underline">
-          No account? Sign up free
+          {t('noAccount')}
         </Link>
       </div>
     </div>

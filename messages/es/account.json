@@ -1,0 +1,56 @@
+{
+  "backToDashboard": "← Volver al panel",
+  "title": "Configuración de la cuenta",
+  "subtitle": "Tu cocina, tus reglas.",
+  "subscription": {
+    "title": "Suscripción",
+    "freePlan": "Plan gratuito",
+    "planName": "Plan {tier}",
+    "active": "Activa",
+    "freeTrial": "Prueba gratuita",
+    "pastDue": "Pago atrasado",
+    "inactive": "Inactiva",
+    "renews": "Se renueva el {date}",
+    "expires": "Expira el {date}",
+    "upgrade": "Mejorar plan"
+  },
+  "form": {
+    "profileTitle": "Perfil",
+    "profileUpdated": "¡Perfil actualizado!",
+    "fullNameLabel": "Nombre completo",
+    "emailLabel": "Correo electrónico",
+    "emailCannotChange": "El correo electrónico no se puede cambiar.",
+    "saving": "Guardando...",
+    "saveChanges": "Guardar cambios",
+    "passwordTitle": "Cambiar contraseña",
+    "passwordUpdated": "¡Contraseña actualizada!",
+    "newPasswordLabel": "Nueva contraseña",
+    "newPasswordPlaceholder": "Al menos 8 caracteres",
+    "confirmPasswordLabel": "Confirmar nueva contraseña",
+    "confirmPasswordPlaceholder": "Lo mismo otra vez",
+    "updating": "Actualizando...",
+    "updatePassword": "Actualizar contraseña",
+    "errorEmpty": "Ingresa una nueva contraseña.",
+    "errorTooShort": "La contraseña debe tener al menos 8 caracteres.",
+    "errorMismatch": "Esas contraseñas no coinciden."
+  },
+  "dangerZone": {
+    "title": "Zona de peligro",
+    "body": "Eliminar tu cuenta es permanente y no se puede deshacer. Todas tus masas madre, alimentaciones, planes de horneado y recetas se perderán para siempre.",
+    "deleteLink": "Eliminar mi cuenta"
+  },
+  "delete": {
+    "backToAccount": "← Volver a Configuración de la cuenta",
+    "title": "Eliminar cuenta",
+    "body": "Esto es permanente y no se puede deshacer. Todo será eliminado — tus masas madre, alimentaciones, planes de horneado, recetas personales y suscripción. No hay vuelta atrás.",
+    "billingNote": "Tu suscripción se cancelará de inmediato. No recibirás reembolso por el tiempo restante de tu periodo de facturación.",
+    "confirmLabel": "Escribe <b>eliminar mi cuenta</b> para confirmar",
+    "confirmPlaceholder": "eliminar mi cuenta",
+    "confirmPhrase": "eliminar mi cuenta",
+    "confirmError": "Escribe la frase de confirmación exactamente como aparece.",
+    "genericError": "Algo salió mal. Inténtalo de nuevo.",
+    "deleting": "Eliminando todo...",
+    "deleteButton": "Eliminar mi cuenta permanentemente",
+    "cancel": "Cancelar"
+  }
+}
