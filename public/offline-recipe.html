@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bless Your Loaf</title>
+<style>
+  html, body {
+    margin: 0;
+    background: #fdf6f0;
+    color: #3d2b1f;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+  body {
+    padding: 24px 20px 64px;
+    box-sizing: border-box;
+  }
+  main {
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  a.back {
+    display: block;
+    color: #b07d62;
+    font-size: 14px;
+    text-decoration: none;
+    margin-bottom: 20px;
+  }
+  a.back:hover { text-decoration: underline; }
+
+  /* Static "you're offline" content, replaced once /offline-recipe.js finds (or doesn't
+     find) a cached recipe for this URL — see the note in the body script below. */
+  #static-offline { text-align: center; padding: 48px 0; }
+  #static-offline .emoji { font-size: 56px; line-height: 1; }
+  #static-offline h1 { font-size: 22px; margin: 20px 0 8px; }
+  #static-offline p { font-size: 15px; line-height: 1.5; color: #7a4f3a; margin: 0 0 24px; }
+  #static-offline button {
+    font: inherit;
+    font-size: 15px;
+    color: #fff;
+    background: linear-gradient(to right, #c9956c, #b07d62);
+    border: none;
+    border-radius: 999px;
+    padding: 10px 24px;
+    cursor: pointer;
+  }
+  #static-offline button:hover { opacity: 0.92; }
+
+  #offline-recipe-root .offline-empty { text-align: center; padding: 48px 0; }
+  #offline-recipe-root .offline-empty-emoji { font-size: 48px; line-height: 1; margin-bottom: 16px; }
+  #offline-recipe-root .offline-empty p { color: #7a4f3a; line-height: 1.5; }
+
+  #offline-recipe-root .offline-badge {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: #f9ede5;
+    color: #b07d62;
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+  }
+  #offline-recipe-root h1 { font-size: 30px; margin: 0 0 8px; }
+  #offline-recipe-root h2 { font-size: 20px; margin: 28px 0 14px; }
+  #offline-recipe-root .description { font-style: italic; color: #9a7060; line-height: 1.5; }
+
+  #offline-recipe-root .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+  #offline-recipe-root .meta-card {
+    background: #fff;
+    border: 1px solid #f0e4db;
+    border-radius: 12px;
+    padding: 8px 14px;
+  }
+  #offline-recipe-root .meta-label { font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: #b8896e; }
+  #offline-recipe-root .meta-value { font-weight: bold; }
+
+  #offline-recipe-root ul.ingredients { list-style: none; margin: 0; padding: 0; }
+  #offline-recipe-root ul.ingredients li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px solid #f9ede5;
+  }
+  #offline-recipe-root ul.ingredients .item { flex: 1; }
+  #offline-recipe-root ul.ingredients .amount { color: #b07d62; font-size: 14px; }
+  #offline-recipe-root ul.ingredients .note { font-size: 12px; font-style: italic; color: #9a7060; width: 100%; }
+
+  #offline-recipe-root ol.steps { list-style: none; margin: 0; padding: 0; }
+  #offline-recipe-root li.step { display: flex; gap: 14px; margin-bottom: 24px; }
+  #offline-recipe-root .step-number {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #c9956c, #b07d62);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold;
+    font-size: 13px;
+  }
+  #offline-recipe-root .step-heading { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+  #offline-recipe-root .step-heading h3 { font-size: 16px; margin: 0; }
+  #offline-recipe-root .step-body p { margin: 0; font-size: 14px; line-height: 1.5; color: #6b4c3b; }
+
+  #offline-recipe-root .step-timer { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  #offline-recipe-root .step-timer .timer-countdown { font-family: monospace; font-weight: bold; font-size: 13px; color: #c9956c; }
+  #offline-recipe-root .step-timer .timer-done { font-weight: 600; font-size: 13px; color: #b5838d; }
+  #offline-recipe-root .step-timer button {
+    font: inherit;
+    font-size: 12px;
+    background: #f9ede5;
+    color: #b07d62;
+    border: none;
+    border-radius: 999px;
+    padding: 4px 12px;
+    cursor: pointer;
+  }
+  #offline-recipe-root .step-timer button:hover { background: #f0e4db; }
+
+  #offline-recipe-root .notes { font-style: italic; font-size: 14px; color: #7a4f3a; line-height: 1.5; background: #f9ede5; border-radius: 12px; padding: 16px; }
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="/dashboard/my-recipes" data-en="← Back to My Recipes" data-es="← Volver a Mis recetas">← Back to My Recipes</a>
+
+  <div id="offline-recipe-root">
+    <div id="static-offline">
+      <div class="emoji">🍞</div>
+      <h1 data-en="You're offline" data-es="Estás sin conexión">You're offline</h1>
+      <p data-en="Bless Your Loaf needs a connection to load this page. Reconnect and try again."
+         data-es="Bless Your Loaf necesita conexión para cargar esta página. Reconéctate e inténtalo de nuevo.">
+        Bless Your Loaf needs a connection to load this page. Reconnect and try again.
+      </p>
+      <button type="button" onclick="location.reload()" data-en="Try again" data-es="Reintentar">Try again</button>
+    </div>
+  </div>
+</main>
+<script>
+  // Same locale-by-cookie trick as public/offline.html — applied here to the static
+  // pre-script content only. Once /offline-recipe.js runs, it replaces
+  // #offline-recipe-root's contents with the cached recipe (or a "not cached yet"
+  // message) in the same locale, read from src/offline-shell/strings.ts.
+  (function () {
+    var match = document.cookie.match(/(?:^|; )BYL_LOCALE=(es|en)(?:;|$)/);
+    var locale = match ? match[1] : 'en';
+    if (locale !== 'es') return;
+    document.documentElement.lang = 'es';
+    document.querySelectorAll('[data-es]').forEach(function (el) {
+      el.textContent = el.getAttribute('data-es');
+    });
+  })();
+</script>
+<script type="module" src="/offline-recipe.js"></script>
+</body>
+</html>

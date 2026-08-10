@@ -5,7 +5,9 @@ import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { useLocale, useTranslations } from 'next-intl'
 import type { ImportedIngredient, ImportedRecipe, ImportedStep } from '@/lib/recipe-import'
+import { cacheRecipe } from '@/lib/recipe-cache'
 
 const categories = ['loaf', 'discard', 'rolls', 'focaccia', 'other']
 const difficulties = ['beginner', 'intermediate', 'advanced']
@@ -23,6 +25,8 @@ interface Step {
 }
 
 function NewMyRecipePageContent() {
+  const t = useTranslations('MyRecipes')
+  const locale = useLocale()
   const router = useRouter()
   const searchParams = useSearchParams()
   const supabase = createClient()
@@ -83,12 +87,12 @@ function NewMyRecipePageContent() {
 
     setIngredients(normalizedIngredients)
     setSteps(normalizedSteps)
-    setImportMessage('Recipe imported. Review the details and save when you are ready.')
+    setImportMessage(t('new.importSuccess'))
   }
 
   const handleImport = async () => {
     if (!importUrl.trim()) {
-      setError('Paste a recipe URL first.')
+      setError(t('new.importUrlRequired'))
       return
     }
 
@@ -100,17 +104,17 @@ function NewMyRecipePageContent() {
       const res = await fetch('/api/recipes/import', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: importUrl.trim() }),
+        body: JSON.stringify({ url: importUrl.trim(), locale }),
       })
 
       const data = await res.json()
       if (!res.ok) {
-        throw new Error(data.error || 'Import failed')
+        throw new Error(data.error || t('new.importFailed'))
       }
 
       applyImportedRecipe(data.recipe)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Import failed')
+      setError(err instanceof Error ? err.message : t('new.importFailed'))
     } finally {
       setImporting(false)
     }
@@ -133,7 +137,7 @@ function NewMyRecipePageContent() {
   }
 
   const handleSave = async () => {
-    if (!form.title.trim()) { setError('Give your recipe a name!'); return }
+    if (!form.title.trim()) { setError(t('new.errorNoTitle')); return }
     setSaving(true)
     setError('')
 
@@ -168,6 +172,21 @@ function NewMyRecipePageContent() {
       setError(error.message)
       setSaving(false)
     } else {
+      await cacheRecipe({
+        id: data.id,
+        title: data.title,
+        description: data.description,
+        category: data.category,
+        difficulty: data.difficulty,
+        prep_time_minutes: data.prep_time_minutes,
+        bake_time_minutes: data.bake_time_minutes,
+        tags: data.tags || [],
+        notes: data.notes,
+        ingredients: data.ingredients || [],
+        steps: data.steps || [],
+        created_at: data.created_at,
+        updated_at: data.updated_at,
+      })
       router.push(`/dashboard/my-recipes/${data.id}`)
     }
   }
@@ -175,14 +194,14 @@ function NewMyRecipePageContent() {
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">
       <Link href="/dashboard/my-recipes" className="font-lora text-sm text-[#b07d62] hover:underline mb-6 block">
-        ← Back to My Recipes
+        {t('new.backToMyRecipes')}
       </Link>
 
       <div className="text-center mb-10">
         <div className="text-5xl mb-4">📖</div>
-        <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f] mb-2">Add a Recipe</h1>
+        <h1 className="font-playfair text-4xl font-bold text-[#3d2b1f] mb-2">{t('new.title')}</h1>
         <p className="font-lora italic text-[#9a7060]">
-          &quot;Your secret&apos;s safe with us.&quot;
+          {t('new.quote')}
         </p>
       </div>
 
@@ -193,15 +212,15 @@ function NewMyRecipePageContent() {
       )}
 
       <div className="bg-white rounded-2xl p-7 shadow-md border border-[#f0e4db] mb-6">
-        <h2 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-2">Import from a Recipe URL</h2>
+        <h2 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-2">{t('new.importTitle')}</h2>
         <p className="font-lora text-sm text-[#9a7060] mb-4">
-          Paste a recipe page and we&apos;ll pull out the ingredients, timings, and steps into a clean draft.
+          {t('new.importSubtitle')}
         </p>
         <div className="flex flex-col sm:flex-row gap-3">
           <input
             value={importUrl}
             onChange={e => setImportUrl(e.target.value)}
-            placeholder="https://example.com/recipe"
+            placeholder={t('new.importPlaceholder')}
             className="flex-1 border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6]"
           />
           <button
@@ -209,7 +228,7 @@ function NewMyRecipePageContent() {
             disabled={importing}
             className="bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-5 py-3 rounded-xl font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-md disabled:opacity-50"
           >
-            {importing ? 'Importing...' : 'Import Recipe'}
+            {importing ? t('new.importing') : t('new.importButton')}
           </button>
         </div>
         {importMessage && (
@@ -220,49 +239,49 @@ function NewMyRecipePageContent() {
       <div className="space-y-6">
         {/* Basic info */}
         <div className="bg-white rounded-2xl p-7 shadow-md border border-[#f0e4db]">
-          <h2 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-5">The Basics</h2>
+          <h2 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-5">{t('new.basicsTitle')}</h2>
           <div className="space-y-4">
             <div>
-              <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Recipe Name *</label>
+              <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('new.nameLabel')}</label>
               <input type="text" value={form.title}
                 onChange={e => setForm({ ...form, title: e.target.value })}
-                placeholder="Jalapeño Cheddar Loaf..."
+                placeholder={t('new.namePlaceholder')}
                 className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6]" />
             </div>
             <div>
-              <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Description</label>
+              <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('new.descriptionLabel')}</label>
               <textarea value={form.description}
                 onChange={e => setForm({ ...form, description: e.target.value })}
-                placeholder="What makes this one special..."
+                placeholder={t('new.descriptionPlaceholder')}
                 rows={3}
                 className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6] resize-none" />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Category</label>
+                <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('new.categoryLabel')}</label>
                 <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })}
                   className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6]">
-                  {categories.map(c => <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>)}
+                  {categories.map(c => <option key={c} value={c}>{t(`categoryLabels.${c}`)}</option>)}
                 </select>
               </div>
               <div>
-                <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Difficulty</label>
+                <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('new.difficultyLabel')}</label>
                 <select value={form.difficulty} onChange={e => setForm({ ...form, difficulty: e.target.value })}
                   className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6]">
-                  {difficulties.map(d => <option key={d} value={d}>{d.charAt(0).toUpperCase() + d.slice(1)}</option>)}
+                  {difficulties.map(d => <option key={d} value={d}>{t(`difficultyLabels.${d}`)}</option>)}
                 </select>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Prep Time (min)</label>
+                <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('new.prepTimeLabel')}</label>
                 <input type="number" value={form.prep_time_minutes}
                   onChange={e => setForm({ ...form, prep_time_minutes: e.target.value })}
                   placeholder="30"
                   className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6]" />
               </div>
               <div>
-                <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Bake Time (min)</label>
+                <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('new.bakeTimeLabel')}</label>
                 <input type="number" value={form.bake_time_minutes}
                   onChange={e => setForm({ ...form, bake_time_minutes: e.target.value })}
                   placeholder="45"
@@ -270,10 +289,10 @@ function NewMyRecipePageContent() {
               </div>
             </div>
             <div>
-              <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">Tags (comma separated)</label>
+              <label className="font-lora text-xs uppercase tracking-widest text-[#b8896e] block mb-2">{t('new.tagsLabel')}</label>
               <input type="text" value={form.tags}
                 onChange={e => setForm({ ...form, tags: e.target.value })}
-                placeholder="spicy, cheddar, easy..."
+                placeholder={t('new.tagsPlaceholder')}
                 className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6]" />
             </div>
           </div>
@@ -282,22 +301,22 @@ function NewMyRecipePageContent() {
         {/* Ingredients */}
         <div className="bg-white rounded-2xl p-7 shadow-md border border-[#f0e4db]">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="font-playfair text-xl font-bold text-[#3d2b1f]">Ingredients</h2>
+            <h2 className="font-playfair text-xl font-bold text-[#3d2b1f]">{t('new.ingredientsTitle')}</h2>
             <button onClick={addIngredient}
-              className="font-lora text-sm text-[#b07d62] hover:underline">+ Add</button>
+              className="font-lora text-sm text-[#b07d62] hover:underline">{t('new.add')}</button>
           </div>
           <div className="space-y-3">
             {ingredients.map((ing, i) => (
               <div key={i} className="flex gap-3 items-start">
                 <div className="flex-1 grid grid-cols-3 gap-2">
                   <input value={ing.amount} onChange={e => updateIngredient(i, 'amount', e.target.value)}
-                    placeholder="2 cups"
+                    placeholder={t('new.amountPlaceholder')}
                     className="border border-[#e8d5c8] rounded-xl px-3 py-2 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6]" />
                   <input value={ing.item} onChange={e => updateIngredient(i, 'item', e.target.value)}
-                    placeholder="bread flour"
+                    placeholder={t('new.itemPlaceholder')}
                     className="border border-[#e8d5c8] rounded-xl px-3 py-2 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6]" />
                   <input value={ing.note} onChange={e => updateIngredient(i, 'note', e.target.value)}
-                    placeholder="room temp (optional)"
+                    placeholder={t('new.noteOptionalPlaceholder')}
                     className="border border-[#e8d5c8] rounded-xl px-3 py-2 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6]" />
                 </div>
                 {ingredients.length > 1 && (
@@ -311,8 +330,8 @@ function NewMyRecipePageContent() {
         {/* Steps */}
         <div className="bg-white rounded-2xl p-7 shadow-md border border-[#f0e4db]">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="font-playfair text-xl font-bold text-[#3d2b1f]">Steps</h2>
-            <button onClick={addStep} className="font-lora text-sm text-[#b07d62] hover:underline">+ Add</button>
+            <h2 className="font-playfair text-xl font-bold text-[#3d2b1f]">{t('new.stepsTitle')}</h2>
+            <button onClick={addStep} className="font-lora text-sm text-[#b07d62] hover:underline">{t('new.add')}</button>
           </div>
           <div className="space-y-5">
             {steps.map((step, i) => (
@@ -323,15 +342,15 @@ function NewMyRecipePageContent() {
                 <div className="flex-1 space-y-2">
                   <div className="grid grid-cols-3 gap-2">
                     <input value={step.title} onChange={e => updateStep(i, 'title', e.target.value)}
-                      placeholder="Step title"
+                      placeholder={t('new.stepTitlePlaceholder')}
                       className="col-span-2 border border-[#e8d5c8] rounded-xl px-3 py-2 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6]" />
                     <input value={step.duration_minutes} onChange={e => updateStep(i, 'duration_minutes', e.target.value)}
-                      placeholder="Minutes"
+                      placeholder={t('new.minutesPlaceholder')}
                       type="number"
                       className="border border-[#e8d5c8] rounded-xl px-3 py-2 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6]" />
                   </div>
                   <textarea value={step.description} onChange={e => updateStep(i, 'description', e.target.value)}
-                    placeholder="Describe this step..."
+                    placeholder={t('new.stepDescriptionPlaceholder')}
                     rows={2}
                     className="w-full border border-[#e8d5c8] rounded-xl px-3 py-2 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6] resize-none" />
                 </div>
@@ -345,17 +364,17 @@ function NewMyRecipePageContent() {
 
         {/* Notes */}
         <div className="bg-white rounded-2xl p-7 shadow-md border border-[#f0e4db]">
-          <h2 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-4">Personal Notes</h2>
+          <h2 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-4">{t('new.notesTitle')}</h2>
           <textarea value={form.notes}
             onChange={e => setForm({ ...form, notes: e.target.value })}
-            placeholder="Your tweaks, tips, or memories about this recipe..."
+            placeholder={t('new.notesPlaceholder')}
             rows={4}
             className="w-full border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6] resize-none" />
         </div>
 
         <button onClick={handleSave} disabled={saving}
           className="w-full bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white py-4 rounded-xl font-lora text-lg hover:-translate-y-0.5 transition-transform shadow-md disabled:opacity-50">
-          {saving ? 'Saving your recipe...' : 'Save My Recipe 📖'}
+          {saving ? t('new.saving') : t('new.saveButton')}
         </button>
       </div>
     </div>

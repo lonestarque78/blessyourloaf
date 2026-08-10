@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bless Your Loaf</title>
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    background: #fdf6f0;
+    color: #3d2b1f;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  main {
+    max-width: 380px;
+    text-align: center;
+  }
+  .emoji { font-size: 56px; line-height: 1; }
+  h1 {
+    font-size: 22px;
+    margin: 20px 0 8px;
+  }
+  p {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #7a4f3a;
+    margin: 0 0 24px;
+  }
+  button {
+    font: inherit;
+    font-size: 15px;
+    color: #fff;
+    background: linear-gradient(to right, #c9956c, #b07d62);
+    border: none;
+    border-radius: 999px;
+    padding: 10px 24px;
+    cursor: pointer;
+  }
+  button:hover { opacity: 0.92; }
+</style>
+</head>
+<body>
+<main>
+  <div class="emoji">🍞</div>
+  <h1 data-en="You're offline" data-es="Estás sin conexión">You're offline</h1>
+  <p data-en="Bless Your Loaf needs a connection to load this page. Reconnect and try again."
+     data-es="Bless Your Loaf necesita conexión para cargar esta página. Reconéctate e inténtalo de nuevo.">
+    Bless Your Loaf needs a connection to load this page. Reconnect and try again.
+  </p>
+  <button type="button" onclick="location.reload()" data-en="Try again" data-es="Reintentar">Try again</button>
+</main>
+<script>
+  // Mirrors src/i18n/locale.ts's LOCALE_COOKIE — this page is a precached static
+  // fallback (no server render), so it reads the cookie itself instead of relying
+  // on next-intl, which would otherwise bake in whatever locale was active at build time.
+  (function () {
+    var match = document.cookie.match(/(?:^|; )BYL_LOCALE=(es|en)(?:;|$)/);
+    var locale = match ? match[1] : 'en';
+    if (locale !== 'es') return;
+    document.documentElement.lang = 'es';
+    document.querySelectorAll('[data-es]').forEach(function (el) {
+      el.textContent = el.getAttribute('data-es');
+    });
+  })();
+</script>
+</body>
+</html>
