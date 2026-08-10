@@ -20,6 +20,7 @@ const EXPECTED_TABLES = [
   'user_recipes',
   'webhook_events',
   'ai_usage_events',
+  'push_subscriptions',
 ]
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
