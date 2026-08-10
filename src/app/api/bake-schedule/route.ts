@@ -2,6 +2,7 @@ import Anthropic from '@anthropic-ai/sdk'
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { normalizeBakePhase } from '@/lib/bake-timer'
+import { FREE_DAILY_AI_LIMIT, getRemainingFreeAiActions, recordAiUsage } from '@/lib/ai-usage'
 
 const client = new Anthropic()
 
@@ -95,6 +96,21 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
 
+  let remaining: number
+  try {
+    remaining = await getRemainingFreeAiActions(supabase, user.id)
+  } catch (error) {
+    console.warn('[bake-schedule] quota check failed, blocking AI call', error)
+    remaining = 0
+  }
+
+  if (remaining <= 0) {
+    return NextResponse.json(
+      { error: `You've used your ${FREE_DAILY_AI_LIMIT} free AI actions for today — come back tomorrow, or upgrade anytime for unlimited access.` },
+      { status: 429 }
+    )
+  }
+
   const userPrompt = `I want to bake: ${recipe}
 Target completion: ${targetDate} at ${targetTime}
 
@@ -158,6 +174,12 @@ Please calculate my complete bake schedule, working backwards from my target tim
     } catch (parseErr) {
       console.error('[bake-schedule] JSON.parse failed:', parseErr)
       return NextResponse.json({ error: 'Claude returned invalid JSON', raw: content.text }, { status: 500 })
+    }
+
+    try {
+      await recordAiUsage(supabase, user.id, 'bake_schedule')
+    } catch (error) {
+      console.warn('[bake-schedule] failed to record AI usage', error)
     }
 
     return NextResponse.json({ ingredients, steps })

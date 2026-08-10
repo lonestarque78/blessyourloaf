@@ -2,7 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 
 export const FREE_DAILY_AI_LIMIT = 2
 
-export type AiAction = 'recipe_import' | 'troubleshooter' | 'ingredient_substitution' | 'recipe_generation'
+export type AiAction = 'recipe_import' | 'troubleshooter' | 'bake_schedule' | 'ingredient_substitution' | 'recipe_generation'
 
 function startOfTodayUtcIso() {
   const now = new Date()
