@@ -35,6 +35,9 @@ function NewMyRecipePageContent() {
   const [importUrl, setImportUrl] = useState('')
   const [importing, setImporting] = useState(false)
   const [importMessage, setImportMessage] = useState('')
+  const [generateDescription, setGenerateDescription] = useState('')
+  const [generating, setGenerating] = useState(false)
+  const [generateMessage, setGenerateMessage] = useState('')
 
   const [form, setForm] = useState({
     title: searchParams.get('title') || '',
@@ -55,8 +58,12 @@ function NewMyRecipePageContent() {
     { title: '', description: '', duration_minutes: '' }
   ])
 
-  const applyImportedRecipe = (payload: Partial<ImportedRecipe>) => {
-    if (!payload?.title) return
+  // Shared by both the URL-import card and the AI-generate card below — both hand this a
+  // ImportedRecipe-shaped payload to populate the same review-and-edit form. Returns whether
+  // it actually applied anything, so each caller can show its own success message rather
+  // than this function hardcoding wording for one specific source.
+  const populateFormFromRecipe = (payload: Partial<ImportedRecipe>): boolean => {
+    if (!payload?.title) return false
 
     setForm(prev => ({
       ...prev,
@@ -87,7 +94,7 @@ function NewMyRecipePageContent() {
 
     setIngredients(normalizedIngredients)
     setSteps(normalizedSteps)
-    setImportMessage(t('new.importSuccess'))
+    return true
   }
 
   const handleImport = async () => {
@@ -112,11 +119,41 @@ function NewMyRecipePageContent() {
         throw new Error(data.error || t('new.importFailed'))
       }
 
-      applyImportedRecipe(data.recipe)
+      if (populateFormFromRecipe(data.recipe)) setImportMessage(t('new.importSuccess'))
     } catch (err) {
       setError(err instanceof Error ? err.message : t('new.importFailed'))
     } finally {
       setImporting(false)
+    }
+  }
+
+  const handleGenerate = async () => {
+    if (!generateDescription.trim()) {
+      setError(t('new.generateDescriptionRequired'))
+      return
+    }
+
+    setGenerating(true)
+    setError('')
+    setGenerateMessage('')
+
+    try {
+      const res = await fetch('/api/recipe-generation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ description: generateDescription.trim(), locale }),
+      })
+
+      const data = await res.json()
+      if (!res.ok) {
+        throw new Error(data.error || t('new.generateFailed'))
+      }
+
+      if (populateFormFromRecipe(data.recipe)) setGenerateMessage(t('new.generateSuccess'))
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t('new.generateFailed'))
+    } finally {
+      setGenerating(false)
     }
   }
 
@@ -210,6 +247,32 @@ function NewMyRecipePageContent() {
           {error}
         </div>
       )}
+
+      <div className="bg-white rounded-2xl p-7 shadow-md border border-[#f0e4db] mb-6">
+        <h2 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-2">{t('new.generateTitle')}</h2>
+        <p className="font-lora text-sm text-[#9a7060] mb-4">
+          {t('new.generateSubtitle')}
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <textarea
+            value={generateDescription}
+            onChange={e => setGenerateDescription(e.target.value)}
+            placeholder={t('new.generatePlaceholder')}
+            rows={2}
+            className="flex-1 border border-[#e8d5c8] rounded-xl px-4 py-3 font-lora text-sm text-[#3d2b1f] outline-none focus:border-[#c9956c] bg-[#fdf9f6] resize-none"
+          />
+          <button
+            onClick={handleGenerate}
+            disabled={generating}
+            className="bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white px-5 py-3 rounded-xl font-lora text-sm hover:-translate-y-0.5 transition-transform shadow-md disabled:opacity-50 sm:self-start"
+          >
+            {generating ? t('new.generating') : t('new.generateButton')}
+          </button>
+        </div>
+        {generateMessage && (
+          <p className="font-lora text-sm text-[#7a4f3a] mt-3">{generateMessage}</p>
+        )}
+      </div>
 
       <div className="bg-white rounded-2xl p-7 shadow-md border border-[#f0e4db] mb-6">
         <h2 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-2">{t('new.importTitle')}</h2>
