@@ -5,6 +5,16 @@ This is the memory Claude Code doesn't have between sessions — keep it current
 
 ---
 
+## Do next (this week)
+
+Ordered. Everything here is small and either blocks something or is actively costing you.
+
+1. **Fix static rendering on marketing and guide pages.** Promoted out of "deferred technical decisions" — the positioning work (Aug 12) concluded that SEO/content is the primary acquisition channel for this product, and cookie-based locale made every page dynamic, which directly undermines it. This is now a marketing problem, and it should be fixed before writing any content.
+2. **Fix the feeding form scroll bug.** It's in the app's most-repeated action, and a button that silently doesn't respond reads as "broken app."
+3. **Configure custom SMTP in Supabase.** Not urgent while you're the only user, but it must happen before you tell a single real person about the app.
+
+*Done Aug 12: `BACKLOG.md` committed and `AUDIT.md` deleted; local npm/Node pinned via `engines` + `.npmrc`; failed auth E2E job re-run and green — full pipeline passing end to end with all 5 E2E tests. Node version manager installed (fnm), Node 22.x installed and set as this repo's pinned version via `.node-version`, `npm ci` verified clean under it — corepack confirmed a no-op here (no admin rights on `C:\Program Files\nodejs`) so `engines`/`engine-strict` + fnm's per-directory switching is the real mechanism. fnm's default alias pinned to the exact Node build already on the machine (v26.2.0), so The Pit Preacher and anything else without its own `.node-version` are unaffected.*
+
 ## Phase status
 
 **Phase 0 — Scaffolding.** Done.
@@ -48,7 +58,8 @@ This is the memory Claude Code doesn't have between sessions — keep it current
 
 ## Deferred technical decisions
 
-- **Static → dynamic rendering.** Cookie-based locale forced every route dynamic, costing speed and SEO on the public marketing pages where it matters most for discovery. A URL-prefix scheme (`/es/...`) would restore static rendering but is a bigger change.
+- **Static → dynamic rendering.** *Promoted to "Do next" above — see there.* Cookie-based locale forced every route dynamic. A URL-prefix scheme (`/es/...`) would restore static rendering but is a bigger change; a narrower fix limited to marketing and guide pages may be enough.
+- **Marketing follow-ups from the Aug 12 positioning doc** (full version in Google Drive): rewrite the landing page to lead with the starter rather than bread photography; write troubleshooting pages targeting real searched questions; make annual billing the visually default plan; make the free-tier AI gate message warm rather than transactional; consider starter milestones/streaks as a retention mechanic.
 - **i18n payload size.** All 15 namespaces ship in every page's hydration payload.
 - **Bake-schedule AI prompt not localized.** Troubleshooter and recipe cleanup answer in the user's language; bake-schedule still answers in English.
 - **Recipe content in the database isn't translated.** Titles, ingredients, and steps are English-only in the `recipes` table. Needs a schema decision, not key extraction.
