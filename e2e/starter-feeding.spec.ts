@@ -53,12 +53,6 @@ function toDatetimeLocalValue(date: Date): string {
 }
 
 async function logFeeding(page: Page, risePercent: number, fedAt: Date): Promise<void> {
-  // Real bug found via this test, not just an automation quirk (see e2e run summary): after
-  // a feeding saves, the tall form collapses but the browser doesn't adjust scroll position,
-  // leaving "+ Log a Feeding" stranded above the viewport — right behind the sticky nav once
-  // scrolled into view, so a click there doesn't register. Scrolling to top first is the
-  // workaround here; the underlying app behavior is left as-is per this suite's scope.
-  await page.evaluate(() => window.scrollTo(0, 0))
   await page.getByRole('button', { name: '+ Log a Feeding' }).click()
   await page.locator('input[type="datetime-local"]').fill(toDatetimeLocalValue(fedAt))
   await page.getByPlaceholder('100').fill(String(risePercent))

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useLocale, useTranslations } from 'next-intl'
 import { INTL_LOCALE, type Locale } from '@/i18n/locale'
@@ -43,6 +43,19 @@ export default function FeedingLog({ starterId, starterName, feedings, onFeeding
     smell: '',
     notes: '',
   })
+  const headerRef = useRef<HTMLDivElement>(null)
+
+  // Collapsing the (tall) form doesn't move the header above it, but if the user scrolled
+  // down to reach the fields, the viewport stays put and the header — with the "+ Log a
+  // Feeding" button — can end up scrolled out of view behind the sticky dashboard nav.
+  // scroll-mt-28 on the header keeps this clear of that nav's height. 'instant' (not the
+  // default 'auto') is required here: globals.css sets `html { scroll-behavior: smooth }`
+  // site-wide, and 'auto' would inherit that, leaving a brief window where the button is
+  // mid-animation and not yet reliably clickable.
+  const collapseForm = () => {
+    setShowForm(false)
+    headerRef.current?.scrollIntoView({ behavior: 'instant', block: 'start' })
+  }
 
   const handleSave = async () => {
     setSaving(true)
@@ -73,7 +86,7 @@ export default function FeedingLog({ starterId, starterName, feedings, onFeeding
       setSaving(false)
     } else {
       onFeedingAdded(data)
-      setShowForm(false)
+      collapseForm()
       setForm({
         fed_at: new Date().toISOString().slice(0, 16),
         flour_grams: '',
@@ -90,7 +103,7 @@ export default function FeedingLog({ starterId, starterName, feedings, onFeeding
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div ref={headerRef} className="flex items-center justify-between mb-6 scroll-mt-28">
         <div>
           <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f]">{t('title')}</h2>
           <p className="font-lora italic text-sm text-[#9a7060]">
@@ -217,7 +230,7 @@ export default function FeedingLog({ starterId, starterName, feedings, onFeeding
               className="flex-1 bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white py-3 rounded-xl font-lora hover:-translate-y-0.5 transition-transform shadow-md disabled:opacity-50">
               {saving ? t('saving') : t('saveFeeding')}
             </button>
-            <button onClick={() => setShowForm(false)}
+            <button onClick={collapseForm}
               className="px-6 border border-[#e8d5c8] text-[#7a4f3a] py-3 rounded-xl font-lora hover:bg-[#f9ede5] transition-colors">
               {t('cancel')}
             </button>
