@@ -22,12 +22,19 @@ export function getAdminClient(): SupabaseClient {
   return adminClient
 }
 
-// Every e2e-created account uses this address shape so it's unambiguous in the real
-// (production — there's only one) Supabase project's user list, and easy to spot if a run
-// ever aborts before its own cleanup runs.
+// Real, deliverable mailbox for e2e-created accounts — configurable in this one place so
+// changing it never means touching individual specs. blessyourloaf.com is a domain with no
+// mailboxes (no MX records); every confirmation email auth.spec.ts's real signup flow sent
+// there hard-bounced, which put Supabase's ability to send mail for the whole app at risk
+// (see BACKLOG.md, Aug 2026). Plus-addressing on a real inbox means every test email
+// actually delivers — nothing bounces — while staying clearly identifiable (the "e2e-"
+// prefix plus a tag and timestamp) both in the inbox and in Supabase's user list.
+const E2E_MAILBOX_LOCAL = 'brian'
+const E2E_MAILBOX_DOMAIN = 'lonestarque.com'
+
 export function e2eEmail(tag: string): string {
   const suffix = `${Date.now()}-${randomBytes(3).toString('hex')}`
-  return `e2e-test+${tag}-${suffix}@blessyourloaf.com`
+  return `${E2E_MAILBOX_LOCAL}+e2e-${tag}-${suffix}@${E2E_MAILBOX_DOMAIN}`
 }
 
 export function e2ePassword(): string {
