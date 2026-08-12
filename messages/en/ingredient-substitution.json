@@ -1,0 +1,16 @@
+{
+  "title": "Ingredient Substitutions",
+  "subtitle": "\"Missing something? Let's find what works instead.\"",
+  "emptyTitle": "What are you out of?",
+  "emptySubtitle": "Tell us what ingredient or tool you're missing, or pick one of these common swaps to get started.",
+  "quickQuestions": {
+    "flour": "What can I use instead of bread flour?",
+    "dutchOven": "I don't have a Dutch oven — what can I use instead?",
+    "dairy": "What's a dairy-free substitute for milk in an enriched dough?",
+    "sweetener": "Can I substitute honey for the sugar in this recipe?",
+    "noStarter": "I'm out of active starter — what can I do?"
+  },
+  "assistantLabel": "Substitution Guide",
+  "inputPlaceholder": "Tell us what you're missing... (Shift+Enter for new line)",
+  "footerNote": "General guidance for common swaps — for a specific starter issue, try the Troubleshooter."
+}

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useLocale, useTranslations } from 'next-intl'
 import { INTL_LOCALE, type Locale } from '@/i18n/locale'
+import { renderMarkdown } from '@/lib/render-markdown'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -24,52 +25,6 @@ interface Feeding {
   rise_percent: number | null
   fed_at: string
   smell: string | null
-}
-
-function renderMarkdown(text: string): string {
-  const escape = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-  const inline = (s: string) => escape(s).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-
-  const blocks: string[] = []
-
-  for (const para of text.split(/\n\n+/)) {
-    const lines = para.split('\n')
-    let listItems: string[] = []
-    let paraLines: string[] = []
-
-    const flushList = () => {
-      if (listItems.length > 0) {
-        blocks.push(`<ul class="list-disc list-inside space-y-1 my-2 pl-2">${listItems.join('')}</ul>`)
-        listItems = []
-      }
-    }
-    const flushPara = () => {
-      if (paraLines.length > 0) {
-        blocks.push(`<p class="leading-relaxed mb-2">${paraLines.join('<br />')}</p>`)
-        paraLines = []
-      }
-    }
-
-    for (const line of lines) {
-      if (/^###\s+/.test(line)) {
-        flushPara(); flushList()
-        blocks.push(`<p class="font-semibold text-sm text-[#5a3a2a] mt-3 mb-0.5">${inline(line.replace(/^###\s+/, ''))}</p>`)
-      } else if (/^##\s+/.test(line)) {
-        flushPara(); flushList()
-        blocks.push(`<p class="font-semibold text-[#5a3a2a] mt-3 mb-0.5">${inline(line.replace(/^##\s+/, ''))}</p>`)
-      } else if (/^[-*]\s+/.test(line)) {
-        flushPara()
-        listItems.push(`<li>${inline(line.replace(/^[-*]\s+/, ''))}</li>`)
-      } else if (line.trim()) {
-        flushList()
-        paraLines.push(inline(line))
-      }
-    }
-
-    flushPara(); flushList()
-  }
-
-  return blocks.join('')
 }
 
 export default function TroubleshooterPage() {

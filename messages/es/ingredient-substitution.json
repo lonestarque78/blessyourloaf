@@ -1,0 +1,16 @@
+{
+  "title": "Sustituciones de ingredientes",
+  "subtitle": "«¿Te falta algo? Encontremos qué usar en su lugar.»",
+  "emptyTitle": "¿Qué te falta?",
+  "emptySubtitle": "Cuéntanos qué ingrediente o herramienta te falta, o elige una de estas sustituciones comunes para empezar.",
+  "quickQuestions": {
+    "flour": "¿Qué puedo usar en lugar de harina de fuerza?",
+    "dutchOven": "No tengo una olla holandesa (Dutch oven) — ¿qué puedo usar en su lugar?",
+    "dairy": "¿Cuál es un sustituto sin lácteos para la leche en una masa enriquecida?",
+    "sweetener": "¿Puedo sustituir el azúcar por miel en esta receta?",
+    "noStarter": "Se me acabó la masa madre activa — ¿qué puedo hacer?"
+  },
+  "assistantLabel": "Guía de sustituciones",
+  "inputPlaceholder": "Cuéntanos qué te falta... (Mayús+Enter para nueva línea)",
+  "footerNote": "Orientación general para sustituciones comunes — para un problema específico de tu masa madre, prueba el Solucionador de problemas."
+}

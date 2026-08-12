@@ -47,6 +47,7 @@ export default function DashboardNavClient({ signOut }: DashboardNavClientProps)
         <Link href="/dashboard/scheduler" className={linkClass}>{t('bakeScheduler')}</Link>
         <Link href="/dashboard/history" className={linkClass}>{t('bakeHistory')}</Link>
         <Link href="/dashboard/troubleshooter" className={linkClass}>{t('troubleshooter')}</Link>
+        <Link href="/dashboard/ingredient-substitution" className={linkClass}>{t('ingredientSubstitution')}</Link>
 
         {/* Library dropdown */}
         <div
@@ -157,6 +158,7 @@ export default function DashboardNavClient({ signOut }: DashboardNavClientProps)
           <Link href="/dashboard/history" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>{t('bakeHistory')}</Link>
           <Link href="/dashboard/my-recipes" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>{t('myRecipes')}</Link>
           <Link href="/dashboard/troubleshooter" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>{t('troubleshooter')}</Link>
+          <Link href="/dashboard/ingredient-substitution" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>{t('ingredientSubstitution')}</Link>
           <Link href="/recipes" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>{t('recipes')}</Link>
           <Link href="/discard" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>{t('discardVault')}</Link>
           <Link href="/flour-guide" className={mobileLinkClass} onClick={() => setMobileOpen(false)}>{t('flourGuide')}</Link>

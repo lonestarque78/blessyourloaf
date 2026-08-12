@@ -11,6 +11,7 @@ import enBake from '../../messages/en/bake.json'
 import enRecipes from '../../messages/en/recipes.json'
 import enMyRecipes from '../../messages/en/my-recipes.json'
 import enTroubleshooter from '../../messages/en/troubleshooter.json'
+import enIngredientSubstitution from '../../messages/en/ingredient-substitution.json'
 import enTools from '../../messages/en/tools.json'
 import enPricing from '../../messages/en/pricing.json'
 import enAccount from '../../messages/en/account.json'
@@ -25,6 +26,7 @@ import esBake from '../../messages/es/bake.json'
 import esRecipes from '../../messages/es/recipes.json'
 import esMyRecipes from '../../messages/es/my-recipes.json'
 import esTroubleshooter from '../../messages/es/troubleshooter.json'
+import esIngredientSubstitution from '../../messages/es/ingredient-substitution.json'
 import esTools from '../../messages/es/tools.json'
 import esPricing from '../../messages/es/pricing.json'
 import esAccount from '../../messages/es/account.json'
@@ -41,6 +43,7 @@ const MESSAGES = {
     Recipes: enRecipes,
     MyRecipes: enMyRecipes,
     Troubleshooter: enTroubleshooter,
+    IngredientSubstitution: enIngredientSubstitution,
     Tools: enTools,
     Pricing: enPricing,
     Account: enAccount,
@@ -56,6 +59,7 @@ const MESSAGES = {
     Recipes: esRecipes,
     MyRecipes: esMyRecipes,
     Troubleshooter: esTroubleshooter,
+    IngredientSubstitution: esIngredientSubstitution,
     Tools: esTools,
     Pricing: esPricing,
     Account: esAccount,
