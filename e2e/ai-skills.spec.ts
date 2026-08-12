@@ -19,6 +19,9 @@ test.describe('ingredient substitution and recipe generation AI skills', () => {
   })
 
   test('ingredient substitution answers an on-topic question', async ({ page }) => {
+    // Overrides the config's default 60s per-test timeout, which the assertion's own 45s
+    // timeout below could butt up against once login/navigation overhead is added on top.
+    test.setTimeout(90_000)
     await loginAs(page, user)
     await page.goto('/dashboard/ingredient-substitution')
 
@@ -27,18 +30,27 @@ test.describe('ingredient substitution and recipe generation AI skills', () => {
     await page.getByRole('button', { name: '→' }).click()
 
     // Real, non-deterministic model output — assert on structure (an assistant reply
-    // actually rendered) rather than exact wording.
-    await expect(page.getByText('Substitution Guide')).toBeVisible({ timeout: 30_000 })
+    // actually rendered) rather than exact wording. Generous timeout for the same reason as
+    // the recipe-generation test below: real Anthropic latency under concurrent CI workers.
+    await expect(page.getByText('Substitution Guide')).toBeVisible({ timeout: 45_000 })
   })
 
   test('recipe generation populates the new-recipe form from a description', async ({ page }) => {
+    // Overrides the config's default 60s per-test timeout — the assertion below alone waits
+    // up to 60s, which would otherwise butt up against (or exceed) the test-level budget once
+    // login/navigation overhead is added on top.
+    test.setTimeout(90_000)
     await loginAs(page, user)
     await page.goto('/dashboard/my-recipes/new')
 
     await page.getByPlaceholder('A rosemary olive oil boule for a dinner party...').fill('A simple whole wheat sandwich loaf')
     await page.getByRole('button', { name: 'Generate Recipe' }).click()
 
-    await expect(page.getByText('Recipe generated. Review the details and save when you are ready.')).toBeVisible({ timeout: 30_000 })
+    // Composing a fresh recipe takes longer than a short chat reply, and the route's own
+    // maxDuration budget (recipe-generation/route.ts) is 60s — match that here rather than
+    // the shorter timeout used for the chat-based ingredient-substitution assertion below,
+    // which was too tight under concurrent load from the rest of this suite's workers.
+    await expect(page.getByText('Recipe generated. Review the details and save when you are ready.')).toBeVisible({ timeout: 60_000 })
     // The title field starts empty — a non-empty value proves the generated recipe was
     // actually applied to the form, not just that the request succeeded.
     await expect(page.getByPlaceholder('Jalapeño Cheddar Loaf...')).not.toHaveValue('')
