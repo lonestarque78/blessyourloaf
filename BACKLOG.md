@@ -1,6 +1,6 @@
 # Bless Your Loaf — Backlog
 
-Updated end of Aug 9 2026. Save at the repo root next to `CLAUDE.md`.
+Updated end of Aug 12 2026. Save at the repo root next to `CLAUDE.md`.
 This is the memory Claude Code doesn't have between sessions — keep it current.
 
 ---
@@ -10,10 +10,11 @@ This is the memory Claude Code doesn't have between sessions — keep it current
 Ordered. Everything here is small and either blocks something or is actively costing you.
 
 1. **Fix static rendering on marketing and guide pages.** Promoted out of "deferred technical decisions" — the positioning work (Aug 12) concluded that SEO/content is the primary acquisition channel for this product, and cookie-based locale made every page dynamic, which directly undermines it. This is now a marketing problem, and it should be fixed before writing any content.
-2. **Fix the feeding form scroll bug.** It's in the app's most-repeated action, and a button that silently doesn't respond reads as "broken app."
-3. **Configure custom SMTP in Supabase.** Not urgent while you're the only user, but it must happen before you tell a single real person about the app.
+2. **Configure custom SMTP in Supabase.** Not urgent while you're the only user, but it must happen before you tell a single real person about the app.
 
 *Done Aug 12: `BACKLOG.md` committed and `AUDIT.md` deleted; local npm/Node pinned via `engines` + `.npmrc`; failed auth E2E job re-run and green — full pipeline passing end to end with all 5 E2E tests. Node version manager installed (fnm), Node 22.x installed and set as this repo's pinned version via `.node-version`, `npm ci` verified clean under it — corepack confirmed a no-op here (no admin rights on `C:\Program Files\nodejs`) so `engines`/`engine-strict` + fnm's per-directory switching is the real mechanism. fnm's default alias pinned to the exact Node build already on the machine (v26.2.0), so The Pit Preacher and anything else without its own `.node-version` are unaffected.*
+
+*Done Aug 12 (autonomous session): Fixed the feeding form scroll bug (see Known bugs, below, for the pre-fix description) — `FeedingLog.tsx` now scrolls its header back into view on collapse, `instant` rather than the site's default smooth behavior so it can't race a fast follow-up click; the E2E workaround in `starter-feeding.spec.ts` is gone. Closed out **Phase 5** — built the two missing AI skills (ingredient substitution, recipe generation), see Phase status and Suggested next up below for what changed and what's worth a second look.*
 
 ## Phase status
 
@@ -27,7 +28,7 @@ Ordered. Everything here is small and either blocks something or is actively cos
 
 **Phase 4 — Auth & billing.** Done. Email, Google, Apple, and Facebook login all working. Stripe checkout and webhooks with signature verification and idempotency. AI quota enforced on all three AI routes.
 
-**Phase 5 — AI skills.** Partial. Troubleshooting works and matches the brand-voice spec. **Ingredient substitution and recipe generation are not built** — reserved in the `AiAction` type, never implemented. The `AIProvider` abstraction from the plan also doesn't exist; all AI routes instantiate `new Anthropic()` inline.
+**Phase 5 — AI skills.** Done. All three skills built and match the brand-voice spec: troubleshooting (chat, persisted), ingredient substitution (chat, new — deliberately *not* persisted, see Suggested next up), and recipe generation (new — a card on the "Add a Recipe" page that populates the same review-and-save form URL import already uses, rather than a separate flow). All three share one quota gate (`getRemainingFreeAiActions`/`recordAiUsage`) and one on-topic enforcement approach (a shared cheap keyword pre-filter plus a hard system-prompt boundary per route). The `AIProvider` abstraction from the plan still doesn't exist; all AI routes still instantiate `new Anthropic()` inline — unchanged by this work, still only matters if you want a non-Claude provider.
 
 **Phase 6 — Public feed & moderation.** Not started. Nothing exists.
 
@@ -61,7 +62,8 @@ Ordered. Everything here is small and either blocks something or is actively cos
 - **Static → dynamic rendering.** *Promoted to "Do next" above — see there.* Cookie-based locale forced every route dynamic. A URL-prefix scheme (`/es/...`) would restore static rendering but is a bigger change; a narrower fix limited to marketing and guide pages may be enough.
 - **Marketing follow-ups from the Aug 12 positioning doc** (full version in Google Drive): rewrite the landing page to lead with the starter rather than bread photography; write troubleshooting pages targeting real searched questions; make annual billing the visually default plan; make the free-tier AI gate message warm rather than transactional; consider starter milestones/streaks as a retention mechanic.
 - **i18n payload size.** All 15 namespaces ship in every page's hydration payload.
-- **Bake-schedule AI prompt not localized.** Troubleshooter and recipe cleanup answer in the user's language; bake-schedule still answers in English.
+- **Bake-schedule AI prompt not localized.** Troubleshooter, recipe cleanup, ingredient substitution, and recipe generation all answer in the user's language; bake-schedule still answers in English.
+- **Recipe generation's off-topic decline text is English-only**, same gap as bake-schedule above and for the same reason: it's a fixed string inside the system prompt's escape-hatch JSON, not something Claude composes fresh, so the per-locale language instruction never touches it. Low-impact in practice — the shared keyword pre-filter catches the common case in the user's language before the AI is even called; this only shows up on the rare slip-through where Claude itself invokes the escape hatch.
 - **Recipe content in the database isn't translated.** Titles, ingredients, and steps are English-only in the `recipes` table. Needs a schema decision, not key extraction.
 - **Supabase/Stripe SDK error messages surface in English** regardless of locale.
 - **No custom 404 page** — renders Next's English default.
@@ -76,12 +78,11 @@ Ordered. Everything here is small and either blocks something or is actively cos
 
 ## Known bugs
 
-- **Feeding form scroll bug.** After saving a feeding, the form collapses but scroll position isn't adjusted, so the "+ Log a Feeding" button can end up stranded behind the sticky nav and become unclickable until the user manually scrolls. Reproduced deterministically by the E2E tests, which work around it. Affects the app's most-repeated action.
 - **GrowthChart sort has no tiebreaker.** `fed_at` sorting is ambiguous for two feedings in the same minute, and the datetime input only has minute precision, so "Latest" can show the wrong one. Low priority — unrealistic for real feeding cadence.
 
 ## Testing gaps
 
-- **E2E: Playwright is set up** (Aug 10) covering signup/login, recipe import, starter feeding, Bake Coach, and the AI quota gate. Runs in CI as its own job against a local build on port 3100, with self-cleaning test accounts. **Maestro (mobile E2E) still doesn't exist.**
+- **E2E: Playwright is set up** (Aug 10) covering signup/login, recipe import, starter feeding, Bake Coach, and the AI quota gate. Added Aug 12: `ai-skills.spec.ts`, covering ingredient substitution and recipe generation against the *real* Anthropic API (2 real calls, one per skill — a fresh test user's free-tier quota covers both). Runs in CI as its own job against a local build on port 3100, with self-cleaning test accounts. **Maestro (mobile E2E) still doesn't exist.**
 - **Not covered by E2E:** OAuth providers (can't automate third-party consent screens), Stripe checkout, password reset, offline/PWA behavior, Spanish locale, and the unbuilt feed.
 - **No web component testing.** No React Testing Library or jsdom, so only logic modules are covered on the web side. Mobile has Jest + RNTL working.
 
@@ -101,8 +102,16 @@ Ordered. Everything here is small and either blocks something or is actively cos
 
 ## Suggested next up
 
-1. **Phase 5 — ingredient substitution and recipe generation.** Closes Phase 5, and both are natural extensions of the troubleshooter that already works.
-2. **Phase 6 — public feed & moderation.** The largest unbuilt phase and the one with nothing to reuse.
-3. **Phase 8 — wire the mobile app to Supabase.** The single biggest gap between where the product is and where it needs to be, since the mobile app is currently a mockup.
+1. **Phase 6 — public feed & moderation.** The largest unbuilt phase and the one with nothing to reuse.
+2. **Phase 8 — wire the mobile app to Supabase.** The single biggest gap between where the product is and where it needs to be, since the mobile app is currently a mockup.
 
 Habits worth keeping: commit after each task rather than batching, `/clear` between unrelated tasks, and ask for the plain-English RLS readback on every new table.
+
+## Phase 5 decisions worth a second look
+
+Ambiguous calls made autonomously (Aug 12) while closing out Phase 5. None are blockers, but flagging them since you didn't get to weigh in first:
+
+- **Ingredient substitution's chat isn't persisted to Supabase** (no `troubleshooter_chats`-equivalent table) — it's a client-side-only conversation that resets on reload. Reasoning: a substitution question reads as a one-off lookup, not a multi-day conversation about one starter's health the way troubleshooting is. If real usage shows people want to come back to a past answer, this is the place to add persistence.
+- **Recipe generation has no dedicated chat/page** — it's a second card ("Generate a Recipe with AI") on the existing `/dashboard/my-recipes/new` page, next to "Import from a Recipe URL." Both populate the same review-and-edit form before saving. Reasoning: a generated recipe and an imported one both need the same human review step before they're worth keeping, so reusing that flow seemed stronger than building a parallel one.
+- **Ingredient substitution got a new top-level nav link** ("Substitutions," next to Troubleshooter, both desktop and mobile) rather than living in the Library dropdown. Reasoning: it's quota-gated AI, not a static reference guide, so it reads closer to Troubleshooter than to the Hydration Calculator. Recipe generation didn't get its own nav entry at all, since it's reached through the existing "My Recipes" → "+ Add Recipe" path.
+- **The on-topic keyword pre-filter was extended for ingredient substitution** (added terms like "allergic," "dairy," "instead") but the *original* troubleshooter list was moved to a shared module byte-for-byte unchanged, specifically because CLAUDE.md warns against loosening it without checking real conversations first. The extended list only affects the new route.
