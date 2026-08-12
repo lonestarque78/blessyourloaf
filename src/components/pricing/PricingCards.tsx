@@ -1,22 +1,44 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { createClient } from '@/lib/supabase/client'
 
 interface Props {
+  // Server-rendered defaults. The pricing page is statically rendered (see
+  // src/app/[locale]/pricing/page.tsx), so these are always the logged-out view — correct
+  // for the vast majority of pricing-page traffic. The effect below refines them
+  // client-side for the rare already-logged-in/subscribed visitor.
   isSubscriber: boolean
   isLoggedIn: boolean
   monthlyPriceId: string
   annualPriceId: string
 }
 
-export default function PricingCards({ isSubscriber, isLoggedIn, monthlyPriceId, annualPriceId }: Props) {
+export default function PricingCards({ isSubscriber: initialIsSubscriber, isLoggedIn: initialIsLoggedIn, monthlyPriceId, annualPriceId }: Props) {
   const t = useTranslations('Pricing.cards')
   const router = useRouter()
   const [loading, setLoading] = useState<'monthly' | 'annual' | null>(null)
   const [error, setError] = useState('')
+  const [isLoggedIn, setIsLoggedIn] = useState(initialIsLoggedIn)
+  const [isSubscriber, setIsSubscriber] = useState(initialIsSubscriber)
+
+  useEffect(() => {
+    let active = true
+    const supabase = createClient()
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
+      if (!active || !user) return
+      setIsLoggedIn(true)
+      const { data: profile } = await supabase.from('profiles').select('subscription_status').eq('id', user.id).single()
+      if (!active) return
+      if (profile?.subscription_status === 'active' || profile?.subscription_status === 'trialing') setIsSubscriber(true)
+    })
+    return () => {
+      active = false
+    }
+  }, [])
 
   const handleCheckout = async (priceId: string, plan: 'monthly' | 'annual') => {
     if (!isLoggedIn) {

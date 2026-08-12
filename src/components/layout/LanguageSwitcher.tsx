@@ -1,22 +1,47 @@
 'use client'
 
 import { useTransition } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { useLocale, useTranslations } from 'next-intl'
 import { setLocaleAction } from '@/i18n/actions'
-import { SUPPORTED_LOCALES, type Locale } from '@/i18n/locale'
+import { SUPPORTED_LOCALES, DEFAULT_LOCALE, type Locale } from '@/i18n/locale'
 
-export default function LanguageSwitcher({ variant = 'light' }: { variant?: 'light' | 'dark' }) {
+interface LanguageSwitcherProps {
+  variant?: 'light' | 'dark'
+  // True on the static marketing/guide tier (src/app/[locale]/...), where locale lives in
+  // the URL (as-needed prefix: English unprefixed, Spanish under /es) rather than the
+  // cookie alone — a refresh wouldn't change a statically-rendered page's content, so this
+  // navigates to the equivalent path in the target locale instead. The cookie is set
+  // either way, so a visitor who switches language on the marketing site sees the same
+  // language after logging into the (cookie-based) dashboard, rather than reverting to
+  // whatever the cookie was set to previously.
+  localeRouting?: boolean
+}
+
+// Strips any existing /es prefix, then re-adds it if switching to a non-default locale —
+// mirrors src/i18n/routing.ts's 'as-needed' localePrefix convention.
+function localizedPath(pathname: string, target: Locale): string {
+  const stripped = pathname.replace(/^\/es(?=\/|$)/, '') || '/'
+  if (target === DEFAULT_LOCALE) return stripped
+  return stripped === '/' ? '/es' : `/es${stripped}`
+}
+
+export default function LanguageSwitcher({ variant = 'light', localeRouting = false }: LanguageSwitcherProps) {
   const locale = useLocale() as Locale
   const t = useTranslations('Common.language')
   const router = useRouter()
+  const pathname = usePathname()
   const [isPending, startTransition] = useTransition()
 
   function handleChange(next: Locale) {
     if (next === locale || isPending) return
     startTransition(async () => {
       await setLocaleAction(next)
-      router.refresh()
+      if (localeRouting) {
+        router.push(localizedPath(pathname, next))
+      } else {
+        router.refresh()
+      }
     })
   }
 

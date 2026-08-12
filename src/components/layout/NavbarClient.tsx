@@ -7,9 +7,12 @@ import LanguageSwitcher from './LanguageSwitcher'
 
 interface NavbarClientProps {
   user: { firstName: string } | null
+  // True on the static marketing/guide tier (src/app/[locale]/...), where locale lives in
+  // the URL — the switcher needs to navigate, not just refresh. See LanguageSwitcher.tsx.
+  localeRouting?: boolean
 }
 
-export default function NavbarClient({ user }: NavbarClientProps) {
+export default function NavbarClient({ user, localeRouting = false }: NavbarClientProps) {
   const t = useTranslations('Common.nav')
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -53,7 +56,7 @@ export default function NavbarClient({ user }: NavbarClientProps) {
           {navLinks.map(({ href, label }) => (
             <Link key={href} href={href} className="font-lora text-sm text-[#7a4f3a] hover:text-[#b07d62] transition-colors">{label}</Link>
           ))}
-          <LanguageSwitcher />
+          <LanguageSwitcher localeRouting={localeRouting} />
           {user ? (
             <>
               <span className="font-lora text-sm text-[#7a4f3a]">{user.firstName}</span>
@@ -97,7 +100,7 @@ export default function NavbarClient({ user }: NavbarClientProps) {
             </Link>
           ))}
           <div className="border-t border-[#e8d5c4] pt-4 flex flex-col gap-4">
-            <LanguageSwitcher />
+            <LanguageSwitcher localeRouting={localeRouting} />
             {user ? (
               <>
                 <span className="font-lora text-sm text-[#7a4f3a]">{t('helloName', { name: user.firstName })}</span>

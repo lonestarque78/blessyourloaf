@@ -1,18 +1,28 @@
-import Navbar from '@/components/layout/Navbar'
-import Footer from '@/components/layout/Footer'
+import type { Metadata } from 'next'
 import Link from 'next/link'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import PublicNavbar from '@/components/layout/PublicNavbar'
+import PublicFooter from '@/components/layout/PublicFooter'
+import { isSupportedLocale } from '@/i18n/locale'
+import { buildAlternates } from '@/i18n/seo'
 
 const supplyKeys = ['jar', 'scale', 'flour', 'water', 'band', 'spot'] as const
 const stepKeys = ['day1', 'days23', 'days47', 'week2'] as const
 const faqKeys = ['howLong', 'whatFlour', 'smellsBad', 'liquidOnTop', 'storeLongTerm', 'unfedMonths'] as const
 
-export default async function StarterGuidePage() {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  return { alternates: buildAlternates('/starter-guide', isSupportedLocale(locale) ? locale : 'en') }
+}
+
+export default async function StarterGuidePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
   const t = await getTranslations('Tools')
 
   return (
     <div className="min-h-screen" style={{ background: '#fdf6f0' }}>
-      <Navbar />
+      <PublicNavbar />
 
       <div className="max-w-4xl mx-auto px-6 pt-24 pb-20">
         {/* Header */}
@@ -107,7 +117,7 @@ export default async function StarterGuidePage() {
         </div>
       </div>
 
-      <Footer />
+      <PublicFooter />
     </div>
   )
 }

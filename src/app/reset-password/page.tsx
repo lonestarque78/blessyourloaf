@@ -3,12 +3,13 @@ import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import ResetPasswordForm from './ResetPasswordForm'
 import { getTranslations } from 'next-intl/server'
+import CookieLocaleProvider from '@/components/providers/CookieLocaleProvider'
 
 export default async function ResetPasswordPage() {
   const t = await getTranslations('Auth.resetPassword')
 
   return (
-    <>
+    <CookieLocaleProvider>
       <Navbar />
       <div className="min-h-screen flex items-center justify-center px-6 py-24"
         style={{ background: 'linear-gradient(160deg, #fdf6f0 0%, #f5e6d8 50%, #ede0d4 100%)' }}>
@@ -25,6 +26,6 @@ export default async function ResetPasswordPage() {
         </div>
       </div>
       <Footer />
-    </>
+    </CookieLocaleProvider>
   )
 }

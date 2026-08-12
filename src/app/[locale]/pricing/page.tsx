@@ -1,8 +1,10 @@
-import { createClient } from '@/lib/supabase/server'
-import Navbar from '@/components/layout/Navbar'
-import Footer from '@/components/layout/Footer'
+import type { Metadata } from 'next'
+import PublicNavbar from '@/components/layout/PublicNavbar'
+import PublicFooter from '@/components/layout/PublicFooter'
 import PricingCards from '@/components/pricing/PricingCards'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { isSupportedLocale } from '@/i18n/locale'
+import { buildAlternates } from '@/i18n/seo'
 
 const featureRows = [
   { key: 'starterJournal', free: true, paid: true },
@@ -18,22 +20,19 @@ const featureRows = [
   { key: 'newRecipes', free: false, paid: true },
 ] as const
 
-export default async function PricingPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  return { alternates: buildAlternates('/pricing', isSupportedLocale(locale) ? locale : 'en') }
+}
+
+export default async function PricingPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
   const t = await getTranslations('Pricing')
-
-  const { data: profile } = user ? await supabase
-    .from('profiles')
-    .select('subscription_status, subscription_tier')
-    .eq('id', user.id)
-    .single() : { data: null }
-
-  const isSubscriber = profile?.subscription_status === 'active' || profile?.subscription_status === 'trialing'
 
   return (
     <div className="min-h-screen" style={{ background: '#fdf6f0' }}>
-      <Navbar />
+      <PublicNavbar />
 
       <div className="max-w-5xl mx-auto px-6 pt-24 pb-20">
         <div className="text-center mb-16">
@@ -47,8 +46,8 @@ export default async function PricingPage() {
         </div>
 
         <PricingCards
-          isSubscriber={isSubscriber}
-          isLoggedIn={!!user}
+          isSubscriber={false}
+          isLoggedIn={false}
           monthlyPriceId={process.env.NEXT_PUBLIC_STRIPE_MONTHLY_PRICE_ID!}
           annualPriceId={process.env.NEXT_PUBLIC_STRIPE_ANNUAL_PRICE_ID!}
         />
@@ -95,7 +94,7 @@ export default async function PricingPage() {
         </div>
       </div>
 
-      <Footer />
+      <PublicFooter />
     </div>
   )
 }

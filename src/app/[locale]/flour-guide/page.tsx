@@ -1,6 +1,9 @@
-import Navbar from '@/components/layout/Navbar'
-import Footer from '@/components/layout/Footer'
-import { getTranslations } from 'next-intl/server'
+import type { Metadata } from 'next'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import PublicNavbar from '@/components/layout/PublicNavbar'
+import PublicFooter from '@/components/layout/PublicFooter'
+import { isSupportedLocale } from '@/i18n/locale'
+import { buildAlternates } from '@/i18n/seo'
 
 const flourKeys = ['allPurpose', 'bread', 'wholeWheat', 'rye', 'spelt', 'einkorn', 'glutenFree'] as const
 
@@ -41,12 +44,19 @@ const difficultyColors: Record<string, string> = {
   Advanced: 'bg-rose-50 text-rose-700',
 }
 
-export default async function FlourGuidePage() {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  return { alternates: buildAlternates('/flour-guide', isSupportedLocale(locale) ? locale : 'en') }
+}
+
+export default async function FlourGuidePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
   const t = await getTranslations('Tools')
 
   return (
     <div className="min-h-screen" style={{ background: '#fdf6f0' }}>
-      <Navbar />
+      <PublicNavbar />
 
       <div className="max-w-4xl mx-auto px-6 pt-24 pb-20">
         {/* Header */}
@@ -159,7 +169,7 @@ export default async function FlourGuidePage() {
         </div>
       </div>
 
-      <Footer />
+      <PublicFooter />
     </div>
   )
 }

@@ -63,8 +63,10 @@ const MESSAGES = {
   },
 } satisfies Record<Locale, Record<string, unknown>>
 
-// No URL-based i18n routing (no /en, /es prefixes) — locale is chosen via the language
-// switcher, which sets this cookie, so every route stays at its existing URL.
+// Cookie-based locale, used by every route OUTSIDE the src/app/[locale] segment
+// (dashboard, auth, checkout) — these stay dynamic already (per-user Supabase session
+// data), so reading a cookie here costs nothing extra. Chosen via the language switcher,
+// which sets this cookie, so those routes stay at their existing unprefixed URLs.
 export async function resolveLocale(): Promise<Locale> {
   const cookieStore = await cookies()
   const cookieLocale = cookieStore.get(LOCALE_COOKIE)?.value
@@ -78,7 +80,14 @@ export async function resolveLocale(): Promise<Locale> {
   return DEFAULT_LOCALE
 }
 
-export default getRequestConfig(async () => {
-  const locale = await resolveLocale()
+// Public marketing/guide/recipe pages live under src/app/[locale]/ and are routed by
+// next-intl's middleware (src/i18n/routing.ts + src/proxy.ts) — `requestLocale` there
+// resolves from the URL segment, never touching cookies(), which is what makes those
+// routes static-generation-eligible. Everything else renders outside that segment, so
+// `requestLocale` resolves to undefined and we fall back to the cookie above — same
+// behavior as before this change, for exactly the routes that still need it.
+export default getRequestConfig(async ({ requestLocale }) => {
+  const segmentLocale = await requestLocale
+  const locale = isSupportedLocale(segmentLocale) ? segmentLocale : await resolveLocale()
   return { locale, messages: MESSAGES[locale] }
 })

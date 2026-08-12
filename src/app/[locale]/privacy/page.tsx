@@ -1,10 +1,22 @@
-import Navbar from '@/components/layout/Navbar'
-import Footer from '@/components/layout/Footer'
+import type { Metadata } from 'next'
+import { setRequestLocale } from 'next-intl/server'
+import PublicNavbar from '@/components/layout/PublicNavbar'
+import PublicFooter from '@/components/layout/PublicFooter'
+import { isSupportedLocale } from '@/i18n/locale'
+import { buildAlternates } from '@/i18n/seo'
 
-export default function PrivacyPage() {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  return { alternates: buildAlternates('/privacy', isSupportedLocale(locale) ? locale : 'en') }
+}
+
+export default async function PrivacyPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   return (
     <div className="min-h-screen" style={{ background: '#fdf6f0' }}>
-      <Navbar />
+      <PublicNavbar />
       <div className="max-w-3xl mx-auto px-6 pt-24 pb-20">
         <div className="mb-12">
           <p className="font-lora text-xs uppercase tracking-widest text-[#b8896e] mb-3">✦ Legal ✦</p>
@@ -67,7 +79,7 @@ export default function PrivacyPage() {
           </div>
         </div>
       </div>
-      <Footer />
+      <PublicFooter />
     </div>
   )
 }
