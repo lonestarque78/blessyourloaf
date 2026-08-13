@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, Suspense } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
@@ -38,6 +38,25 @@ function NewMyRecipePageContent() {
   const [generateDescription, setGenerateDescription] = useState('')
   const [generating, setGenerating] = useState(false)
   const [generateMessage, setGenerateMessage] = useState('')
+  const [highlightGenerate, setHighlightGenerate] = useState(false)
+  const generateCardRef = useRef<HTMLDivElement>(null)
+  const generateTextareaRef = useRef<HTMLTextAreaElement>(null)
+
+  // Deep-link target for the "Generate a Recipe" nav entry (Kitchen Help dropdown) — lands
+  // here via /dashboard/my-recipes/new?focus=generate, scrolls/focuses the card, and briefly
+  // highlights it so arriving from the nav feels like landing on the right thing rather than
+  // a generic "Add a Recipe" page you have to hunt through.
+  useEffect(() => {
+    if (searchParams.get('focus') !== 'generate') return
+    generateCardRef.current?.scrollIntoView({ behavior: 'instant', block: 'start' })
+    generateTextareaRef.current?.focus()
+    // Reacting to the ?focus=generate URL param, not a value derivable from render — same
+    // pattern as loadData's mount effect elsewhere in this codebase.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setHighlightGenerate(true)
+    const timeout = setTimeout(() => setHighlightGenerate(false), 2000)
+    return () => clearTimeout(timeout)
+  }, [searchParams])
 
   const [form, setForm] = useState({
     title: searchParams.get('title') || '',
@@ -248,13 +267,19 @@ function NewMyRecipePageContent() {
         </div>
       )}
 
-      <div className="bg-white rounded-2xl p-7 shadow-md border border-[#f0e4db] mb-6">
+      <div
+        id="generate-recipe"
+        ref={generateCardRef}
+        className={`bg-white rounded-2xl p-7 shadow-md border mb-6 scroll-mt-28 transition-colors duration-500 ${
+          highlightGenerate ? 'border-[#c9956c] ring-2 ring-[#c9956c] ring-offset-2' : 'border-[#f0e4db]'
+        }`}>
         <h2 className="font-playfair text-xl font-bold text-[#3d2b1f] mb-2">{t('new.generateTitle')}</h2>
         <p className="font-lora text-sm text-[#9a7060] mb-4">
           {t('new.generateSubtitle')}
         </p>
         <div className="flex flex-col sm:flex-row gap-3">
           <textarea
+            ref={generateTextareaRef}
             value={generateDescription}
             onChange={e => setGenerateDescription(e.target.value)}
             placeholder={t('new.generatePlaceholder')}
