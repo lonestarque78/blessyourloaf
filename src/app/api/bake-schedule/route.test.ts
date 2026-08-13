@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { FREE_DAILY_AI_LIMIT } from '@/lib/ai-usage'
+import { FREE_DAILY_AI_LIMIT, PAID_DAILY_AI_LIMIT } from '@/lib/ai-usage'
 
 const mocks = vi.hoisted(() => ({
   createMock: vi.fn(),
@@ -25,8 +25,8 @@ const FAKE_SCHEDULE_JSON = JSON.stringify({
 
 // Mirrors the fakeSupabase helper in src/lib/ai-usage.test.ts, but stateful across sequential
 // calls within one test so it behaves like a real day's worth of usage accumulating.
-function fakeSupabase(subscriptionStatus: string) {
-  let usageCount = 0
+function fakeSupabase(subscriptionStatus: string, startingUsageCount = 0) {
+  let usageCount = startingUsageCount
 
   const usageQuery = {
     eq: vi.fn(function (this: typeof usageQuery) { return this }),
@@ -100,7 +100,7 @@ describe('POST /api/bake-schedule — daily AI cap', () => {
     expect(mocks.createMock).toHaveBeenCalledTimes(FREE_DAILY_AI_LIMIT)
   })
 
-  it('never caps a paid (active-subscription) user', async () => {
+  it('does not cap a paid (active-subscription) user at the free-tier limit', async () => {
     mocks.supabaseRef.current = fakeSupabase('active')
 
     for (let i = 0; i < FREE_DAILY_AI_LIMIT + 2; i++) {
@@ -108,5 +108,16 @@ describe('POST /api/bake-schedule — daily AI cap', () => {
       expect(res.status).toBe(200)
     }
     expect(mocks.createMock).toHaveBeenCalledTimes(FREE_DAILY_AI_LIMIT + 2)
+  })
+
+  it(`still caps a paid user at the ${PAID_DAILY_AI_LIMIT}-action fair-use limit, with a fair-use (not free-tier) message`, async () => {
+    mocks.supabaseRef.current = fakeSupabase('active', PAID_DAILY_AI_LIMIT)
+
+    const res = await POST(scheduleRequest())
+    expect(res.status).toBe(429)
+    const data = await res.json()
+    expect(data.error).toContain(`fair-use limit of ${PAID_DAILY_AI_LIMIT}`)
+    expect(data.error).not.toContain('free AI actions')
+    expect(mocks.createMock).not.toHaveBeenCalled()
   })
 })

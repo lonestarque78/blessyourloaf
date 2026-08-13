@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { FREE_DAILY_AI_LIMIT } from '@/lib/ai-usage'
+import { FREE_DAILY_AI_LIMIT, PAID_DAILY_AI_LIMIT } from '@/lib/ai-usage'
 
 process.env.ANTHROPIC_API_KEY = 'test-key'
 
@@ -24,8 +24,10 @@ const FAKE_REPLY = 'Feed her again in 12 hours and keep her around 78°F.'
 
 // Mirrors the fakeSupabase helper in src/lib/ai-usage.test.ts, but stateful across sequential
 // calls within one test so it behaves like a real day's worth of usage accumulating.
-function fakeSupabase(subscriptionStatus: string) {
-  let usageCount = 0
+// startingUsageCount lets a test start already partway (or all the way) through the day's
+// quota, without looping the route dozens of times just to get there.
+function fakeSupabase(subscriptionStatus: string, startingUsageCount = 0) {
+  let usageCount = startingUsageCount
 
   const usageQuery = {
     eq: vi.fn(function (this: typeof usageQuery) { return this }),
@@ -86,7 +88,7 @@ describe('POST /api/troubleshooter — daily AI cap', () => {
     expect(mocks.createMock).toHaveBeenCalledTimes(FREE_DAILY_AI_LIMIT)
   })
 
-  it('never caps a paid (active-subscription) user', async () => {
+  it('does not cap a paid (active-subscription) user at the free-tier limit', async () => {
     mocks.supabaseRef.current = fakeSupabase('active')
 
     for (let i = 0; i < FREE_DAILY_AI_LIMIT + 3; i++) {
@@ -95,5 +97,15 @@ describe('POST /api/troubleshooter — daily AI cap', () => {
       expect(data.message).toBe(FAKE_REPLY)
     }
     expect(mocks.createMock).toHaveBeenCalledTimes(FREE_DAILY_AI_LIMIT + 3)
+  })
+
+  it(`still caps a paid user at the ${PAID_DAILY_AI_LIMIT}-action fair-use limit, with a fair-use (not free-tier) message`, async () => {
+    mocks.supabaseRef.current = fakeSupabase('active', PAID_DAILY_AI_LIMIT)
+
+    const res = await POST(requestWithMessage('My starter smells like acetone, what should I do?'))
+    const data = await res.json()
+    expect(data.message).toContain(`fair-use limit of ${PAID_DAILY_AI_LIMIT}`)
+    expect(data.message).not.toContain('free AI actions')
+    expect(mocks.createMock).not.toHaveBeenCalled()
   })
 })

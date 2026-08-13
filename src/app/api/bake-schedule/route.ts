@@ -2,7 +2,8 @@ import Anthropic from '@anthropic-ai/sdk'
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { normalizeBakePhase } from '@/lib/bake-timer'
-import { FREE_DAILY_AI_LIMIT, getRemainingFreeAiActions, recordAiUsage } from '@/lib/ai-usage'
+import { FAIR_USE_LIMIT_REPLIES, FREE_DAILY_AI_LIMIT, getAiQuotaStatus, recordAiUsage } from '@/lib/ai-usage'
+import { DEFAULT_LOCALE } from '@/i18n/locale'
 
 const client = new Anthropic()
 
@@ -96,19 +97,22 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
 
-  let remaining: number
+  let quota: { remaining: number; isPaid: boolean }
   try {
-    remaining = await getRemainingFreeAiActions(supabase, user.id)
+    quota = await getAiQuotaStatus(supabase, user.id)
   } catch (error) {
     console.warn('[bake-schedule] quota check failed, blocking AI call', error)
-    remaining = 0
+    quota = { remaining: 0, isPaid: false }
   }
 
-  if (remaining <= 0) {
-    return NextResponse.json(
-      { error: `You've used your ${FREE_DAILY_AI_LIMIT} free AI actions for today — come back tomorrow, or upgrade anytime for unlimited access.` },
-      { status: 429 }
-    )
+  if (quota.remaining <= 0) {
+    // English-only either way, matching this route's existing (separately tracked, deferred)
+    // localization gap — see BACKLOG.md. FAIR_USE_LIMIT_REPLIES[DEFAULT_LOCALE] rather than a
+    // locally-written duplicate of that message.
+    const message = quota.isPaid
+      ? FAIR_USE_LIMIT_REPLIES[DEFAULT_LOCALE]
+      : `You've used your ${FREE_DAILY_AI_LIMIT} free AI actions for today — come back tomorrow, or upgrade anytime for unlimited access.`
+    return NextResponse.json({ error: message }, { status: 429 })
   }
 
   const userPrompt = `I want to bake: ${recipe}

@@ -1,7 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { FREE_DAILY_AI_LIMIT, getRemainingFreeAiActions, recordAiUsage } from '@/lib/ai-usage'
+import { FAIR_USE_LIMIT_REPLIES, FREE_DAILY_AI_LIMIT, getAiQuotaStatus, recordAiUsage } from '@/lib/ai-usage'
 import { looksOffTopic } from '@/lib/sourdough-ai'
 import { generateRecipeWithAnthropic, RecipeGenerationDeclinedError } from '@/lib/recipe-generation'
 import { DEFAULT_LOCALE, isSupportedLocale, type Locale } from '@/i18n/locale'
@@ -53,16 +53,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: OFF_TOPIC_REPLIES[locale] }, { status: 422 })
   }
 
-  let remaining: number
+  let quota: { remaining: number; isPaid: boolean }
   try {
-    remaining = await getRemainingFreeAiActions(supabase, user.id)
+    quota = await getAiQuotaStatus(supabase, user.id)
   } catch (error) {
     console.warn('[recipe-generation] quota check failed, blocking AI call', error)
-    remaining = 0
+    quota = { remaining: 0, isPaid: false }
   }
 
-  if (remaining <= 0) {
-    return NextResponse.json({ error: QUOTA_EXCEEDED_REPLIES[locale] }, { status: 429 })
+  if (quota.remaining <= 0) {
+    const message = quota.isPaid ? FAIR_USE_LIMIT_REPLIES[locale] : QUOTA_EXCEEDED_REPLIES[locale]
+    return NextResponse.json({ error: message }, { status: 429 })
   }
 
   try {

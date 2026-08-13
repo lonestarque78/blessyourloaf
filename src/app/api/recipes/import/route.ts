@@ -8,7 +8,7 @@ import {
   extractRecipeTextFromHtml,
 } from '@/lib/recipe-import'
 import { createClient } from '@/lib/supabase/server'
-import { getRemainingFreeAiActions, recordAiUsage } from '@/lib/ai-usage'
+import { getAiQuotaStatus, recordAiUsage } from '@/lib/ai-usage'
 import { DEFAULT_LOCALE, isSupportedLocale } from '@/i18n/locale'
 
 const anthropic = process.env.ANTHROPIC_API_KEY ? new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY }) : null
@@ -70,7 +70,7 @@ export async function POST(request: Request) {
     } else {
       let remaining: number
       try {
-        remaining = await getRemainingFreeAiActions(supabase, user.id)
+        remaining = (await getAiQuotaStatus(supabase, user.id)).remaining
       } catch (error) {
         console.warn('[recipe-import] quota check failed, falling back to heuristic parser', error)
         remaining = 0

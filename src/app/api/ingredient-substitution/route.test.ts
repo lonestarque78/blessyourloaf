@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { FREE_DAILY_AI_LIMIT } from '@/lib/ai-usage'
+import { FREE_DAILY_AI_LIMIT, PAID_DAILY_AI_LIMIT } from '@/lib/ai-usage'
 
 process.env.ANTHROPIC_API_KEY = 'test-key'
 
@@ -26,8 +26,8 @@ const FAKE_REPLY = 'Use 1:1 whole wheat for bread flour, but add 5-10% more wate
 // calls within one test so it behaves like a real day's worth of usage accumulating.
 // chatUpdates records every ingredient_substitution_chats update, so persistence tests can
 // assert on what actually got written without a real database.
-function fakeSupabase(subscriptionStatus: string, chatUpdates: Array<{ id: string; messages: unknown }> = []) {
-  let usageCount = 0
+function fakeSupabase(subscriptionStatus: string, chatUpdates: Array<{ id: string; messages: unknown }> = [], startingUsageCount = 0) {
+  let usageCount = startingUsageCount
 
   const usageQuery = {
     eq: vi.fn(function (this: typeof usageQuery) { return this }),
@@ -98,7 +98,7 @@ describe('POST /api/ingredient-substitution — daily AI cap', () => {
     expect(mocks.createMock).toHaveBeenCalledTimes(FREE_DAILY_AI_LIMIT)
   })
 
-  it('never caps a paid (active-subscription) user', async () => {
+  it('does not cap a paid (active-subscription) user at the free-tier limit', async () => {
     mocks.supabaseRef.current = fakeSupabase('active')
 
     for (let i = 0; i < FREE_DAILY_AI_LIMIT + 3; i++) {
@@ -107,6 +107,16 @@ describe('POST /api/ingredient-substitution — daily AI cap', () => {
       expect(data.message).toBe(FAKE_REPLY)
     }
     expect(mocks.createMock).toHaveBeenCalledTimes(FREE_DAILY_AI_LIMIT + 3)
+  })
+
+  it(`still caps a paid user at the ${PAID_DAILY_AI_LIMIT}-action fair-use limit, with a fair-use (not free-tier) message`, async () => {
+    mocks.supabaseRef.current = fakeSupabase('active', [], PAID_DAILY_AI_LIMIT)
+
+    const res = await POST(requestWithMessage('What can I use instead of bread flour?'))
+    const data = await res.json()
+    expect(data.message).toContain(`fair-use limit of ${PAID_DAILY_AI_LIMIT}`)
+    expect(data.message).not.toContain('free AI actions')
+    expect(mocks.createMock).not.toHaveBeenCalled()
   })
 })
 

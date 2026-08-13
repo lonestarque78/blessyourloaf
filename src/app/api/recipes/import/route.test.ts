@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { FREE_DAILY_AI_LIMIT } from '@/lib/ai-usage'
+import { FREE_DAILY_AI_LIMIT, PAID_DAILY_AI_LIMIT } from '@/lib/ai-usage'
 
 process.env.ANTHROPIC_API_KEY = 'test-key'
 
@@ -34,8 +34,8 @@ const FAKE_RECIPE_JSON = JSON.stringify({
 
 // Mirrors the fakeSupabase helper in src/lib/ai-usage.test.ts, but stateful across sequential
 // calls within one test so it behaves like a real day's worth of usage accumulating.
-function fakeSupabase(subscriptionStatus: string) {
-  let usageCount = 0
+function fakeSupabase(subscriptionStatus: string, startingUsageCount = 0) {
+  let usageCount = startingUsageCount
 
   const usageQuery = {
     eq: vi.fn(function (this: typeof usageQuery) { return this }),
@@ -99,7 +99,7 @@ describe('POST /api/recipes/import — daily AI cap', () => {
     expect(mocks.createMock).toHaveBeenCalledTimes(FREE_DAILY_AI_LIMIT)
   })
 
-  it('never caps a paid (active-subscription) user', async () => {
+  it('does not cap a paid (active-subscription) user at the free-tier limit', async () => {
     mocks.supabaseRef.current = fakeSupabase('active')
 
     for (let i = 0; i < FREE_DAILY_AI_LIMIT + 2; i++) {
@@ -108,5 +108,15 @@ describe('POST /api/recipes/import — daily AI cap', () => {
       expect(data.source).toBe('anthropic')
     }
     expect(mocks.createMock).toHaveBeenCalledTimes(FREE_DAILY_AI_LIMIT + 2)
+  })
+
+  it(`still caps a paid user at the ${PAID_DAILY_AI_LIMIT}-action fair-use limit, falling back to the heuristic parser like a capped free user does`, async () => {
+    mocks.supabaseRef.current = fakeSupabase('active', PAID_DAILY_AI_LIMIT)
+
+    const res = await POST(importRequest())
+    const data = await res.json()
+    expect(data.source).toBe('fallback')
+    expect(data.aiSkipReason).toBe('quota_exceeded')
+    expect(mocks.createMock).not.toHaveBeenCalled()
   })
 })

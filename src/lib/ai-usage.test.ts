@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { FREE_DAILY_AI_LIMIT, getRemainingFreeAiActions, isPaidUser, recordAiUsage } from './ai-usage'
+import { FREE_DAILY_AI_LIMIT, PAID_DAILY_AI_LIMIT, getAiQuotaStatus, isPaidUser, recordAiUsage } from './ai-usage'
 
 function fakeSupabase({
   usageCount,
@@ -57,35 +57,41 @@ describe('isPaidUser', () => {
   })
 })
 
-describe('getRemainingFreeAiActions', () => {
-  it('returns the full limit when the user has no usage today', async () => {
+describe('getAiQuotaStatus', () => {
+  it('returns the full free limit when a free user has no usage today', async () => {
     const supabase = fakeSupabase({ usageCount: 0, profile: { subscription_status: 'inactive' } })
-    const remaining = await getRemainingFreeAiActions(supabase as never, 'user-1')
-    expect(remaining).toBe(FREE_DAILY_AI_LIMIT)
+    const status = await getAiQuotaStatus(supabase as never, 'user-1')
+    expect(status).toEqual({ remaining: FREE_DAILY_AI_LIMIT, limit: FREE_DAILY_AI_LIMIT, isPaid: false })
   })
 
-  it('subtracts today\'s usage from the limit', async () => {
+  it('subtracts today\'s usage from the free limit', async () => {
     const supabase = fakeSupabase({ usageCount: 1, profile: { subscription_status: 'inactive' } })
-    const remaining = await getRemainingFreeAiActions(supabase as never, 'user-1')
-    expect(remaining).toBe(FREE_DAILY_AI_LIMIT - 1)
+    const status = await getAiQuotaStatus(supabase as never, 'user-1')
+    expect(status.remaining).toBe(FREE_DAILY_AI_LIMIT - 1)
   })
 
-  it('never returns a negative remaining count', async () => {
+  it('never returns a negative remaining count for a free user', async () => {
     const supabase = fakeSupabase({ usageCount: 99, profile: { subscription_status: 'inactive' } })
-    const remaining = await getRemainingFreeAiActions(supabase as never, 'user-1')
-    expect(remaining).toBe(0)
+    const status = await getAiQuotaStatus(supabase as never, 'user-1')
+    expect(status.remaining).toBe(0)
   })
 
-  it('returns Infinity for a paid user regardless of usage, without querying usage', async () => {
-    const supabase = fakeSupabase({ usageCount: 99, profile: { subscription_status: 'active' } })
-    const remaining = await getRemainingFreeAiActions(supabase as never, 'user-1')
-    expect(remaining).toBe(Infinity)
-    expect(supabase.from).not.toHaveBeenCalledWith('ai_usage_events')
+  it('gives a paid user the higher PAID_DAILY_AI_LIMIT, not unlimited', async () => {
+    const supabase = fakeSupabase({ usageCount: 3, profile: { subscription_status: 'active' } })
+    const status = await getAiQuotaStatus(supabase as never, 'user-1')
+    expect(status).toEqual({ remaining: PAID_DAILY_AI_LIMIT - 3, limit: PAID_DAILY_AI_LIMIT, isPaid: true })
+  })
+
+  it('caps a paid user at 0 remaining once they cross PAID_DAILY_AI_LIMIT, rather than staying unbounded', async () => {
+    const supabase = fakeSupabase({ usageCount: PAID_DAILY_AI_LIMIT + 10, profile: { subscription_status: 'active' } })
+    const status = await getAiQuotaStatus(supabase as never, 'user-1')
+    expect(status.remaining).toBe(0)
+    expect(status.isPaid).toBe(true)
   })
 
   it('throws if the usage query fails', async () => {
     const supabase = fakeSupabase({ usageError: new Error('db down'), profile: { subscription_status: 'inactive' } })
-    await expect(getRemainingFreeAiActions(supabase as never, 'user-1')).rejects.toThrow('db down')
+    await expect(getAiQuotaStatus(supabase as never, 'user-1')).rejects.toThrow('db down')
   })
 })
 
