@@ -76,7 +76,7 @@ test.describe('paid fair-use AI quota gate', () => {
     await input.fill('My sourdough starter smells like nail polish and has stopped rising since its last feeding.')
     await page.getByRole('button', { name: '→' }).click()
 
-    await expect(page.getByText(`fair-use limit of ${PAID_DAILY_AI_LIMIT}`)).toBeVisible()
+    await expect(page.getByText('fair-use limit')).toBeVisible()
     await expect(page.getByText(`${FREE_DAILY_AI_LIMIT} free AI actions`)).not.toBeVisible()
   })
 })

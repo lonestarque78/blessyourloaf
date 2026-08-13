@@ -1,6 +1,10 @@
 import { describe, expect, it, vi } from 'vitest'
-import { FREE_DAILY_AI_LIMIT, PAID_DAILY_AI_LIMIT, getAiQuotaStatus, isPaidUser, recordAiUsage } from './ai-usage'
+import { AI_ACTION_COST_WEIGHT, FREE_DAILY_AI_LIMIT, PAID_DAILY_AI_LIMIT, getAiQuotaStatus, isPaidUser, recordAiUsage } from './ai-usage'
 
+// usageCount doubles as both "raw row count" (what the free-tier path selects with a head
+// query) and "already-consumed weighted units" (what the paid-tier path sums from cost_weight)
+// — represented here as a single row whose cost_weight equals the running total, since
+// getAiQuotaStatus only ever reduces over cost_weight and never inspects row identity.
 function fakeSupabase({
   usageCount,
   usageError,
@@ -18,7 +22,11 @@ function fakeSupabase({
 
   const usageQuery = {
     eq: vi.fn(function (this: typeof usageQuery) { return this }),
-    gte: vi.fn(async () => ({ count: usageCount ?? 0, error: usageError ?? null })),
+    gte: vi.fn(async () => ({
+      count: usageCount ?? 0,
+      data: usageCount ? [{ cost_weight: usageCount }] : [],
+      error: usageError ?? null,
+    })),
   }
 
   const profileQuery = {
@@ -93,13 +101,50 @@ describe('getAiQuotaStatus', () => {
     const supabase = fakeSupabase({ usageError: new Error('db down'), profile: { subscription_status: 'inactive' } })
     await expect(getAiQuotaStatus(supabase as never, 'user-1')).rejects.toThrow('db down')
   })
+
+  it('weights a paid user\'s usage by cost, not raw row count — a few expensive actions can exhaust the budget faster than the same number of cheap ones', async () => {
+    const usageQuery = {
+      eq: vi.fn(function (this: typeof usageQuery) { return this }),
+      gte: vi.fn(async () => ({
+        data: [
+          { cost_weight: AI_ACTION_COST_WEIGHT.bake_schedule },
+          { cost_weight: AI_ACTION_COST_WEIGHT.bake_schedule },
+          { cost_weight: AI_ACTION_COST_WEIGHT.ingredient_substitution },
+        ],
+        error: null,
+      })),
+    }
+    const supabase = {
+      from: vi.fn((table: string) => {
+        if (table === 'ai_usage_events') return { select: vi.fn(() => usageQuery) }
+        if (table === 'profiles') {
+          return { select: vi.fn(() => ({ eq: vi.fn(function (this: unknown) { return this }), maybeSingle: vi.fn(async () => ({ data: { subscription_status: 'active' }, error: null })) })) }
+        }
+        throw new Error(`unexpected table ${table}`)
+      }),
+    }
+    const status = await getAiQuotaStatus(supabase as never, 'user-1')
+    const expectedUsedUnits = 2 * AI_ACTION_COST_WEIGHT.bake_schedule + AI_ACTION_COST_WEIGHT.ingredient_substitution
+    expect(status.remaining).toBe(PAID_DAILY_AI_LIMIT - expectedUsedUnits)
+  })
+
+  it('treats a free user\'s usage as a flat action count regardless of which actions they used — free tier is intentionally left unweighted', async () => {
+    const supabase = fakeSupabase({ usageCount: 1, profile: { subscription_status: 'inactive' } })
+    const status = await getAiQuotaStatus(supabase as never, 'user-1')
+    expect(status.remaining).toBe(FREE_DAILY_AI_LIMIT - 1)
+    expect(status.limit).toBe(FREE_DAILY_AI_LIMIT)
+  })
 })
 
 describe('recordAiUsage', () => {
-  it('inserts a usage event scoped to the user and action', async () => {
+  it('inserts a usage event scoped to the user and action, tagged with that action\'s cost weight', async () => {
     const supabase = fakeSupabase()
     await recordAiUsage(supabase as never, 'user-1', 'recipe_import')
-    expect(supabase.insert).toHaveBeenCalledWith({ user_id: 'user-1', action: 'recipe_import' })
+    expect(supabase.insert).toHaveBeenCalledWith({
+      user_id: 'user-1',
+      action: 'recipe_import',
+      cost_weight: AI_ACTION_COST_WEIGHT.recipe_import,
+    })
   })
 
   it('throws if the insert fails', async () => {

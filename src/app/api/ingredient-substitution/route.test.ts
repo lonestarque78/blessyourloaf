@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { FREE_DAILY_AI_LIMIT, PAID_DAILY_AI_LIMIT } from '@/lib/ai-usage'
+import { AI_ACTION_COST_WEIGHT, FREE_DAILY_AI_LIMIT, PAID_DAILY_AI_LIMIT } from '@/lib/ai-usage'
 
 process.env.ANTHROPIC_API_KEY = 'test-key'
 
@@ -26,12 +26,23 @@ const FAKE_REPLY = 'Use 1:1 whole wheat for bread flour, but add 5-10% more wate
 // calls within one test so it behaves like a real day's worth of usage accumulating.
 // chatUpdates records every ingredient_substitution_chats update, so persistence tests can
 // assert on what actually got written without a real database.
+// Tracks row count and weighted units separately, same as the real table does: the free tier
+// reads `count` (raw rows, via a head query that doesn't care about cost_weight), the paid
+// tier reads `data` and sums cost_weight. A single insert affects both, but by different
+// amounts (+1 row, +weight units) — collapsing them into one counter breaks the free-tier
+// simulation, since a free user's raw row count would then wrongly track this route's cost
+// weight instead of 1.
 function fakeSupabase(subscriptionStatus: string, chatUpdates: Array<{ id: string; messages: unknown }> = [], startingUsageCount = 0) {
-  let usageCount = startingUsageCount
+  let rowCount = startingUsageCount
+  let weightedUnits = startingUsageCount
 
   const usageQuery = {
     eq: vi.fn(function (this: typeof usageQuery) { return this }),
-    gte: vi.fn(async () => ({ count: usageCount, error: null })),
+    gte: vi.fn(async () => ({
+      count: rowCount,
+      data: weightedUnits ? [{ cost_weight: weightedUnits }] : [],
+      error: null,
+    })),
   }
   const profileQuery = {
     eq: vi.fn(function (this: typeof profileQuery) { return this }),
@@ -45,7 +56,8 @@ function fakeSupabase(subscriptionStatus: string, chatUpdates: Array<{ id: strin
         return {
           select: vi.fn(() => usageQuery),
           insert: vi.fn(async () => {
-            usageCount += 1
+            rowCount += 1
+            weightedUnits += AI_ACTION_COST_WEIGHT.ingredient_substitution
             return { error: null }
           }),
         }
@@ -109,12 +121,12 @@ describe('POST /api/ingredient-substitution — daily AI cap', () => {
     expect(mocks.createMock).toHaveBeenCalledTimes(FREE_DAILY_AI_LIMIT + 3)
   })
 
-  it(`still caps a paid user at the ${PAID_DAILY_AI_LIMIT}-action fair-use limit, with a fair-use (not free-tier) message`, async () => {
+  it('still caps a paid user at the fair-use limit once their weighted usage reaches PAID_DAILY_AI_LIMIT, with a fair-use (not free-tier) message', async () => {
     mocks.supabaseRef.current = fakeSupabase('active', [], PAID_DAILY_AI_LIMIT)
 
     const res = await POST(requestWithMessage('What can I use instead of bread flour?'))
     const data = await res.json()
-    expect(data.message).toContain(`fair-use limit of ${PAID_DAILY_AI_LIMIT}`)
+    expect(data.message).toContain('fair-use limit')
     expect(data.message).not.toContain('free AI actions')
     expect(mocks.createMock).not.toHaveBeenCalled()
   })

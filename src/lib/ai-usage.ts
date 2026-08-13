@@ -14,6 +14,23 @@ export const PAID_DAILY_AI_LIMIT = 50
 
 export type AiAction = 'recipe_import' | 'troubleshooter' | 'bake_schedule' | 'ingredient_substitution' | 'recipe_generation'
 
+// Not every AI action costs the same to serve — a bake schedule or a generated recipe is a
+// long structured completion, while a substitution question is a short exchange. Weighting
+// PAID_DAILY_AI_LIMIT by real, measured relative cost (see BACKLOG.md for the actual
+// token/dollar numbers per action, remeasured 2026-08-12) means the fair-use cap bounds
+// dollars, not just call count. 1 unit ≈ the cost of the cheapest action. Retune here only —
+// nothing else needs to change. The free tier is intentionally left unweighted (a flat
+// FREE_DAILY_AI_LIMIT actions, any mix) since it's small enough that cost isn't the concern
+// there and weighting it would shrink what a new trial user can do with a single expensive
+// action.
+export const AI_ACTION_COST_WEIGHT: Record<AiAction, number> = {
+  ingredient_substitution: 1,
+  recipe_import: 1,
+  troubleshooter: 2,
+  recipe_generation: 3,
+  bake_schedule: 5,
+}
+
 export interface AiQuotaStatus {
   remaining: number
   limit: number
@@ -44,23 +61,42 @@ export async function isPaidUser(supabase: SupabaseClient, userId: string): Prom
 // PAID_DAILY_AI_LIMIT instead of Infinity — previously a paid account skipped the usage
 // query entirely and was never capped at all (see PAID_DAILY_AI_LIMIT above for why that
 // stopped being safe to leave unbounded).
+//
+// Free and paid users are counted differently on purpose: free stays a simple row count (raw
+// actions, unweighted — see AI_ACTION_COST_WEIGHT above for why), paid sums each row's
+// cost_weight so the 50/day budget tracks dollars rather than call count.
 export async function getAiQuotaStatus(supabase: SupabaseClient, userId: string): Promise<AiQuotaStatus> {
   const isPaid = await isPaidUser(supabase, userId)
-  const limit = isPaid ? PAID_DAILY_AI_LIMIT : FREE_DAILY_AI_LIMIT
 
-  const { count, error } = await supabase
+  if (!isPaid) {
+    const { count, error } = await supabase
+      .from('ai_usage_events')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', userId)
+      .gte('created_at', startOfTodayUtcIso())
+
+    if (error) throw error
+
+    return { remaining: Math.max(0, FREE_DAILY_AI_LIMIT - (count ?? 0)), limit: FREE_DAILY_AI_LIMIT, isPaid: false }
+  }
+
+  const { data, error } = await supabase
     .from('ai_usage_events')
-    .select('id', { count: 'exact', head: true })
+    .select('cost_weight')
     .eq('user_id', userId)
     .gte('created_at', startOfTodayUtcIso())
 
   if (error) throw error
 
-  return { remaining: Math.max(0, limit - (count ?? 0)), limit, isPaid }
+  const usedUnits = (data ?? []).reduce((sum: number, row: { cost_weight: number | null }) => sum + (row.cost_weight ?? 1), 0)
+
+  return { remaining: Math.max(0, PAID_DAILY_AI_LIMIT - usedUnits), limit: PAID_DAILY_AI_LIMIT, isPaid: true }
 }
 
 export async function recordAiUsage(supabase: SupabaseClient, userId: string, action: AiAction): Promise<void> {
-  const { error } = await supabase.from('ai_usage_events').insert({ user_id: userId, action })
+  const { error } = await supabase
+    .from('ai_usage_events')
+    .insert({ user_id: userId, action, cost_weight: AI_ACTION_COST_WEIGHT[action] })
   if (error) throw error
 }
 
@@ -68,8 +104,11 @@ export async function recordAiUsage(supabase: SupabaseClient, userId: string, ac
 // own slightly different wording (the free-tier DAILY_LIMIT_REPLIES text below, by contrast,
 // already drifted into a few different phrasings per route before this — not repeating that
 // here). Framed as a fair-use safeguard, not a broken "unlimited" promise: says why the cap
-// exists, that it's rare, and that the rest of the subscription is untouched.
+// exists, that it's rare, and that the rest of the subscription is untouched. Deliberately
+// doesn't quote PAID_DAILY_AI_LIMIT as a literal action count — since AI_ACTION_COST_WEIGHT
+// means a heavy day of bake schedules hits the cap in far fewer than 50 calls, a hard number
+// here would read as a broken promise of its own.
 export const FAIR_USE_LIMIT_REPLIES: Record<Locale, string> = {
-  en: `You've reached today's fair-use limit of ${PAID_DAILY_AI_LIMIT} AI actions — far more than a normal day of baking needs, so this should be rare. It resets at midnight, and the rest of your subscription keeps working as usual.`,
-  es: `Has alcanzado el límite de uso justo de hoy: ${PAID_DAILY_AI_LIMIT} acciones de IA — mucho más de lo que necesita un día normal de horneado, así que esto debería ser poco común. Se reinicia a medianoche, y el resto de tu suscripción sigue funcionando con normalidad.`,
+  en: `You've reached today's fair-use limit for AI features — far more than a normal day of baking needs, so this should be rare. It resets at midnight, and the rest of your subscription keeps working as usual.`,
+  es: `Has alcanzado el límite de uso justo de hoy para las funciones de IA — mucho más de lo que necesita un día normal de horneado, así que esto debería ser poco común. Se reinicia a medianoche, y el resto de tu suscripción sigue funcionando con normalidad.`,
 }
