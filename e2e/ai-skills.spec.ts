@@ -33,6 +33,15 @@ test.describe('ingredient substitution and recipe generation AI skills', () => {
     // actually rendered) rather than exact wording. Generous timeout for the same reason as
     // the recipe-generation test below: real Anthropic latency under concurrent CI workers.
     await expect(page.getByText('Substitution Guide')).toBeVisible({ timeout: 45_000 })
+
+    // Persistence check reuses this same exchange (rather than spending a second real
+    // Anthropic call) — reload and confirm the conversation is still there, proving it came
+    // from ingredient_substitution_chats rather than only living in client-side React state.
+    // The user's own message text is a deterministic thing to assert on, unlike the model's
+    // reply wording.
+    await page.reload()
+    await expect(page.getByText('What can I use instead of bread flour if I only have all-purpose flour?')).toBeVisible()
+    await expect(page.getByText('Substitution Guide')).toBeVisible()
   })
 
   test('recipe generation populates the new-recipe form from a description', async ({ page }) => {

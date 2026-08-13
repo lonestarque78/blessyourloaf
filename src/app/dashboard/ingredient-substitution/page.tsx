@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { createClient } from '@/lib/supabase/client'
 import { useLocale, useTranslations } from 'next-intl'
 import { INTL_LOCALE, type Locale } from '@/i18n/locale'
 import { renderMarkdown } from '@/lib/render-markdown'
@@ -11,16 +12,21 @@ interface Message {
   timestamp: string
 }
 
-// Unlike the troubleshooter, this chat isn't persisted to Supabase — a substitution question
-// is a one-off lookup, not an ongoing multi-day conversation about one starter's health, so
-// there's no need for the troubleshooter_chats-style 48-hour/2-week retention. It simply
-// resets on reload.
+// Persisted the same way troubleshooter_chats is (see the migration for the full RLS/shape
+// rationale), with one deliberate difference: troubleshooter only resumes a chat updated
+// within the last 48 hours, since it models an in-progress diagnosis session. This page
+// always resumes the single most recent chat regardless of age — a substitution question is
+// meant to still be findable weeks later ("what did it say about honey vs. sugar?"), not
+// something that should quietly reset into a fresh conversation.
 export default function IngredientSubstitutionPage() {
   const t = useTranslations('IngredientSubstitution')
   const locale = useLocale() as Locale
+  const supabase = createClient()
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [sending, setSending] = useState(false)
+  const [chatId, setChatId] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -31,6 +37,45 @@ export default function IngredientSubstitutionPage() {
     t('quickQuestions.sweetener'),
     t('quickQuestions.noStarter'),
   ]
+
+  async function loadData() {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
+      setLoading(false)
+      return
+    }
+
+    // Most recent chat regardless of age (see file header) — intentionally no expires_at
+    // filter here, unlike troubleshooter's equivalent query.
+    const { data: existingChat } = await supabase
+      .from('ingredient_substitution_chats')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('updated_at', { ascending: false })
+      .limit(1)
+      .single()
+
+    if (existingChat) {
+      setChatId(existingChat.id)
+      setMessages(existingChat.messages || [])
+    } else {
+      const { data: newChat } = await supabase
+        .from('ingredient_substitution_chats')
+        .insert({ user_id: user.id, messages: [] })
+        .select()
+        .single()
+
+      if (newChat) setChatId(newChat.id)
+    }
+
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    // Standard fetch-on-mount: loadData sets loading/chatId/messages state from Supabase.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadData()
+  }, [])
 
   useEffect(() => {
     if (messages.length > 0) {
@@ -52,6 +97,15 @@ export default function IngredientSubstitutionPage() {
     setMessages(updatedMessages)
     setInput('')
 
+    // Save the user's own message right away — same reasoning as troubleshooter's page: if
+    // the API call below fails, the question they asked isn't lost.
+    if (chatId) {
+      await supabase
+        .from('ingredient_substitution_chats')
+        .update({ messages: updatedMessages })
+        .eq('id', chatId)
+    }
+
     try {
       const res = await fetch('/api/ingredient-substitution', {
         method: 'POST',
@@ -59,6 +113,7 @@ export default function IngredientSubstitutionPage() {
         body: JSON.stringify({
           messages: updatedMessages.map(m => ({ role: m.role, content: m.content })),
           locale,
+          chatId,
         }),
       })
       const data = await res.json()
@@ -105,7 +160,7 @@ export default function IngredientSubstitutionPage() {
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-6 py-6">
         <div className="max-w-3xl mx-auto space-y-6">
-          {messages.length === 0 && (
+          {!loading && messages.length === 0 && (
             <div className="text-center py-12">
               <h2 className="font-playfair text-2xl font-bold text-[#3d2b1f] mb-3">
                 {t('emptyTitle')}
@@ -193,7 +248,7 @@ export default function IngredientSubstitutionPage() {
 
             <button
               onClick={sendMessage}
-              disabled={sending || !input.trim()}
+              disabled={sending || loading || !input.trim()}
               className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-r from-[#c9956c] to-[#b07d62] text-white flex items-center justify-center hover:-translate-y-0.5 transition-transform disabled:opacity-40 disabled:hover:translate-y-0 mb-0.5">
               →
             </button>

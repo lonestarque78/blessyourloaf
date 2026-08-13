@@ -24,7 +24,9 @@ const FAKE_REPLY = 'Use 1:1 whole wheat for bread flour, but add 5-10% more wate
 
 // Mirrors the fakeSupabase helper in troubleshooter/route.test.ts, stateful across sequential
 // calls within one test so it behaves like a real day's worth of usage accumulating.
-function fakeSupabase(subscriptionStatus: string) {
+// chatUpdates records every ingredient_substitution_chats update, so persistence tests can
+// assert on what actually got written without a real database.
+function fakeSupabase(subscriptionStatus: string, chatUpdates: Array<{ id: string; messages: unknown }> = []) {
   let usageCount = 0
 
   const usageQuery = {
@@ -49,15 +51,28 @@ function fakeSupabase(subscriptionStatus: string) {
         }
       }
       if (table === 'profiles') return { select: vi.fn(() => profileQuery) }
+      if (table === 'ingredient_substitution_chats') {
+        return {
+          update: vi.fn((values: { messages: unknown }) => {
+            const chatQuery = {
+              eq: vi.fn(function (this: typeof chatQuery, column: string, value: string) {
+                if (column === 'id') chatUpdates.push({ id: value, messages: values.messages })
+                return this
+              }),
+            }
+            return chatQuery
+          }),
+        }
+      }
       throw new Error(`unexpected table ${table}`)
     }),
   }
 }
 
-function requestWithMessage(content: string) {
+function requestWithMessage(content: string, chatId?: string) {
   return new Request('http://localhost/api/ingredient-substitution', {
     method: 'POST',
-    body: JSON.stringify({ messages: [{ role: 'user', content }] }),
+    body: JSON.stringify({ messages: [{ role: 'user', content }], ...(chatId ? { chatId } : {}) }),
   })
 }
 
@@ -112,5 +127,47 @@ describe('POST /api/ingredient-substitution — on-topic enforcement', () => {
     const data = await res.json()
     expect(data.message).toBe(FAKE_REPLY)
     expect(mocks.createMock).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('POST /api/ingredient-substitution — chat persistence', () => {
+  it('appends the assistant reply to the chat row when a chatId is provided', async () => {
+    const chatUpdates: Array<{ id: string; messages: unknown }> = []
+    mocks.supabaseRef.current = fakeSupabase('inactive', chatUpdates)
+
+    await POST(requestWithMessage('What can I use instead of bread flour?', 'chat-123'))
+
+    expect(chatUpdates).toHaveLength(1)
+    expect(chatUpdates[0].id).toBe('chat-123')
+    expect(chatUpdates[0].messages).toEqual([
+      { role: 'user', content: 'What can I use instead of bread flour?' },
+      { role: 'assistant', content: FAKE_REPLY },
+    ])
+  })
+
+  it('persists the daily-limit reply too, so a resumed chat shows why the AI stopped responding', async () => {
+    const chatUpdates: Array<{ id: string; messages: unknown }> = []
+    mocks.supabaseRef.current = fakeSupabase('inactive', chatUpdates)
+
+    for (let i = 0; i < FREE_DAILY_AI_LIMIT; i++) {
+      await POST(requestWithMessage('What can I use instead of bread flour?', 'chat-123'))
+    }
+    chatUpdates.length = 0 // only care about the blocked call below
+
+    await POST(requestWithMessage('What can I use instead of bread flour?', 'chat-123'))
+
+    expect(chatUpdates).toHaveLength(1)
+    const lastMessage = (chatUpdates[0].messages as Array<{ role: string; content: string }>).at(-1)
+    expect(lastMessage?.role).toBe('assistant')
+    expect(lastMessage?.content).toContain(`${FREE_DAILY_AI_LIMIT} free AI actions`)
+  })
+
+  it('never touches the chats table when no chatId is provided', async () => {
+    const chatUpdates: Array<{ id: string; messages: unknown }> = []
+    mocks.supabaseRef.current = fakeSupabase('inactive', chatUpdates)
+
+    await POST(requestWithMessage('What can I use instead of bread flour?'))
+
+    expect(chatUpdates).toHaveLength(0)
   })
 })

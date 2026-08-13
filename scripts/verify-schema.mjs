@@ -16,6 +16,7 @@ const EXPECTED_TABLES = [
   'recipes',
   'feedings',
   'troubleshooter_chats',
+  'ingredient_substitution_chats',
   'bake_schedules',
   'user_recipes',
   'webhook_events',

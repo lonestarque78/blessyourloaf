@@ -70,6 +70,7 @@ export async function POST(request: Request) {
 
   const body = await request.json()
   const messages = body.messages as ChatMessage[]
+  const chatId = body.chatId as string | null
   const localeField = body.locale as string | null
   const locale: Locale = isSupportedLocale(localeField) ? localeField : DEFAULT_LOCALE
 
@@ -80,7 +81,18 @@ export async function POST(request: Request) {
   const lastUserMessage = messages[messages.length - 1]
 
   if (looksOffTopic(lastUserMessage.content, SUBSTITUTION_KEYWORDS)) {
-    return NextResponse.json({ message: OFF_TOPIC_REPLIES[locale] })
+    const offTopicReply = OFF_TOPIC_REPLIES[locale]
+    const updatedMessages = [...messages, { role: 'assistant', content: offTopicReply }]
+
+    if (chatId) {
+      await supabase
+        .from('ingredient_substitution_chats')
+        .update({ messages: updatedMessages, updated_at: new Date().toISOString() })
+        .eq('id', chatId)
+        .eq('user_id', user.id)
+    }
+
+    return NextResponse.json({ message: offTopicReply })
   }
 
   let remaining: number
@@ -92,7 +104,18 @@ export async function POST(request: Request) {
   }
 
   if (remaining <= 0) {
-    return NextResponse.json({ message: DAILY_LIMIT_REPLIES[locale] })
+    const dailyLimitReply = DAILY_LIMIT_REPLIES[locale]
+    const updatedMessages = [...messages, { role: 'assistant', content: dailyLimitReply }]
+
+    if (chatId) {
+      await supabase
+        .from('ingredient_substitution_chats')
+        .update({ messages: updatedMessages, updated_at: new Date().toISOString() })
+        .eq('id', chatId)
+        .eq('user_id', user.id)
+    }
+
+    return NextResponse.json({ message: dailyLimitReply })
   }
 
   try {
@@ -109,6 +132,16 @@ export async function POST(request: Request) {
       await recordAiUsage(supabase, user.id, 'ingredient_substitution')
     } catch (error) {
       console.warn('[ingredient-substitution] failed to record AI usage', error)
+    }
+
+    const updatedMessages = [...messages, { role: 'assistant', content: assistantMessage }]
+
+    if (chatId) {
+      await supabase
+        .from('ingredient_substitution_chats')
+        .update({ messages: updatedMessages, updated_at: new Date().toISOString() })
+        .eq('id', chatId)
+        .eq('user_id', user.id)
     }
 
     return NextResponse.json({ message: assistantMessage })
