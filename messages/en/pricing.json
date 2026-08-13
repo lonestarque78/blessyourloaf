@@ -11,7 +11,7 @@
     "feedingLog": "Feeding Log",
     "freeRecipes": "Free Recipes (2)",
     "flourGuide": "Flour Guide",
-    "fullLibrary": "Full Recipe Library (20+)",
+    "fullLibrary": "Full Recipe Library",
     "discardVault": "Discard Vault",
     "aiScheduler": "Bake Scheduler (AI-powered)",
     "aiTroubleshooter": "Starter Troubleshooter (AI)",
@@ -39,16 +39,16 @@
       "price": "$5.99",
       "period": "/mo",
       "subtitle": "Full run of the kitchen",
-      "features": ["Full recipe library (20+)", "Starter Journal + feeding log", "AI Bake Scheduler", "Full Discard Vault", "Starter Troubleshooter", "Personal Recipe Box", "New recipes regularly"],
+      "features": ["Full recipe library", "Starter Journal + feeding log", "AI Bake Scheduler", "Full Discard Vault", "Starter Troubleshooter", "Personal Recipe Box", "New recipes regularly"],
       "loading": "Loading...",
       "cta": "Subscribe now →"
     },
     "annual": {
       "badge": "Annual",
-      "price": "$55.99",
+      "price": "$49.99",
       "period": "/yr",
-      "saveBadge": "Save 20% · Best Value",
-      "features": ["Everything in Monthly", "Priority support", "Early recipe access", "Annual baking planner"],
+      "saveBadge": "Save 30% · Best Value",
+      "features": ["Everything in Monthly"],
       "loading": "Loading...",
       "cta": "Subscribe now →"
     }

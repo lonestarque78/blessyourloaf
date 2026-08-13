@@ -66,7 +66,7 @@
       "badge": "Free Forever",
       "price": "$0",
       "subtitle": "Dip your toe in the dough",
-      "features": ["5 recipes", "Starter day tracker", "Basic discard ideas", "Community access"],
+      "features": ["2 free recipes", "Starter day tracker", "Basic discard ideas"],
       "cta": "Get Started Free"
     },
     "pro": {
@@ -75,15 +75,15 @@
       "price": "$5.99",
       "period": "/mo",
       "subtitle": "Full run of the kitchen",
-      "features": ["Full recipe library (300+)", "Starter Journal + alerts", "Bake Scheduler", "Full Discard Vault", "Starter Troubleshooter", "Flour & hydration guides", "New recipes every week"],
+      "features": ["Full recipe library", "Starter Journal + alerts", "Bake Scheduler", "Full Discard Vault", "Starter Troubleshooter", "Flour & hydration guides", "New recipes every week"],
       "cta": "Subscribe now →"
     },
     "annual": {
       "badge": "Annual",
-      "price": "$55.99",
+      "price": "$49.99",
       "period": "/yr",
-      "saveBadge": "Save 20% · Best Value",
-      "features": ["All Baker's Pass features", "Priority support", "Early recipe access", "Annual baking planner"],
+      "saveBadge": "Save 30% · Best Value",
+      "features": ["All Baker's Pass features"],
       "cta": "Go Annual"
     }
   },

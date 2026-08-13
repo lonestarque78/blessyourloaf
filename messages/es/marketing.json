@@ -66,7 +66,7 @@
       "badge": "Gratis para siempre",
       "price": "$0",
       "subtitle": "Moja el dedo en la masa",
-      "features": ["5 recetas", "Seguimiento diario de la masa madre", "Ideas básicas de descarte", "Acceso a la comunidad"],
+      "features": ["2 recetas gratis", "Seguimiento diario de la masa madre", "Ideas básicas de descarte"],
       "cta": "Empezar gratis"
     },
     "pro": {
@@ -75,15 +75,15 @@
       "price": "$5.99",
       "period": "/mes",
       "subtitle": "Acceso completo a la cocina",
-      "features": ["Biblioteca completa de recetas (300+)", "Diario de la masa madre + alertas", "Planificador de horneado", "Bóveda del descarte completa", "Solucionador de problemas de la masa madre", "Guías de harina e hidratación", "Recetas nuevas cada semana"],
+      "features": ["Biblioteca completa de recetas", "Diario de la masa madre + alertas", "Planificador de horneado", "Bóveda del descarte completa", "Solucionador de problemas de la masa madre", "Guías de harina e hidratación", "Recetas nuevas cada semana"],
       "cta": "Suscribirse ahora →"
     },
     "annual": {
       "badge": "Anual",
-      "price": "$55.99",
+      "price": "$49.99",
       "period": "/año",
-      "saveBadge": "Ahorra 20% · Mejor valor",
-      "features": ["Todas las funciones del Pase del Panadero", "Soporte prioritario", "Acceso anticipado a recetas", "Planificador anual de horneado"],
+      "saveBadge": "Ahorra 30% · Mejor valor",
+      "features": ["Todas las funciones del Pase del Panadero"],
       "cta": "Pasar al plan anual"
     }
   },

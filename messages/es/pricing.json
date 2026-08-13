@@ -11,7 +11,7 @@
     "feedingLog": "Registro de alimentaciones",
     "freeRecipes": "Recetas gratis (2)",
     "flourGuide": "Guía de harinas",
-    "fullLibrary": "Biblioteca completa de recetas (20+)",
+    "fullLibrary": "Biblioteca completa de recetas",
     "discardVault": "Bóveda del descarte",
     "aiScheduler": "Planificador de horneado (con IA)",
     "aiTroubleshooter": "Solucionador de problemas de la masa madre (IA)",
@@ -39,16 +39,16 @@
       "price": "$5.99",
       "period": "/mes",
       "subtitle": "Acceso completo a la cocina",
-      "features": ["Biblioteca completa de recetas (20+)", "Diario de la masa madre + registro de alimentaciones", "Planificador de horneado con IA", "Bóveda del descarte completa", "Solucionador de problemas de la masa madre", "Recetario personal", "Recetas nuevas regularmente"],
+      "features": ["Biblioteca completa de recetas", "Diario de la masa madre + registro de alimentaciones", "Planificador de horneado con IA", "Bóveda del descarte completa", "Solucionador de problemas de la masa madre", "Recetario personal", "Recetas nuevas regularmente"],
       "loading": "Cargando...",
       "cta": "Suscribirse ahora →"
     },
     "annual": {
       "badge": "Anual",
-      "price": "$55.99",
+      "price": "$49.99",
       "period": "/año",
-      "saveBadge": "Ahorra 20% · Mejor valor",
-      "features": ["Todo lo del plan mensual", "Soporte prioritario", "Acceso anticipado a recetas", "Planificador anual de horneado"],
+      "saveBadge": "Ahorra 30% · Mejor valor",
+      "features": ["Todo lo del plan mensual"],
       "loading": "Cargando...",
       "cta": "Suscribirse ahora →"
     }
