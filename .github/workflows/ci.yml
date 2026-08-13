@@ -54,13 +54,13 @@ jobs:
       # app actually starts — kept here only so env.ts's zod validation has a well-formed URL
       # for any code path that runs before that (e.g. during `next build`).
       NEXT_PUBLIC_APP_URL: https://example.com
-      # /api/troubleshooter and /api/bake-schedule construct an Anthropic client at module
-      # load regardless of whether a request needs it, and the SDK throws if no key is
-      # present at all. None of these tests trigger a real Anthropic call (the AI-quota test
-      # seeds usage so the quota gate short-circuits first; the recipe-import test hits the
-      # structured-data path, which returns before ever touching Anthropic) — this only needs
-      # to be non-empty, not a working credential.
-      ANTHROPIC_API_KEY: sk-ant-e2e-placeholder-not-used
+      # Every AI route constructs an Anthropic client at module load regardless of whether a
+      # request needs it, and the SDK throws if no key is present at all — so this must always
+      # be non-empty. Most specs never trigger a real call (the AI-quota test seeds usage so
+      # the quota gate short-circuits first; the recipe-import test hits the structured-data
+      # path before ever touching Anthropic), but ai-skills.spec.ts deliberately makes two real
+      # calls end-to-end, so this has to be a working credential, not a placeholder.
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
