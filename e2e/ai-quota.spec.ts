@@ -37,7 +37,7 @@ test.describe('free-tier AI quota gate', () => {
     await input.fill('My sourdough starter smells like nail polish and has stopped rising since its last feeding.')
     await page.getByRole('button', { name: '→' }).click()
 
-    await expect(page.getByText(`You've used your ${FREE_DAILY_AI_LIMIT} free AI actions for today`)).toBeVisible()
+    await expect(page.getByText(`You've used your ${FREE_DAILY_AI_LIMIT} free actions for today`)).toBeVisible()
   })
 })
 
@@ -77,6 +77,6 @@ test.describe('paid fair-use AI quota gate', () => {
     await page.getByRole('button', { name: '→' }).click()
 
     await expect(page.getByText('fair-use limit')).toBeVisible()
-    await expect(page.getByText(`${FREE_DAILY_AI_LIMIT} free AI actions`)).not.toBeVisible()
+    await expect(page.getByText(`${FREE_DAILY_AI_LIMIT} free actions`)).not.toBeVisible()
   })
 })
