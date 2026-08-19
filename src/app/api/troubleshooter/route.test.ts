@@ -1,5 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { AI_ACTION_COST_WEIGHT, FREE_DAILY_AI_LIMIT, PAID_DAILY_AI_LIMIT } from '@/lib/ai-usage'
+import { VOICE_SYSTEM_PROMPT } from '@/lib/voice'
+import { evaluateCeliacResponse, findVoiceViolations } from '@/lib/voice-compliance'
 
 process.env.ANTHROPIC_API_KEY = 'test-key'
 
@@ -94,7 +96,7 @@ describe('POST /api/troubleshooter — daily AI cap', () => {
 
     const blockedRes = await POST(requestWithMessage('My starter smells like acetone, what should I do?'))
     const blockedData = await blockedRes.json()
-    expect(blockedData.message).toContain(`${FREE_DAILY_AI_LIMIT} free AI actions`)
+    expect(blockedData.message).toContain(`${FREE_DAILY_AI_LIMIT} free actions`)
     // Still the same count as before — the blocked request never reached Anthropic.
     expect(mocks.createMock).toHaveBeenCalledTimes(FREE_DAILY_AI_LIMIT)
   })
@@ -116,7 +118,77 @@ describe('POST /api/troubleshooter — daily AI cap', () => {
     const res = await POST(requestWithMessage('My starter smells like acetone, what should I do?'))
     const data = await res.json()
     expect(data.message).toContain('fair-use limit')
-    expect(data.message).not.toContain('free AI actions')
+    expect(data.message).not.toContain('free actions')
     expect(mocks.createMock).not.toHaveBeenCalled()
+  })
+})
+
+describe('POST /api/troubleshooter — VOICE.md compliance', () => {
+  it('sends the shared VOICE_SYSTEM_PROMPT to Claude, not a route-local paraphrase', async () => {
+    mocks.supabaseRef.current = fakeSupabase('inactive')
+
+    await POST(requestWithMessage('My starter smells like acetone, what should I do?'))
+
+    const sentSystemPrompt = mocks.createMock.mock.calls[0][0].system as string
+    expect(sentSystemPrompt).toContain(VOICE_SYSTEM_PROMPT)
+  })
+
+  it('would catch an em dash if Claude ever put one in a reply', async () => {
+    mocks.supabaseRef.current = fakeSupabase('inactive')
+    mocks.createMock.mockResolvedValueOnce({ content: [{ type: 'text', text: "That's hooch — she's fine, just hungry." }] })
+
+    const res = await POST(requestWithMessage('My starter smells like acetone, what should I do?'))
+    const data = await res.json()
+
+    expect(findVoiceViolations(data.message)).toContain('em_or_en_dash')
+  })
+
+  it('would catch a hedged celiac answer in English', async () => {
+    mocks.supabaseRef.current = fakeSupabase('inactive')
+    const userMessage = 'Is sourdough safe for my sister? She has celiac and I want to know about the gluten.'
+    mocks.createMock.mockResolvedValueOnce({
+      content: [{ type: 'text', text: 'Some people with celiac find they can tolerate a little sourdough in moderation, so it might be okay to try a small amount and see how she feels.' }],
+    })
+
+    const res = await POST(requestWithMessage(userMessage))
+    const data = await res.json()
+
+    const evaluation = evaluateCeliacResponse(userMessage, data.message)
+    expect(evaluation.raisesTopic).toBe(true)
+    expect(evaluation.compliant).toBe(false)
+  })
+
+  it('would catch a hedged celiac answer in Spanish', async () => {
+    mocks.supabaseRef.current = fakeSupabase('inactive')
+    const formData = new FormData()
+    const userMessage = '¿Es segura la masa madre para alguien con celiaquía? Quiero saber sobre el gluten.'
+    formData.append('messages', JSON.stringify([{ role: 'user', content: userMessage }]))
+    formData.append('starterContext', '')
+    formData.append('locale', 'es')
+    mocks.createMock.mockResolvedValueOnce({
+      content: [{ type: 'text', text: 'Algunas personas toleran la masa madre en pequeñas cantidades, así que podría estar bien probar un poco si tienes cuidado.' }],
+    })
+
+    const res = await POST(new Request('http://localhost/api/troubleshooter', { method: 'POST', body: formData }))
+    const data = await res.json()
+
+    const evaluation = evaluateCeliacResponse(userMessage, data.message)
+    expect(evaluation.raisesTopic).toBe(true)
+    expect(evaluation.compliant).toBe(false)
+  })
+
+  it('accepts a compliant celiac answer as compliant (sanity check the checker isn\'t just always failing)', async () => {
+    mocks.supabaseRef.current = fakeSupabase('inactive')
+    const userMessage = 'Is sourdough safe for my sister? She has celiac and I want to know about the gluten.'
+    mocks.createMock.mockResolvedValueOnce({
+      content: [{ type: 'text', text: "No, and I want to be straight with you about this one. The long fermentation does break down some of the gluten, but it doesn't get rid of it. Sourdough is not gluten free and it isn't safe for celiac disease. That's a conversation for her doctor rather than me." }],
+    })
+
+    const res = await POST(requestWithMessage(userMessage))
+    const data = await res.json()
+
+    const evaluation = evaluateCeliacResponse(userMessage, data.message)
+    expect(evaluation.compliant).toBe(true)
+    expect(findVoiceViolations(data.message)).toEqual([])
   })
 })

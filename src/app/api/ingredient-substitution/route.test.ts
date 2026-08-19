@@ -1,5 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { AI_ACTION_COST_WEIGHT, FREE_DAILY_AI_LIMIT, PAID_DAILY_AI_LIMIT } from '@/lib/ai-usage'
+import { VOICE_SYSTEM_PROMPT } from '@/lib/voice'
+import { evaluateCeliacResponse, findVoiceViolations } from '@/lib/voice-compliance'
 
 process.env.ANTHROPIC_API_KEY = 'test-key'
 
@@ -20,7 +22,7 @@ vi.mock('@/lib/supabase/server', () => ({
 
 const { POST } = await import('./route')
 
-const FAKE_REPLY = 'Use 1:1 whole wheat for bread flour, but add 5-10% more water — whole wheat drinks up more than white flour.'
+const FAKE_REPLY = 'Use 1:1 whole wheat for bread flour, but add 5-10% more water. Whole wheat drinks up more than white flour.'
 
 // Mirrors the fakeSupabase helper in troubleshooter/route.test.ts, stateful across sequential
 // calls within one test so it behaves like a real day's worth of usage accumulating.
@@ -106,7 +108,7 @@ describe('POST /api/ingredient-substitution — daily AI cap', () => {
 
     const blockedRes = await POST(requestWithMessage('What can I use instead of bread flour?'))
     const blockedData = await blockedRes.json()
-    expect(blockedData.message).toContain(`${FREE_DAILY_AI_LIMIT} free AI actions`)
+    expect(blockedData.message).toContain(`${FREE_DAILY_AI_LIMIT} free actions`)
     expect(mocks.createMock).toHaveBeenCalledTimes(FREE_DAILY_AI_LIMIT)
   })
 
@@ -127,7 +129,7 @@ describe('POST /api/ingredient-substitution — daily AI cap', () => {
     const res = await POST(requestWithMessage('What can I use instead of bread flour?'))
     const data = await res.json()
     expect(data.message).toContain('fair-use limit')
-    expect(data.message).not.toContain('free AI actions')
+    expect(data.message).not.toContain('free actions')
     expect(mocks.createMock).not.toHaveBeenCalled()
   })
 })
@@ -181,7 +183,7 @@ describe('POST /api/ingredient-substitution — chat persistence', () => {
     expect(chatUpdates).toHaveLength(1)
     const lastMessage = (chatUpdates[0].messages as Array<{ role: string; content: string }>).at(-1)
     expect(lastMessage?.role).toBe('assistant')
-    expect(lastMessage?.content).toContain(`${FREE_DAILY_AI_LIMIT} free AI actions`)
+    expect(lastMessage?.content).toContain(`${FREE_DAILY_AI_LIMIT} free actions`)
   })
 
   it('never touches the chats table when no chatId is provided', async () => {
@@ -191,5 +193,41 @@ describe('POST /api/ingredient-substitution — chat persistence', () => {
     await POST(requestWithMessage('What can I use instead of bread flour?'))
 
     expect(chatUpdates).toHaveLength(0)
+  })
+})
+
+describe('POST /api/ingredient-substitution — VOICE.md compliance', () => {
+  it('sends the shared VOICE_SYSTEM_PROMPT to Claude, not a route-local paraphrase', async () => {
+    mocks.supabaseRef.current = fakeSupabase('inactive')
+
+    await POST(requestWithMessage('What can I use instead of bread flour?'))
+
+    const sentSystemPrompt = mocks.createMock.mock.calls[0][0].system as string
+    expect(sentSystemPrompt).toContain(VOICE_SYSTEM_PROMPT)
+  })
+
+  it('would catch an em dash if Claude ever put one in a reply', async () => {
+    mocks.supabaseRef.current = fakeSupabase('inactive')
+    mocks.createMock.mockResolvedValueOnce({ content: [{ type: 'text', text: 'Swap in whole wheat 1:1 — just add a splash more water.' }] })
+
+    const res = await POST(requestWithMessage('What can I use instead of bread flour?'))
+    const data = await res.json()
+
+    expect(findVoiceViolations(data.message)).toContain('em_or_en_dash')
+  })
+
+  it('would catch a hedged celiac answer', async () => {
+    mocks.supabaseRef.current = fakeSupabase('inactive')
+    const userMessage = 'My kid has celiac disease, is there a gluten-free flour swap that works in this sourdough recipe?'
+    mocks.createMock.mockResolvedValueOnce({
+      content: [{ type: 'text', text: 'Every body is different, so it could be worth trying a small swap and see how she tolerates it.' }],
+    })
+
+    const res = await POST(requestWithMessage(userMessage))
+    const data = await res.json()
+
+    const evaluation = evaluateCeliacResponse(userMessage, data.message)
+    expect(evaluation.raisesTopic).toBe(true)
+    expect(evaluation.compliant).toBe(false)
   })
 })

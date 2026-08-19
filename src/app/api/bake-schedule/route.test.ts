@@ -1,5 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { AI_ACTION_COST_WEIGHT, FREE_DAILY_AI_LIMIT, PAID_DAILY_AI_LIMIT } from '@/lib/ai-usage'
+import { VOICE_SYSTEM_PROMPT } from '@/lib/voice'
+import { findVoiceViolations } from '@/lib/voice-compliance'
 
 const mocks = vi.hoisted(() => ({
   createMock: vi.fn(),
@@ -106,7 +108,7 @@ describe('POST /api/bake-schedule — daily AI cap', () => {
     const blockedRes = await POST(scheduleRequest())
     expect(blockedRes.status).toBe(429)
     const blockedData = await blockedRes.json()
-    expect(blockedData.error).toContain(`${FREE_DAILY_AI_LIMIT} free AI actions`)
+    expect(blockedData.error).toContain(`${FREE_DAILY_AI_LIMIT} free actions`)
     // Still the same count as before — the blocked request never reached Anthropic.
     expect(mocks.createMock).toHaveBeenCalledTimes(FREE_DAILY_AI_LIMIT)
   })
@@ -128,7 +130,34 @@ describe('POST /api/bake-schedule — daily AI cap', () => {
     expect(res.status).toBe(429)
     const data = await res.json()
     expect(data.error).toContain('fair-use limit')
-    expect(data.error).not.toContain('free AI actions')
+    expect(data.error).not.toContain('free actions')
     expect(mocks.createMock).not.toHaveBeenCalled()
+  })
+})
+
+describe('POST /api/bake-schedule — VOICE.md compliance', () => {
+  it('sends the shared VOICE_SYSTEM_PROMPT to Claude, not a route-local paraphrase', async () => {
+    mocks.supabaseRef.current = fakeSupabase('inactive')
+
+    await POST(scheduleRequest())
+
+    const sentSystemPrompt = mocks.createMock.mock.calls[0][0].system as string
+    expect(sentSystemPrompt).toContain(VOICE_SYSTEM_PROMPT)
+  })
+
+  it('would catch an em dash inside a JSON note field, not just in chat prose', async () => {
+    mocks.supabaseRef.current = fakeSupabase('inactive')
+    mocks.createMock.mockResolvedValueOnce({
+      stop_reason: 'end_turn',
+      content: [{ type: 'text', text: JSON.stringify({
+        ingredients: [{ item: 'Bread flour', amount: '500g', note: '' }],
+        steps: [{ time: 'Friday, June 6 at 8:00 PM', action: 'Mix dough', duration: '20 min', note: 'Room temperature flour works best — cold flour slows the mix.', phase: 'bulk_fermentation' }],
+      }) }],
+    })
+
+    const res = await POST(scheduleRequest())
+    const data = await res.json()
+
+    expect(findVoiceViolations(data.steps[0].note)).toContain('em_or_en_dash')
   })
 })

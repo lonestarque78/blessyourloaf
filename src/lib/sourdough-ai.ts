@@ -1,5 +1,3 @@
-import type { Locale } from '@/i18n/locale'
-
 // Shared by every conversational AI skill (troubleshooter, ingredient substitution) that
 // needs the "stay on topic" cost-saving fast path described in CLAUDE.md's brand voice
 // section. Cheap keyword pre-check so an obviously off-topic message (no baking terms at
@@ -32,15 +30,4 @@ export function looksOffTopic(text: string, keywords: readonly string[] = SOURDO
   if (!trimmed || trimmed.split(/\s+/).length <= 4) return false
   const lower = trimmed.toLowerCase()
   return !keywords.some(kw => lower.includes(kw))
-}
-
-// Appended to a route's SYSTEM_PROMPT when the user's locale isn't English — the base
-// prompt stays the single source of truth for tone/boundaries, this just redirects the
-// output language. Shared across conversational (free-text reply) AI skills; JSON-output
-// skills like recipe generation and recipe import localize specific fields instead and
-// define their own instruction, since translating the whole response would break field
-// values (category/difficulty enum keys, etc.) they depend on staying in English.
-export const CHAT_LANGUAGE_INSTRUCTIONS: Record<Locale, string> = {
-  en: '',
-  es: '\n\nRespond in Spanish (español), using correct sourdough baking terminology — for example "masa madre" for starter, "hidratación" for hydration, "fermentación en bloque" for bulk fermentation, "fermentación final" for proofing, "autolisis" for autolyse. Keep the same warm, confident, precise tone described above, translated naturally rather than word-for-word.',
 }

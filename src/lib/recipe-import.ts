@@ -1,4 +1,5 @@
 import { DEFAULT_LOCALE, type Locale } from '@/i18n/locale'
+import { IMPORTED_RECIPE_LANGUAGE_INSTRUCTIONS, VOICE_SYSTEM_PROMPT } from '@/lib/voice'
 
 export interface AnthropicRecipeClient {
   messages: {
@@ -367,16 +368,9 @@ function isJsonObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
-// Appended to an ImportedRecipe-producing system prompt when the user's locale isn't
-// English. category and difficulty are excluded on purpose — the app looks those values up
-// as fixed English enum keys (Starters.flourTypeLabels-style t.has() lookups) wherever
-// they're displayed, so translating the stored value itself would break that lookup rather
-// than localize anything. Shared by recipe cleanup (this file) and recipe generation
-// (recipe-generation.ts), since both produce the same ImportedRecipe JSON shape.
-export const IMPORTED_RECIPE_LANGUAGE_INSTRUCTIONS: Record<Locale, string> = {
-  en: '',
-  es: ' Write the title, description, notes, ingredient items/notes, and step titles/descriptions in Spanish (español), using correct sourdough baking terminology (for example "masa madre" for starter, "hidratación" for hydration, "fermentación en bloque" for bulk fermentation, "fermentación final" for proofing, "autolisis" for autolyse). The "category" and "difficulty" field values are internal keys, not shown to the user directly — keep them in English exactly as one of: loaf, discard, rolls, focaccia, other (category) or beginner, intermediate, advanced (difficulty). Do not translate those two field values.',
-}
+const CLEANUP_SYSTEM_PROMPT = `${VOICE_SYSTEM_PROMPT}
+
+You are the recipe editor for Bless Your Loaf. Bakers paste in a recipe from somewhere else, often messy, ad-cluttered, or inconsistently formatted, and you convert it into a clean JSON object with title, description, category, difficulty, prep_time_minutes, bake_time_minutes, notes, ingredients, and steps. Keep the original recipe's intent and quantities. Give exact gram amounts first where the source provides them, with cup measures in parentheses after. Never invent a technique, ingredient, or step that wasn't in the source to sound more complete. Return only valid JSON. If a field is unknown, use null or an empty string.`
 
 export async function cleanupRecipeWithAnthropic(
   anthropic: AnthropicRecipeClient,
@@ -387,8 +381,7 @@ export async function cleanupRecipeWithAnthropic(
   const response = await anthropic.messages.create({
     model: 'claude-sonnet-4-6',
     max_tokens: 2400,
-    system: 'You are a recipe editor. Convert messy recipe text into a clean JSON object with title, description, category, difficulty, prep_time_minutes, bake_time_minutes, notes, ingredients, and steps. Return only valid JSON. If a field is unknown, use null or an empty string.'
-      + IMPORTED_RECIPE_LANGUAGE_INSTRUCTIONS[locale],
+    system: CLEANUP_SYSTEM_PROMPT + IMPORTED_RECIPE_LANGUAGE_INSTRUCTIONS[locale],
     messages: [{ role: 'user', content: `Clean this recipe text from ${sourceUrl ?? 'an unknown source'} into a JSON object. Keep the original intent, but structure it clearly.\n\n${text}` }],
   })
 

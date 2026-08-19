@@ -1,7 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { FAIR_USE_LIMIT_REPLIES, FREE_DAILY_AI_LIMIT, getAiQuotaStatus, recordAiUsage } from '@/lib/ai-usage'
+import { FAIR_USE_LIMIT_REPLIES, FREE_DAILY_LIMIT_REPLIES, getAiQuotaStatus, recordAiUsage } from '@/lib/ai-usage'
 import { looksOffTopic } from '@/lib/sourdough-ai'
 import { generateRecipeWithAnthropic, RecipeGenerationDeclinedError } from '@/lib/recipe-generation'
 import { DEFAULT_LOCALE, isSupportedLocale, type Locale } from '@/i18n/locale'
@@ -16,13 +16,8 @@ const client = new Anthropic()
 export const maxDuration = 60
 
 const OFF_TOPIC_REPLIES: Record<Locale, string> = {
-  en: "That doesn't look like a sourdough baking request — tell us what you'd like to bake (a loaf, rolls, focaccia, or anything else made with your starter) and we'll build the recipe.",
-  es: 'Eso no parece una solicitud de receta de panadería con masa madre — cuéntanos qué te gustaría hornear (una hogaza, panecillos, focaccia o cualquier otra cosa hecha con tu masa madre) y construiremos la receta.',
-}
-
-const QUOTA_EXCEEDED_REPLIES: Record<Locale, string> = {
-  en: `You've used your ${FREE_DAILY_AI_LIMIT} free AI actions for today — come back tomorrow, or upgrade anytime for unlimited access.`,
-  es: `Ya usaste tus ${FREE_DAILY_AI_LIMIT} acciones gratuitas de IA de hoy — vuelve mañana, o mejora tu plan cuando quieras para tener acceso ilimitado.`,
+  en: "That doesn't look like a sourdough baking request. Tell us what you'd like to bake (a loaf, rolls, focaccia, or anything else made with your starter) and we'll build the recipe.",
+  es: 'Eso no parece una solicitud de receta de panadería con masa madre. Cuéntanos qué te gustaría hornear (una hogaza, panecillos, focaccia o cualquier otra cosa hecha con tu masa madre) y construiremos la receta.',
 }
 
 export async function POST(request: Request) {
@@ -62,7 +57,7 @@ export async function POST(request: Request) {
   }
 
   if (quota.remaining <= 0) {
-    const message = quota.isPaid ? FAIR_USE_LIMIT_REPLIES[locale] : QUOTA_EXCEEDED_REPLIES[locale]
+    const message = quota.isPaid ? FAIR_USE_LIMIT_REPLIES[locale] : FREE_DAILY_LIMIT_REPLIES[locale]
     return NextResponse.json({ error: message }, { status: 429 })
   }
 

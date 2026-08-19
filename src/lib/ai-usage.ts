@@ -109,6 +109,15 @@ export async function recordAiUsage(supabase: SupabaseClient, userId: string, ac
 // means a heavy day of bake schedules hits the cap in far fewer than 50 calls, a hard number
 // here would read as a broken promise of its own.
 export const FAIR_USE_LIMIT_REPLIES: Record<Locale, string> = {
-  en: `You've reached today's fair-use limit for AI features — far more than a normal day of baking needs, so this should be rare. It resets at midnight, and the rest of your subscription keeps working as usual.`,
-  es: `Has alcanzado el límite de uso justo de hoy para las funciones de IA — mucho más de lo que necesita un día normal de horneado, así que esto debería ser poco común. Se reinicia a medianoche, y el resto de tu suscripción sigue funcionando con normalidad.`,
+  en: `You've reached today's fair-use limit for AI features, far more than a normal day of baking needs, so this should be rare. It resets at midnight, and the rest of your subscription keeps working as usual.`,
+  es: `Has alcanzado el límite de uso justo de hoy para las funciones de IA, mucho más de lo que necesita un día normal de horneado, así que esto debería ser poco común. Se reinicia a medianoche, y el resto de tu suscripción sigue funcionando con normalidad.`,
+}
+
+// Shared by every AI route's free-tier daily-cap response, same reasoning as
+// FAIR_USE_LIMIT_REPLIES above: one message instead of each route hand-copying (and
+// gradually drifting from) its own wording. Never say "AI" here since this is user-facing
+// text (VOICE.md), despite the constant's own name.
+export const FREE_DAILY_LIMIT_REPLIES: Record<Locale, string> = {
+  en: `You've used your ${FREE_DAILY_AI_LIMIT} free actions for today. Come back tomorrow, or upgrade anytime for unlimited access.`,
+  es: `Ya usaste tus ${FREE_DAILY_AI_LIMIT} acciones gratuitas de hoy. Vuelve mañana, o mejora tu plan cuando quieras para tener acceso ilimitado.`,
 }

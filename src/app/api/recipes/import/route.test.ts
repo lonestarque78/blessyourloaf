@@ -1,5 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { AI_ACTION_COST_WEIGHT, FREE_DAILY_AI_LIMIT, PAID_DAILY_AI_LIMIT } from '@/lib/ai-usage'
+import { VOICE_SYSTEM_PROMPT } from '@/lib/voice'
+import { findVoiceViolations } from '@/lib/voice-compliance'
 
 process.env.ANTHROPIC_API_KEY = 'test-key'
 
@@ -130,5 +132,36 @@ describe('POST /api/recipes/import — daily AI cap', () => {
     expect(data.source).toBe('fallback')
     expect(data.aiSkipReason).toBe('quota_exceeded')
     expect(mocks.createMock).not.toHaveBeenCalled()
+  })
+})
+
+describe('POST /api/recipes/import — VOICE.md compliance', () => {
+  it('sends the shared VOICE_SYSTEM_PROMPT to Claude, not a route-local paraphrase', async () => {
+    mocks.supabaseRef.current = fakeSupabase('inactive')
+
+    await POST(importRequest())
+
+    const sentSystemPrompt = mocks.createMock.mock.calls[0][0].system as string
+    expect(sentSystemPrompt).toContain(VOICE_SYSTEM_PROMPT)
+  })
+
+  it('would catch an em dash inside a cleaned-up recipe field, not just in chat prose', async () => {
+    mocks.supabaseRef.current = fakeSupabase('inactive')
+    mocks.createMock.mockResolvedValueOnce({ content: [{ type: 'text', text: JSON.stringify({
+      title: 'Classic Sourdough Boule',
+      description: 'A simple crusty loaf — great for sandwiches.',
+      category: 'loaf',
+      difficulty: 'intermediate',
+      prep_time_minutes: 30,
+      bake_time_minutes: 45,
+      notes: '',
+      ingredients: [{ item: 'bread flour', amount: '500g', note: '' }],
+      steps: [{ title: 'Mix', description: 'Combine ingredients.', duration_minutes: 10 }],
+    }) }] })
+
+    const res = await POST(importRequest())
+    const data = await res.json()
+
+    expect(findVoiceViolations(data.recipe.description)).toContain('em_or_en_dash')
   })
 })

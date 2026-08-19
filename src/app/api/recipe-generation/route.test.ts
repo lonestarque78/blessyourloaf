@@ -1,5 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { AI_ACTION_COST_WEIGHT, FREE_DAILY_AI_LIMIT, PAID_DAILY_AI_LIMIT } from '@/lib/ai-usage'
+import { VOICE_SYSTEM_PROMPT } from '@/lib/voice'
+import { findVoiceViolations } from '@/lib/voice-compliance'
 
 process.env.ANTHROPIC_API_KEY = 'test-key'
 
@@ -116,7 +118,7 @@ describe('POST /api/recipe-generation — daily AI cap', () => {
     const blockedRes = await POST(generateRequest('A rosemary olive oil boule for a dinner party'))
     expect(blockedRes.status).toBe(429)
     const blockedData = await blockedRes.json()
-    expect(blockedData.error).toContain(`${FREE_DAILY_AI_LIMIT} free AI actions`)
+    expect(blockedData.error).toContain(`${FREE_DAILY_AI_LIMIT} free actions`)
     expect(mocks.createMock).toHaveBeenCalledTimes(FREE_DAILY_AI_LIMIT)
   })
 
@@ -137,7 +139,7 @@ describe('POST /api/recipe-generation — daily AI cap', () => {
     expect(res.status).toBe(429)
     const data = await res.json()
     expect(data.error).toContain('fair-use limit')
-    expect(data.error).not.toContain('free AI actions')
+    expect(data.error).not.toContain('free actions')
     expect(mocks.createMock).not.toHaveBeenCalled()
   })
 })
@@ -171,5 +173,36 @@ describe('POST /api/recipe-generation — on-topic enforcement', () => {
     }
     const cappedRes = await POST(generateRequest('A rosemary olive oil boule for a dinner party'))
     expect(cappedRes.status).toBe(429)
+  })
+})
+
+describe('POST /api/recipe-generation — VOICE.md compliance', () => {
+  it('sends the shared VOICE_SYSTEM_PROMPT to Claude, not a route-local paraphrase', async () => {
+    mocks.supabaseRef.current = fakeSupabase('inactive')
+
+    await POST(generateRequest('A rosemary olive oil boule for a dinner party'))
+
+    const sentSystemPrompt = mocks.createMock.mock.calls[0][0].system as string
+    expect(sentSystemPrompt).toContain(VOICE_SYSTEM_PROMPT)
+  })
+
+  it('would catch an em dash inside a generated recipe field, not just in chat prose', async () => {
+    mocks.supabaseRef.current = fakeSupabase('inactive')
+    mocks.createMock.mockResolvedValueOnce({ content: [{ type: 'text', text: JSON.stringify({
+      title: 'Rosemary Olive Oil Boule',
+      description: 'A fragrant, crusty loaf — perfect alongside soup.',
+      category: 'loaf',
+      difficulty: 'intermediate',
+      prep_time_minutes: 30,
+      bake_time_minutes: 45,
+      notes: '',
+      ingredients: [{ amount: '500g', item: 'bread flour', note: '' }],
+      steps: [{ title: 'Mix', description: 'Combine ingredients.', duration_minutes: 10 }],
+    }) }] })
+
+    const res = await POST(generateRequest('A rosemary olive oil boule for a dinner party'))
+    const data = await res.json()
+
+    expect(findVoiceViolations(data.recipe.description)).toContain('em_or_en_dash')
   })
 })
