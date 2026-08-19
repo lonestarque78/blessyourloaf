@@ -195,7 +195,7 @@ const recipes: Recipe[] = [
     description:
       "This loaf brings the heat — pockets of melted sharp cheddar woven right through a crackling sourdough crust, with jalapeño in every single bite. It's bold, it's beautiful, and it disappears faster than it takes to cool. Fair warning: this one will make you famous at every potluck.",
     category: 'loaf',
-    is_premium: true,
+    is_premium: false,
     prep_time_minutes: 75,
     bake_time_minutes: 45,
     difficulty: 'intermediate',
@@ -270,7 +270,7 @@ const recipes: Recipe[] = [
     description:
       "Bright, jammy blueberries and fresh lemon zest baked right into a tender sourdough crumb — this loaf tastes like Sunday morning in June. It's sweet enough to serve with afternoon tea and sophisticated enough to gift. Slice it thin and slather it with cultured butter.",
     category: 'loaf',
-    is_premium: true,
+    is_premium: false,
     prep_time_minutes: 60,
     bake_time_minutes: 45,
     difficulty: 'intermediate',
@@ -346,7 +346,7 @@ const recipes: Recipe[] = [
     description:
       "Roasted garlic melts into the crumb like butter, and fresh rosemary perfumes the whole kitchen while this beauty bakes. This loaf is meant to be torn apart at the table, still warm, with a good olive oil for dipping. It's comfort food that thinks it's fancy.",
     category: 'loaf',
-    is_premium: true,
+    is_premium: false,
     prep_time_minutes: 75,
     bake_time_minutes: 45,
     difficulty: 'intermediate',
@@ -422,7 +422,7 @@ const recipes: Recipe[] = [
     description:
       "Every slice reveals a gorgeous cinnamon swirl and plump, sweet raisins nestled in a pillowy sourdough crumb. Toasted with a pat of butter? Darlin', this loaf might be better than dessert. It's the kind of bread that makes a house feel like a home.",
     category: 'loaf',
-    is_premium: true,
+    is_premium: false,
     prep_time_minutes: 90,
     bake_time_minutes: 45,
     difficulty: 'intermediate',
@@ -498,7 +498,7 @@ const recipes: Recipe[] = [
     description:
       "Earthy, nutty, and deeply satisfying, this 40% whole wheat sourdough is the daily bread this house was built on. A little honey softens the bran's bite, and the long cold ferment coaxes out a complexity you just can't rush. Slice it thick. It can hold anything you pile on it.",
     category: 'loaf',
-    is_premium: true,
+    is_premium: false,
     prep_time_minutes: 60,
     bake_time_minutes: 45,
     difficulty: 'intermediate',
@@ -572,7 +572,7 @@ const recipes: Recipe[] = [
     description:
       "This is a serious loaf — dense, dark, and full of deep caraway-kissed flavor that gets better every single day it sits. Dark rye honors a rich European tradition, and this recipe deepens it with molasses and espresso. Slice it thin with good butter and smoked salmon. You'll feel like you earned it.",
     category: 'loaf',
-    is_premium: true,
+    is_premium: false,
     prep_time_minutes: 90,
     bake_time_minutes: 50,
     difficulty: 'advanced',
@@ -648,7 +648,7 @@ const recipes: Recipe[] = [
     description:
       "Golden, soft, and just sweet enough from the honey, with a gorgeous oat-crusted top that makes every slice look like it came from a proper bakery. This is the loaf that converts people who think they don't like sourdough — light enough for a school-day sandwich, special enough for Sunday toast with homemade jam.",
     category: 'loaf',
-    is_premium: true,
+    is_premium: false,
     prep_time_minutes: 60,
     bake_time_minutes: 45,
     difficulty: 'beginner',
@@ -724,7 +724,7 @@ const recipes: Recipe[] = [
     description:
       "Savory, bright, and absolutely gorgeous with ruby-red tomato pockets and green herb flecks throughout the crumb. This Italian-inspired sourdough is stunning sliced on its own, and it makes the most extraordinary grilled cheese you have ever tasted in your life. Bake it once and it'll be in your regular rotation, I promise you that.",
     category: 'loaf',
-    is_premium: true,
+    is_premium: false,
     prep_time_minutes: 75,
     bake_time_minutes: 45,
     difficulty: 'intermediate',
@@ -802,7 +802,7 @@ const recipes: Recipe[] = [
     description:
       "Crispy, buttery, and herb-flecked — these crackers are a love letter to your sourdough discard. They come together in minutes, bake up golden and snappy, and taste like something from an artisan shop. Perfect with sharp cheddar and a cold glass of sweet tea, naturally.",
     category: 'discard',
-    is_premium: true,
+    is_premium: false,
     prep_time_minutes: 20,
     bake_time_minutes: 25,
     difficulty: 'beginner',
@@ -878,7 +878,7 @@ const recipes: Recipe[] = [
     description:
       "Your discard has been waiting for this moment. This pizza dough is tender inside, beautifully crispy on the bottom, and carries just enough sourdough character to make people ask what your secret is. One batch makes two thin-crust pies or one gorgeous thick-crust pizza — your call.",
     category: 'discard',
-    is_premium: true,
+    is_premium: false,
     prep_time_minutes: 20,
     bake_time_minutes: 15,
     difficulty: 'beginner',
@@ -953,7 +953,7 @@ const recipes: Recipe[] = [
     description:
       "All the cozy warmth of a peach cobbler packed into a handheld muffin with a buttery streusel top. Fresh Georgia peaches sink right into the tender discard batter, and the cinnamon streusel gets all golden and crunchy on top. Best eaten warm with a pat of butter and absolutely no apologies.",
     category: 'discard',
-    is_premium: true,
+    is_premium: false,
     prep_time_minutes: 20,
     bake_time_minutes: 25,
     difficulty: 'beginner',
@@ -1031,7 +1031,7 @@ const recipes: Recipe[] = [
     description:
       "The crispiest, most flavorful waffles you will ever put in your mouth — and we mean that. The sourdough discard gives them a light tang and the buttermilk makes them impossibly fluffy. The outside shatters. The inside is soft and airy. They stay crispy, too, which is a miracle in waffle form.",
     category: 'discard',
-    is_premium: true,
+    is_premium: false,
     prep_time_minutes: 15,
     bake_time_minutes: 25,
     difficulty: 'beginner',
@@ -1101,7 +1101,7 @@ const recipes: Recipe[] = [
     description:
       "Flaky, buttery layers hiding pockets of melted cheddar and fresh herbs — these biscuits do not need apology or explanation. They just need to be eaten hot from the oven, ideally right over the sink because they are too good to wait for a plate. Your discard is the secret that makes them taste bakery-special.",
     category: 'discard',
-    is_premium: true,
+    is_premium: false,
     prep_time_minutes: 20,
     bake_time_minutes: 18,
     difficulty: 'beginner',
@@ -1178,7 +1178,7 @@ const recipes: Recipe[] = [
     description:
       "This is the banana bread recipe that will make your neighbors come knockin'. The sourdough discard adds a depth of flavor that regular banana bread just cannot touch — a gentle tang that plays beautifully against the sweet, caramelized banana. Dense enough to slice, moist enough to eat plain, and perfect enough to share. Or not.",
     category: 'discard',
-    is_premium: true,
+    is_premium: false,
     prep_time_minutes: 15,
     bake_time_minutes: 65,
     difficulty: 'beginner',
@@ -1251,7 +1251,7 @@ const recipes: Recipe[] = [
     description:
       "Pillowy, olive-oil-drenched, and dimpled all the way to the bottom of the pan — this focaccia is practically a religious experience. The long cold ferment builds incredible flavor, and the generous pour of good olive oil gives you that impossibly crispy bottom and tender, airy crumb. Top it with whatever your heart desires.",
     category: 'focaccia',
-    is_premium: true,
+    is_premium: false,
     prep_time_minutes: 45,
     bake_time_minutes: 25,
     difficulty: 'intermediate',
@@ -1327,7 +1327,7 @@ const recipes: Recipe[] = [
     description:
       "Soft, pillowy, slightly sweet dinner rolls with a gorgeous golden top and a pull-apart tenderness that makes everyone reach for seconds before they have finished their first. These are the rolls that make holiday tables feel special and weeknight suppers feel like celebrations. Make them ahead — they hold beautifully.",
     category: 'rolls',
-    is_premium: true,
+    is_premium: false,
     prep_time_minutes: 60,
     bake_time_minutes: 25,
     difficulty: 'intermediate',
@@ -1403,7 +1403,7 @@ const recipes: Recipe[] = [
     description:
       "Big, fluffy, gooey cinnamon rolls with swirls of brown sugar and cinnamon throughout, finished with a tangy cream cheese frosting that just barely melts into the hot rolls. The sourdough gives them a complexity that a can from the store simply cannot touch. These are a labor of love, and every single minute is worth it.",
     category: 'rolls',
-    is_premium: true,
+    is_premium: false,
     prep_time_minutes: 90,
     bake_time_minutes: 30,
     difficulty: 'intermediate',
@@ -1481,7 +1481,7 @@ const recipes: Recipe[] = [
     description:
       "Hot, puffy, soft pita bread that balloons up in the oven right before your eyes — it's pure magic. The sourdough starter gives these pitas a gentle tang and a chewiness that store-bought pitas simply dream about. Stuff them, dip them in hummus, or just tear off pieces fresh from the oven.",
     category: 'other',
-    is_premium: true,
+    is_premium: false,
     prep_time_minutes: 30,
     bake_time_minutes: 15,
     difficulty: 'intermediate',

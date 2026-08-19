@@ -7,6 +7,12 @@ import { createPublicClient } from '@/lib/supabase/public'
 import { isSupportedLocale } from '@/i18n/locale'
 import { buildAlternates } from '@/i18n/seo'
 
+// See src/app/[locale]/recipes/[slug]/page.tsx's generateStaticParams comment: without this,
+// a page whose only data dependency is a live database query (recipe.is_premium/published)
+// gets frozen at build/deploy time and never reflects a later DB change — reproduced for
+// real against sitemap.ts in the same pass that added this.
+export const revalidate = 3600
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   return { alternates: buildAlternates('/discard', isSupportedLocale(locale) ? locale : 'en') }

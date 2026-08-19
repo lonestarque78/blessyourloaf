@@ -7,24 +7,38 @@ import RecipeDetailView from '@/components/recipes/RecipeDetailView'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createPublicClient } from '@/lib/supabase/public'
-import { isSupportedLocale } from '@/i18n/locale'
-import { buildAlternates } from '@/i18n/seo'
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES, isSupportedLocale } from '@/i18n/locale'
+import { buildAlternates, localizedPathFor } from '@/i18n/seo'
 
-// No generateStaticParams here — deliberately. It was tried first (pre-rendering every free
-// slug at build time, matching every other page under this [locale] tree) and it does build
-// fine, but breaks at *request* time: verified by isolated reproduction (a bare
-// `cookies()` call in a route with generateStaticParams, for any param outside that list,
-// throws DYNAMIC_SERVER_USAGE under `next start` — reproduced with both Turbopack and
-// webpack builds, so it's a Next.js 16.2.7 App Router constraint, not a bundler quirk or a
-// mistake in this file). Every premium and nonexistent recipe slug is necessarily outside
-// generateStaticParams (see the RLS note below), so that fallback path is exactly what real
-// traffic to those slugs would hit.
+// generateStaticParams was tried here originally, before every recipe was made free (see
+// BACKLOG.md / the Aug 2026 pricing rework). It built fine but broke at *request* time: a
+// bare `cookies()` call in a route with generateStaticParams, for any param outside that
+// list, threw DYNAMIC_SERVER_USAGE under `next start` — verified by isolated reproduction
+// with both Turbopack and webpack, so a Next.js 16.2.7 App Router constraint, not a bundler
+// quirk. Back then every premium recipe slug was necessarily outside generateStaticParams
+// (free-only, see the RLS note below) and still had to hit `createClient()`/cookies() to
+// check the visitor's subscription, so that failure path was live traffic, not a theoretical
+// edge case.
 //
-// Instead: revalidate below gives free recipes the same "generate once, then serve instantly
-// to everyone" result as SSG, just via ISR (first hit renders, subsequent hits within the
-// window are cached) rather than a guarantee baked in at build time — visible as `ƒ` rather
-// than `●` in the build output for this one route, unlike the other 10 pages under
-// src/app/[locale]/. Premium/nonexistent slugs render fresh every time, as they must.
+// That's no longer true: every published recipe is now free, so the branch below that calls
+// `createClient()` only runs for a slug that doesn't exist at all — and it calls `notFound()`
+// before ever reaching `createClient()`, so cookies() is never touched on that path either.
+// Re-verified by the same method as the original finding: built, ran `next start`, and curled
+// both a real slug and a nonexistent one — no DYNAMIC_SERVER_USAGE, both routes shown as `●`
+// (SSG) in the build output like the other pages under src/app/[locale]/. If a future recipe
+// is ever marked premium again, this comment's reasoning breaks and ISR (revalidate, no
+// generateStaticParams) is the safer default again — don't restore generateStaticParams
+// blindly if that happens.
+export async function generateStaticParams() {
+  const supabase = createPublicClient()
+  const { data: recipes } = await supabase.from('recipes').select('slug').eq('published', true).eq('is_premium', false)
+
+  return (recipes ?? []).flatMap(r => SUPPORTED_LOCALES.map(locale => ({ locale, slug: r.slug })))
+}
+
+// Kept alongside generateStaticParams as a revalidation window (not the ISR-without-SSG
+// fallback it used to be) so a recipe edited directly in the database shows up within an
+// hour without needing a full redeploy.
 export const revalidate = 3600
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
@@ -47,6 +61,7 @@ export default async function RecipePage({ params }: { params: Promise<{ locale:
   const { locale, slug } = await params
   setRequestLocale(locale)
   const t = await getTranslations('Recipes')
+  const canonicalUrl = `${process.env.NEXT_PUBLIC_APP_URL}${localizedPathFor(`/recipes/${slug}`, isSupportedLocale(locale) ? locale : DEFAULT_LOCALE)}`
 
   const publicSupabase = createPublicClient()
   const { data: freeRecipe } = await publicSupabase
@@ -61,15 +76,17 @@ export default async function RecipePage({ params }: { params: Promise<{ locale:
     return (
       <div className="min-h-screen" style={{ background: '#fdf6f0' }}>
         <PublicNavbar />
-        <RecipeDetailView recipe={freeRecipe} t={t} showCta={true} />
+        <RecipeDetailView recipe={freeRecipe} t={t} showCta={true} canonicalUrl={canonicalUrl} />
         <PublicFooter />
       </div>
     )
   }
 
-  // Not a free recipe (premium, unpublished, or nonexistent) — renders fresh every time
-  // (see the `revalidate` comment above), so it's fine for this branch to touch the real
-  // visitor's session for RLS + subscription gating.
+  // Not a free recipe — in practice, given every published recipe is free now, this means
+  // "doesn't exist" (typo'd or stale URL), and notFound() below returns before this branch
+  // ever reaches createClient()/cookies() (see the generateStaticParams comment above). It's
+  // still fine for this branch to touch the visitor's session if it ever does get further,
+  // since it's not part of the pre-rendered static set either way.
   //
   // A real, pre-existing bug surfaced by actually testing this path end-to-end (not
   // introduced by this change — the query below is what the original code always ran):
@@ -102,7 +119,7 @@ export default async function RecipePage({ params }: { params: Promise<{ locale:
   return (
     <div className="min-h-screen" style={{ background: '#fdf6f0' }}>
       <PublicNavbar />
-      <RecipeDetailView recipe={recipe} t={t} showCta={!user} />
+      <RecipeDetailView recipe={recipe} t={t} showCta={!user} canonicalUrl={canonicalUrl} />
       <PublicFooter />
     </div>
   )

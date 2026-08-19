@@ -9,15 +9,14 @@ import { buildAlternates } from '@/i18n/seo'
 const featureRows = [
   { key: 'starterJournal', free: true, paid: true },
   { key: 'feedingLog', free: true, paid: true },
-  { key: 'freeRecipes', free: true, paid: true },
+  { key: 'fullLibrary', free: true, paid: true },
   { key: 'flourGuide', free: true, paid: true },
-  { key: 'fullLibrary', free: false, paid: true },
-  { key: 'discardVault', free: false, paid: true },
-  { key: 'aiScheduler', free: false, paid: true },
+  { key: 'bakeHistory', free: true, paid: true },
+  { key: 'personalRecipeBox', free: true, paid: true },
   { key: 'aiTroubleshooter', free: false, paid: true },
-  { key: 'bakeHistory', free: false, paid: true },
-  { key: 'personalRecipeBox', free: false, paid: true },
-  { key: 'newRecipes', free: false, paid: true },
+  { key: 'aiSubstitution', free: false, paid: true },
+  { key: 'aiRecipeGeneration', free: false, paid: true },
+  { key: 'aiScheduler', free: false, paid: true },
 ] as const
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {

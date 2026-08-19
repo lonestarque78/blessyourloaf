@@ -1,7 +1,7 @@
 {
   "eyebrow": "✦ Join the Kitchen ✦",
   "title": "Good bread doesn't cost much.",
-  "quote": "\"Start free and bake your first loaf. Upgrade when you're ready for the full kitchen.\"",
+  "quote": "\"Every recipe is free, always. Upgrade when you want unlimited help getting each one right.\"",
   "whatsIncluded": "What's included",
   "colFeature": "Feature",
   "colFree": "Free",
@@ -9,15 +9,14 @@
   "features": {
     "starterJournal": "Starter Journal",
     "feedingLog": "Feeding Log",
-    "freeRecipes": "Free Recipes (2)",
-    "flourGuide": "Flour Guide",
     "fullLibrary": "Full Recipe Library",
-    "discardVault": "Discard Vault",
-    "aiScheduler": "Bake Scheduler (AI-powered)",
-    "aiTroubleshooter": "Starter Troubleshooter (AI)",
+    "flourGuide": "Flour Guide",
     "bakeHistory": "Bake History",
     "personalRecipeBox": "Personal Recipe Box",
-    "newRecipes": "New recipes added regularly"
+    "aiTroubleshooter": "Unlimited Starter Troubleshooter (AI)",
+    "aiSubstitution": "Unlimited Ingredient Substitution (AI)",
+    "aiRecipeGeneration": "Unlimited Recipe Generation (AI)",
+    "aiScheduler": "Unlimited Bake Scheduler (AI)"
   },
   "footerNote": "Cancel anytime. No contracts. No funny business.",
   "cards": {
@@ -28,8 +27,8 @@
     "free": {
       "badge": "Free Forever",
       "price": "$0",
-      "subtitle": "Dip your toe in the dough",
-      "features": ["Starter Journal", "Feeding Log", "2 free recipes", "Flour Guide"],
+      "subtitle": "The whole recipe box, on us",
+      "features": ["Full recipe library", "Starter Journal + Feeding Log", "Bake History", "Personal Recipe Box", "2 free AI actions a day"],
       "ctaLoggedIn": "Go to Dashboard",
       "ctaLoggedOut": "Get Started Free"
     },
@@ -38,8 +37,8 @@
       "mostPopular": "Most Popular",
       "price": "$5.99",
       "period": "/mo",
-      "subtitle": "Full run of the kitchen",
-      "features": ["Full recipe library", "Starter Journal + feeding log", "AI Bake Scheduler", "Full Discard Vault", "Starter Troubleshooter", "Personal Recipe Box", "New recipes regularly"],
+      "subtitle": "Unlimited help, every time you bake",
+      "features": ["Everything in Free", "Unlimited Starter Troubleshooter", "Unlimited Ingredient Substitution", "Unlimited Recipe Generation", "Unlimited Bake Scheduler"],
       "loading": "Loading...",
       "cta": "Subscribe now →"
     },

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import IngredientsList from '@/components/recipes/IngredientsList'
 import type { getTranslations } from 'next-intl/server'
+import { buildRecipeJsonLd } from '@/lib/recipe-schema'
 
 interface Recipe {
   category: string
@@ -13,25 +14,36 @@ interface Recipe {
   ingredients: unknown
   steps: unknown
   tags: string[] | null
+  image_url?: string | null
+  created_at?: string | null
 }
 
 // Shared presentational body for src/app/[locale]/recipes/[slug]/page.tsx's two render
 // paths (static free-recipe path and dynamic premium-recipe path) — kept as one component
-// so the two paths can't silently drift apart.
+// so the two paths can't silently drift apart. That includes the Recipe JSON-LD below: both
+// paths get it automatically because it's rendered from here, not duplicated per-path in
+// page.tsx.
 export default function RecipeDetailView({
   recipe,
   t,
   showCta,
+  canonicalUrl,
 }: {
   recipe: Recipe
   t: Awaited<ReturnType<typeof getTranslations<'Recipes'>>>
   showCta: boolean
+  canonicalUrl: string
 }) {
   const ingredients = recipe.ingredients as Array<{ item: string; amount: string; note?: string }>
   const steps = recipe.steps as Array<{ title: string; description: string; duration_minutes?: number }>
+  // </script>-safe: a recipe title/description/step could in principle contain the literal
+  // substring "</script>" (nothing currently prevents it at the data layer), which would
+  // otherwise break out of this script tag and inject arbitrary HTML into the page.
+  const jsonLd = JSON.stringify(buildRecipeJsonLd(recipe, canonicalUrl)).replace(/</g, '\\u003c')
 
   return (
     <div className="max-w-3xl mx-auto px-6 pt-32 pb-20">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />
       <Link href="/recipes" className="font-lora text-sm text-[#b07d62] hover:underline mb-8 block">
         {t('detail.backToRecipes')}
       </Link>

@@ -65,8 +65,8 @@
     "free": {
       "badge": "Free Forever",
       "price": "$0",
-      "subtitle": "Dip your toe in the dough",
-      "features": ["2 free recipes", "Starter day tracker", "Basic discard ideas"],
+      "subtitle": "The whole recipe box, on us",
+      "features": ["Full recipe library", "Starter Journal + alerts", "Bake History", "2 free AI actions a day"],
       "cta": "Get Started Free"
     },
     "pro": {
@@ -74,8 +74,8 @@
       "mostPopular": "Most Popular",
       "price": "$5.99",
       "period": "/mo",
-      "subtitle": "Full run of the kitchen",
-      "features": ["Full recipe library", "Starter Journal + alerts", "Bake Scheduler", "Full Discard Vault", "Starter Troubleshooter", "Flour & hydration guides", "New recipes every week"],
+      "subtitle": "Unlimited help, every time you bake",
+      "features": ["Unlimited Starter Troubleshooter", "Unlimited Ingredient Substitution", "Unlimited Recipe Generation", "Unlimited Bake Scheduler"],
       "cta": "Subscribe now →"
     },
     "annual": {

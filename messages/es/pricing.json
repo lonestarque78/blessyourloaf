@@ -1,7 +1,7 @@
 {
   "eyebrow": "✦ Únete a la cocina ✦",
   "title": "El buen pan no cuesta mucho.",
-  "quote": "«Empieza gratis y hornea tu primera hogaza. Mejora tu plan cuando estés listo para la cocina completa.»",
+  "quote": "«Cada receta es gratis, siempre. Mejora tu plan cuando quieras ayuda ilimitada para hacerlas bien.»",
   "whatsIncluded": "Qué incluye",
   "colFeature": "Función",
   "colFree": "Gratis",
@@ -9,15 +9,14 @@
   "features": {
     "starterJournal": "Diario de la masa madre",
     "feedingLog": "Registro de alimentaciones",
-    "freeRecipes": "Recetas gratis (2)",
-    "flourGuide": "Guía de harinas",
     "fullLibrary": "Biblioteca completa de recetas",
-    "discardVault": "Bóveda del descarte",
-    "aiScheduler": "Planificador de horneado (con IA)",
-    "aiTroubleshooter": "Solucionador de problemas de la masa madre (IA)",
+    "flourGuide": "Guía de harinas",
     "bakeHistory": "Historial de horneados",
     "personalRecipeBox": "Recetario personal",
-    "newRecipes": "Recetas nuevas añadidas regularmente"
+    "aiTroubleshooter": "Solucionador de problemas de la masa madre ilimitado (IA)",
+    "aiSubstitution": "Sustitución de ingredientes ilimitada (IA)",
+    "aiRecipeGeneration": "Generación de recetas ilimitada (IA)",
+    "aiScheduler": "Planificador de horneado ilimitado (IA)"
   },
   "footerNote": "Cancela cuando quieras. Sin contratos. Sin trampas.",
   "cards": {
@@ -28,8 +27,8 @@
     "free": {
       "badge": "Gratis para siempre",
       "price": "$0",
-      "subtitle": "Moja el dedo en la masa",
-      "features": ["Diario de la masa madre", "Registro de alimentaciones", "2 recetas gratis", "Guía de harinas"],
+      "subtitle": "Todo el recetario, por nuestra cuenta",
+      "features": ["Biblioteca completa de recetas", "Diario de la masa madre + registro de alimentaciones", "Historial de horneados", "Recetario personal", "2 acciones de IA gratis al día"],
       "ctaLoggedIn": "Ir al panel",
       "ctaLoggedOut": "Empezar gratis"
     },
@@ -38,8 +37,8 @@
       "mostPopular": "Más popular",
       "price": "$5.99",
       "period": "/mes",
-      "subtitle": "Acceso completo a la cocina",
-      "features": ["Biblioteca completa de recetas", "Diario de la masa madre + registro de alimentaciones", "Planificador de horneado con IA", "Bóveda del descarte completa", "Solucionador de problemas de la masa madre", "Recetario personal", "Recetas nuevas regularmente"],
+      "subtitle": "Ayuda ilimitada, cada vez que horneas",
+      "features": ["Todo lo del plan gratuito", "Solucionador de problemas ilimitado", "Sustitución de ingredientes ilimitada", "Generación de recetas ilimitada", "Planificador de horneado ilimitado"],
       "loading": "Cargando...",
       "cta": "Suscribirse ahora →"
     },

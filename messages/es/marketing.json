@@ -65,8 +65,8 @@
     "free": {
       "badge": "Gratis para siempre",
       "price": "$0",
-      "subtitle": "Moja el dedo en la masa",
-      "features": ["2 recetas gratis", "Seguimiento diario de la masa madre", "Ideas básicas de descarte"],
+      "subtitle": "Todo el recetario, por nuestra cuenta",
+      "features": ["Biblioteca completa de recetas", "Diario de la masa madre + alertas", "Historial de horneados", "2 acciones de IA gratis al día"],
       "cta": "Empezar gratis"
     },
     "pro": {
@@ -74,8 +74,8 @@
       "mostPopular": "Más popular",
       "price": "$5.99",
       "period": "/mes",
-      "subtitle": "Acceso completo a la cocina",
-      "features": ["Biblioteca completa de recetas", "Diario de la masa madre + alertas", "Planificador de horneado", "Bóveda del descarte completa", "Solucionador de problemas de la masa madre", "Guías de harina e hidratación", "Recetas nuevas cada semana"],
+      "subtitle": "Ayuda ilimitada, cada vez que horneas",
+      "features": ["Solucionador de problemas ilimitado", "Sustitución de ingredientes ilimitada", "Generación de recetas ilimitada", "Planificador de horneado ilimitado"],
       "cta": "Suscribirse ahora →"
     },
     "annual": {
