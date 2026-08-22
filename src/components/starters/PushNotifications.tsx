@@ -111,6 +111,10 @@ export default function PushNotifications() {
           // Captured now because reminders are sent from a cron job with no request/cookie
           // context to resolve a locale from — see src/lib/feeding-reminder-copy.ts.
           locale,
+          // Same reasoning as locale: the cron job needs this to know whether it's currently
+          // quiet hours (21:00-07:00) for this subscription — see
+          // claim_due_feeding_reminders() in supabase/migrations.
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         },
         { onConflict: 'endpoint' }
       )
