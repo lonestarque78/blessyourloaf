@@ -32,7 +32,15 @@ jobs:
 
   e2e:
     name: Playwright E2E tests
-    needs: lint-and-build
+    needs: [lint-and-build, migrate]
+    # migrate only runs on push-to-main (see its own `if`), so on PRs/other branches it's
+    # skipped rather than successful — treat skipped as green so e2e still runs there. On
+    # push-to-main, this makes e2e wait for migrate to actually finish applying before running,
+    # so a schema-dependent test can't hit the DB mid-migration (see BACKLOG.md).
+    if: |
+      always() &&
+      needs.lint-and-build.result == 'success' &&
+      (needs.migrate.result == 'success' || needs.migrate.result == 'skipped')
     runs-on: ubuntu-latest
     # Runs against the one real Supabase project (see e2e/support/test-users.ts) — there's no
     # staging environment. Test accounts are clearly tagged (e2e-test+<tag>-<timestamp>@
