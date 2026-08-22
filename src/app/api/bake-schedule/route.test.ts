@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { AI_ACTION_COST_WEIGHT, FREE_DAILY_AI_LIMIT, PAID_DAILY_AI_LIMIT } from '@/lib/ai-usage'
-import { VOICE_SYSTEM_PROMPT } from '@/lib/voice'
+import { AI_ACTION_COST_WEIGHT, FAIR_USE_LIMIT_REPLIES, FREE_DAILY_AI_LIMIT, FREE_DAILY_LIMIT_REPLIES, PAID_DAILY_AI_LIMIT } from '@/lib/ai-usage'
+import { BAKE_SCHEDULE_LANGUAGE_INSTRUCTIONS, VOICE_SYSTEM_PROMPT } from '@/lib/voice'
 import { findVoiceViolations } from '@/lib/voice-compliance'
 
 const mocks = vi.hoisted(() => ({
@@ -75,7 +75,7 @@ function fakeSupabase(subscriptionStatus: string, startingUsageCount = 0) {
   }
 }
 
-function scheduleRequest() {
+function scheduleRequest(overrides: Record<string, unknown> = {}) {
   return new Request('http://localhost/api/bake-schedule', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -88,6 +88,7 @@ function scheduleRequest() {
       starterLastFed: '6 hours ago',
       starterFlour: 'bread flour',
       starterHydration: 100,
+      ...overrides,
     }),
   })
 }
@@ -161,6 +162,52 @@ describe('POST /api/bake-schedule — on-topic enforcement', () => {
     }
     const cappedRes = await POST(scheduleRequest())
     expect(cappedRes.status).toBe(429)
+  })
+})
+
+describe('POST /api/bake-schedule — locale', () => {
+  it('sends the Spanish quota message when a Spanish-locale user hits the free daily cap', async () => {
+    mocks.supabaseRef.current = fakeSupabase('inactive', FREE_DAILY_AI_LIMIT)
+
+    const res = await POST(scheduleRequest({ locale: 'es' }))
+    expect(res.status).toBe(429)
+    const data = await res.json()
+    expect(data.error).toBe(FREE_DAILY_LIMIT_REPLIES.es)
+  })
+
+  it('sends the Spanish fair-use message when a Spanish-locale paid user hits the fair-use cap', async () => {
+    mocks.supabaseRef.current = fakeSupabase('active', PAID_DAILY_AI_LIMIT)
+
+    const res = await POST(scheduleRequest({ locale: 'es' }))
+    expect(res.status).toBe(429)
+    const data = await res.json()
+    expect(data.error).toBe(FAIR_USE_LIMIT_REPLIES.es)
+  })
+
+  it('defaults to the English quota message when no locale is sent', async () => {
+    mocks.supabaseRef.current = fakeSupabase('inactive', FREE_DAILY_AI_LIMIT)
+
+    const res = await POST(scheduleRequest())
+    const data = await res.json()
+    expect(data.error).toBe(FREE_DAILY_LIMIT_REPLIES.en)
+  })
+
+  it('appends the Spanish language instruction to the system prompt for a Spanish-locale request', async () => {
+    mocks.supabaseRef.current = fakeSupabase('inactive')
+
+    await POST(scheduleRequest({ locale: 'es' }))
+
+    const sentSystemPrompt = mocks.createMock.mock.calls[0][0].system as string
+    expect(sentSystemPrompt).toContain(BAKE_SCHEDULE_LANGUAGE_INSTRUCTIONS.es)
+  })
+
+  it('does not append the Spanish language instruction for an English (or unrecognized) locale', async () => {
+    mocks.supabaseRef.current = fakeSupabase('inactive')
+
+    await POST(scheduleRequest())
+
+    const sentSystemPrompt = mocks.createMock.mock.calls[0][0].system as string
+    expect(sentSystemPrompt).not.toContain(BAKE_SCHEDULE_LANGUAGE_INSTRUCTIONS.es)
   })
 })
 

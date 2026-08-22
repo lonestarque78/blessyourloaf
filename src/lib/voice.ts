@@ -52,3 +52,13 @@ export const IMPORTED_RECIPE_LANGUAGE_INSTRUCTIONS: Record<Locale, string> = {
   en: '',
   es: ' Write the title, description, notes, ingredient items/notes, and step titles/descriptions in Spanish (español), using correct sourdough baking terminology (for example "masa madre" for starter, "hidratación" for hydration, "fermentación en bloque" for bulk fermentation, "fermentación final" for proofing, "autolisis" for autolyse) and natural Mexican Spanish register, not Peninsular Spanish and not textbook Spanish. The "category" and "difficulty" field values are internal keys, not shown to the user directly — keep them in English exactly as one of: loaf, discard, rolls, focaccia, other (category) or beginner, intermediate, advanced (difficulty). Do not translate those two field values.',
 }
+
+// Appended to bake-schedule's system prompt when the user's locale isn't English. Same idea as
+// IMPORTED_RECIPE_LANGUAGE_INSTRUCTIONS above (translate the free-text fields, leave the fixed
+// enum alone), but bake-schedule's JSON shape is its own (ingredients: item/amount/note; steps:
+// time/action/duration/note/phase) rather than ImportedRecipe's, so it names its own fields
+// rather than reusing that instruction's wording.
+export const BAKE_SCHEDULE_LANGUAGE_INSTRUCTIONS: Record<Locale, string> = {
+  en: '',
+  es: ' Write every ingredient\'s "item" and "note", and every step\'s "time", "action", "duration", and "note", in Spanish (español), using correct sourdough baking terminology (for example "masa madre" for starter, "hidratación" for hydration, "fermentación en bloque" for bulk fermentation, "fermentación final" for proofing, "autolisis" for autolyse) and natural Mexican Spanish register, not Peninsular Spanish and not textbook Spanish. Write the "time" field as a natural Spanish date and time (for example "viernes, 6 de junio a las 8:00 p.m.") rather than an English format. The "phase" field is an internal key, not shown to the user directly — keep it in English exactly as one of: autolyse, bulk_fermentation, proofing, bake, other. Do not translate that field.',
+}

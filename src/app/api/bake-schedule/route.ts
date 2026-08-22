@@ -3,8 +3,8 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { normalizeBakePhase } from '@/lib/bake-timer'
 import { FAIR_USE_LIMIT_REPLIES, FREE_DAILY_LIMIT_REPLIES, getAiQuotaStatus, recordAiUsage } from '@/lib/ai-usage'
-import { VOICE_SYSTEM_PROMPT } from '@/lib/voice'
-import { DEFAULT_LOCALE } from '@/i18n/locale'
+import { BAKE_SCHEDULE_LANGUAGE_INSTRUCTIONS, VOICE_SYSTEM_PROMPT } from '@/lib/voice'
+import { DEFAULT_LOCALE, isSupportedLocale, type Locale } from '@/i18n/locale'
 
 const client = new Anthropic()
 
@@ -67,6 +67,7 @@ interface BakeScheduleRequest {
   starterLastFed: string
   starterFlour: string
   starterHydration: number
+  locale?: string
 }
 
 export async function POST(request: Request) {
@@ -93,6 +94,7 @@ export async function POST(request: Request) {
     starterFlour,
     starterHydration,
   } = body
+  const locale: Locale = isSupportedLocale(body.locale) ? body.locale : DEFAULT_LOCALE
 
   if (!recipe || !targetDate || !targetTime || !starterName) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
@@ -107,12 +109,7 @@ export async function POST(request: Request) {
   }
 
   if (quota.remaining <= 0) {
-    // English-only either way, matching this route's existing (separately tracked, deferred)
-    // localization gap — see BACKLOG.md. Shared reply constants rather than a locally-written
-    // duplicate of either message.
-    const message = quota.isPaid
-      ? FAIR_USE_LIMIT_REPLIES[DEFAULT_LOCALE]
-      : FREE_DAILY_LIMIT_REPLIES[DEFAULT_LOCALE]
+    const message = quota.isPaid ? FAIR_USE_LIMIT_REPLIES[locale] : FREE_DAILY_LIMIT_REPLIES[locale]
     return NextResponse.json({ error: message }, { status: 429 })
   }
 
@@ -132,7 +129,7 @@ Please calculate my complete bake schedule, working backwards from my target tim
     const message = await client.messages.create({
       model: 'claude-sonnet-4-6',
       max_tokens: 8096,
-      system: SYSTEM_PROMPT,
+      system: SYSTEM_PROMPT + BAKE_SCHEDULE_LANGUAGE_INSTRUCTIONS[locale],
       messages: [{ role: 'user', content: userPrompt }],
     })
     if (message.stop_reason === 'max_tokens') {

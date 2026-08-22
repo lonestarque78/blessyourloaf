@@ -192,6 +192,7 @@ export default function SchedulerPage() {
           starterLastFed: selectedFeeding?.fed_at ?? 'unknown',
           starterFlour: selectedStarter.flour_type,
           starterHydration: selectedStarter.hydration_percent,
+          locale,
         }),
       })
       const data = await res.json()
