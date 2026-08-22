@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { setRequestLocale } from 'next-intl/server'
 import PublicNavbar from '@/components/layout/PublicNavbar'
 import PublicFooter from '@/components/layout/PublicFooter'
@@ -62,7 +63,7 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
 
           <div>
             <h2 className="font-playfair text-2xl font-bold mb-3">AI features</h2>
-            <p>The Bake Scheduler and Starter Troubleshooter use AI powered by Anthropic&apos;s Claude. The advice provided is for informational purposes. We do our best to make it accurate but we&apos;re not responsible if a schedule or diagnosis doesn&apos;t work out for your specific situation. Sourdough has a mind of its own.</p>
+            <p>Five features in Bless Your Loaf — the Starter Troubleshooter, Ingredient Substitution guide, Recipe Generator, Recipe Import, and Bake Scheduler — are powered by Anthropic&apos;s Claude. The advice provided is for informational purposes. We do our best to make it accurate but we&apos;re not responsible if a substitution, generated recipe, import, schedule, or diagnosis doesn&apos;t work out for your specific situation. Sourdough has a mind of its own. See our <Link href="/privacy" className="text-[#b07d62] hover:underline">Privacy Policy</Link> for what each feature sends to Anthropic and how long we keep it.</p>
           </div>
 
           <div>
