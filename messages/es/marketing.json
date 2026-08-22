@@ -55,7 +55,7 @@
       "bakeScheduler": { "label": "Planificador de horneado", "desc": "Dinos cuándo quieres pan fresco. Calcularemos hacia atrás y te daremos un cronograma paso a paso." },
       "discardVault": { "label": "Bóveda del descarte", "desc": "Una biblioteca creciente de recetas para tu descarte de masa madre. Panqueques, galletas, pasta — no se desperdicia ni una gota." },
       "troubleshooter": { "label": "Solucionador de problemas de la masa madre", "desc": "¿Tu masa madre huele raro? ¿No sube? Cuéntanos qué pasa y te ayudaremos a devolverle la salud." },
-      "recipeLibrary": { "label": "Biblioteca de recetas", "desc": "Hogazas, panecillos, focaccia y más — cada una hecha con ingredientes reales, probada en una cocina real." },
+      "recipeLibrary": { "label": "Biblioteca de recetas", "desc": "Hogazas, panecillos, focaccia y más. Ingredientes reales y técnica de verdad en cada una, sin inventos." },
       "flourGuide": { "label": "Guía de harinas", "desc": "Harina todo uso, integral, centeno — desglosamos cada harina para que sepas exactamente con qué estás trabajando." }
     }
   },

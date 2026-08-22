@@ -55,7 +55,7 @@
       "bakeScheduler": { "label": "Bake Scheduler", "desc": "Tell us when you want fresh bread. We'll work backwards and hand you a step-by-step timeline." },
       "discardVault": { "label": "Discard Vault", "desc": "A growing library of recipes for your leftover starter. Pancakes, crackers, pasta — not a drop goes to waste." },
       "troubleshooter": { "label": "Starter Troubleshooter", "desc": "Starter smells funny? Not rising? Tell us what's going on and we'll help nurse her back to health." },
-      "recipeLibrary": { "label": "Recipe Library", "desc": "Loaves, rolls, focaccia, and more — each one made with real ingredients, tested in a real kitchen." },
+      "recipeLibrary": { "label": "Recipe Library", "desc": "Loaves, rolls, focaccia, and more. Real ingredients and real technique in every one, nothing invented." },
       "flourGuide": { "label": "Flour Guide", "desc": "All-purpose, whole wheat, rye — we break down every flour so you know exactly what you're working with." }
     }
   },

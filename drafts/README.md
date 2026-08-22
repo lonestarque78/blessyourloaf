@@ -1,6 +1,6 @@
 # Recipe drafts
 
-This folder is for recipe drafts only. Nothing in here is in the database, and nothing in here should be, until it meets the bar in `VOICE.md` section 5: **no recipe goes live until someone has actually baked it.** The recipes page tells visitors these were "tested in a real kitchen until they were just right," and that claim only stays true if unbaked drafts stay out of `public.recipes` entirely, not just unpublished inside it.
+This folder is for recipe drafts before they're baked. The default path, per `VOICE.md` section 5, is that nothing moves into `public.recipes` until it's actually been through a real oven — that's still the bar to aim for. As of Aug 22 2026 that's a strong default rather than an absolute rule: a batch can be deliberately promoted before baking (see BACKLOG.md, which tracks any published-but-unbaked recipes so they get struck off as they're actually tested). The recipes page's own copy was reworded to match either way — it no longer claims every recipe has been kitchen-tested, only that every one is written with real ingredients and real technique, which holds regardless of baked status.
 
 ## Workflow
 
