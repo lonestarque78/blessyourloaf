@@ -73,14 +73,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ recipe })
   } catch (err) {
     if (err instanceof RecipeGenerationDeclinedError) {
-      // Claude still ran (and its response still counts against the daily cap, same as a
-      // troubleshooter reply that declines an off-topic follow-up) — it just declined rather
-      // than producing a recipe.
-      try {
-        await recordAiUsage(supabase, user.id, 'recipe_generation')
-      } catch (error) {
-        console.warn('[recipe-generation] failed to record AI usage', error)
-      }
+      // Claude ran but declined as off-topic rather than producing a recipe — don't charge
+      // the daily cap for a "no". A free user only gets FREE_DAILY_AI_LIMIT tries a day, and
+      // losing one to a decline (rather than a real answer) is a bad trade for the cost of
+      // one skipped Anthropic call.
       return NextResponse.json({ error: err.message }, { status: 422 })
     }
     console.error('[recipe-generation] Anthropic error:', err)

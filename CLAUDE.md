@@ -105,9 +105,9 @@ Work through these in order. Each phase ends with something you can point Claude
 
 **Phase 3 — Baking workflow.** Autolyse/bulk fermentation/proofing/bake timers, step-by-step coach. *Done when:* you can run through a full bake start-to-finish using only in-app timers and prompts.
 
-**Phase 4 — Auth & billing.** All auth providers, Stripe subscriptions, free/paid gating. *Done when:* you can sign up, get gated at 2 free AI actions/day, subscribe via a real (test-mode) Stripe payment, and see the gate lift immediately.
+**Phase 4 — Auth & billing.** All auth providers, Stripe subscriptions, free/paid gating. *Done when:* you can sign up, get gated at 2 free AI actions/day, subscribe via a real (test-mode) Stripe payment, and see the gate lift to the paid tier's 50/day fair-use allowance immediately.
 
-**Phase 5 — AI skills.** Troubleshooting, ingredient substitution, recipe generation — built on the provider abstraction from Section 3, Claude only for now. *Done when:* each AI skill responds correctly to a real test case (e.g., "my dough is too sticky") and unlimited access works for a subscribed test account while the free account still hits its daily cap.
+**Phase 5 — AI skills.** Troubleshooting, ingredient substitution, recipe generation — built on the provider abstraction from Section 3, Claude only for now. *Done when:* each AI skill responds correctly to a real test case (e.g., "my dough is too sticky") and the 50/day fair-use cap works correctly for a subscribed test account while the free account still hits its 2/day cap. Paid is generous, not unlimited: it's a fair-use backstop sized so no real day of baking comes close, not an uncapped allowance — see `src/lib/ai-usage.ts` for the cost math behind that number.
 
 **Phase 6 — Public feed & moderation.** Feed, comments, follows, report button, AI flagging, and your admin moderation queue. *Done when:* a flagged test post appears in your moderation queue and you can action it.
 

@@ -155,7 +155,7 @@ describe('POST /api/recipe-generation — on-topic enforcement', () => {
     expect(mocks.createMock).not.toHaveBeenCalled()
   })
 
-  it("counts a Claude-level decline (empty title) against the daily cap, since the API call still ran", async () => {
+  it("does not charge the daily cap for a Claude-level decline (empty title) — a free user shouldn't lose an action to being told no", async () => {
     mocks.supabaseRef.current = fakeSupabase('inactive')
     mocks.createMock.mockResolvedValue({ content: [{ type: 'text', text: DECLINE_JSON }] })
 
@@ -164,10 +164,10 @@ describe('POST /api/recipe-generation — on-topic enforcement', () => {
     const data = await res.json()
     expect(data.error).toContain("doesn't look like a sourdough baking request")
 
-    // Confirm the decline consumed one of the free daily actions: FREE_DAILY_AI_LIMIT - 1
-    // more successful generations should be allowed before the cap kicks in.
+    // Confirm the decline did NOT consume any of the free daily actions: all
+    // FREE_DAILY_AI_LIMIT of them should still be available.
     mocks.createMock.mockResolvedValue({ content: [{ type: 'text', text: FAKE_RECIPE_JSON }] })
-    for (let i = 0; i < FREE_DAILY_AI_LIMIT - 1; i++) {
+    for (let i = 0; i < FREE_DAILY_AI_LIMIT; i++) {
       const okRes = await POST(generateRequest('A rosemary olive oil boule for a dinner party'))
       expect(okRes.status).toBe(200)
     }

@@ -1,7 +1,7 @@
 {
   "eyebrow": "✦ Join the Kitchen ✦",
   "title": "Good bread doesn't cost much.",
-  "quote": "\"Every recipe is free, always. Upgrade when you want unlimited help getting each one right.\"",
+  "quote": "\"Every recipe is free, always. You start with two free actions a day, and plenty more once you upgrade.\"",
   "whatsIncluded": "What's included",
   "colFeature": "Feature",
   "colFree": "Free",
@@ -13,11 +13,14 @@
     "flourGuide": "Flour Guide",
     "bakeHistory": "Bake History",
     "personalRecipeBox": "Personal Recipe Box",
-    "aiTroubleshooter": "Unlimited Starter Troubleshooter (AI)",
-    "aiSubstitution": "Unlimited Ingredient Substitution (AI)",
-    "aiRecipeGeneration": "Unlimited Recipe Generation (AI)",
-    "aiScheduler": "Unlimited Bake Scheduler (AI)"
+    "aiTroubleshooter": "Starter Troubleshooter",
+    "aiSubstitution": "Ingredient Substitution",
+    "aiRecipeGeneration": "Recipe Generation",
+    "aiScheduler": "Bake Scheduler"
   },
+  "quotaFree": "2/day (shared)",
+  "quotaPaid": "50/day (shared)",
+  "quotaNote": "Troubleshooting, substitutions, recipe generation, and bake schedules all draw from one shared daily total, not four separate ones. Free starts at 2 a day. Upgrading takes that to 50, far more than a normal day of baking needs.",
   "footerNote": "Cancel anytime. No contracts. No funny business.",
   "cards": {
     "alreadySubscribed": "You're already in the kitchen!",
@@ -37,8 +40,8 @@
       "mostPopular": "Most Popular",
       "price": "$5.99",
       "period": "/mo",
-      "subtitle": "Unlimited help, every time you bake",
-      "features": ["Everything in Free", "Unlimited Starter Troubleshooter", "Unlimited Ingredient Substitution", "Unlimited Recipe Generation", "Unlimited Bake Scheduler"],
+      "subtitle": "Plenty of help, every time you bake",
+      "features": ["Everything in Free", "Starter Troubleshooter", "Ingredient Substitution", "Recipe Generation", "Bake Scheduler", "50 AI actions a day, far more than a normal day of baking needs"],
       "loading": "Loading...",
       "cta": "Subscribe now →"
     },

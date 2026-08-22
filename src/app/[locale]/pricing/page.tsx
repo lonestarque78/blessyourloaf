@@ -13,10 +13,14 @@ const featureRows = [
   { key: 'flourGuide', free: true, paid: true },
   { key: 'bakeHistory', free: true, paid: true },
   { key: 'personalRecipeBox', free: true, paid: true },
-  { key: 'aiTroubleshooter', free: false, paid: true },
-  { key: 'aiSubstitution', free: false, paid: true },
-  { key: 'aiRecipeGeneration', free: false, paid: true },
-  { key: 'aiScheduler', free: false, paid: true },
+  // These four all draw from one shared daily total (see the note below the table) rather
+  // than each having its own separate allowance, so the cell text carries the actual number
+  // instead of a checkmark — a plain checkmark here would wrongly imply free gets zero and
+  // paid gets infinite access to each one independently.
+  { key: 'aiTroubleshooter', free: 'quota', paid: 'quota' },
+  { key: 'aiSubstitution', free: 'quota', paid: 'quota' },
+  { key: 'aiRecipeGeneration', free: 'quota', paid: 'quota' },
+  { key: 'aiScheduler', free: 'quota', paid: 'quota' },
 ] as const
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -70,19 +74,28 @@ export default async function PricingPage({ params }: { params: Promise<{ locale
                   <tr key={key} className={i % 2 === 0 ? 'bg-white' : 'bg-[#fdf6f0]'}>
                     <td className="font-lora text-sm text-[#3d2b1f] px-6 py-3">{t(`features.${key}`)}</td>
                     <td className="text-center px-6 py-3">
-                      {free
-                        ? <span className="text-green-600 font-bold">✓</span>
-                        : <span className="text-[#d4b8a8]">—</span>}
+                      {free === 'quota'
+                        ? <span className="font-lora text-sm text-[#3d2b1f]">{t('quotaFree')}</span>
+                        : free
+                          ? <span className="text-green-600 font-bold">✓</span>
+                          : <span className="text-[#d4b8a8]">—</span>}
                     </td>
                     <td className="text-center px-6 py-3">
-                      {paid
-                        ? <span className="text-green-600 font-bold">✓</span>
-                        : <span className="text-[#d4b8a8]">—</span>}
+                      {paid === 'quota'
+                        ? <span className="font-lora text-sm text-[#3d2b1f]">{t('quotaPaid')}</span>
+                        : paid
+                          ? <span className="text-green-600 font-bold">✓</span>
+                          : <span className="text-[#d4b8a8]">—</span>}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+          </div>
+          <div className="px-6 py-4 border-t border-[#f0e4db]">
+            <p className="font-lora text-sm text-[#9a7060]">
+              {t('quotaNote')}
+            </p>
           </div>
         </div>
 

@@ -74,8 +74,8 @@
       "mostPopular": "Most Popular",
       "price": "$5.99",
       "period": "/mo",
-      "subtitle": "Unlimited help, every time you bake",
-      "features": ["Unlimited Starter Troubleshooter", "Unlimited Ingredient Substitution", "Unlimited Recipe Generation", "Unlimited Bake Scheduler"],
+      "subtitle": "Plenty of help, every time you bake",
+      "features": ["Starter Troubleshooter", "Ingredient Substitution", "Recipe Generation", "Bake Scheduler", "50 AI actions a day, far more than a normal day of baking needs"],
       "cta": "Subscribe now →"
     },
     "annual": {

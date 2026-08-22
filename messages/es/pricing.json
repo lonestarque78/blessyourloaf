@@ -1,7 +1,7 @@
 {
   "eyebrow": "✦ Únete a la cocina ✦",
   "title": "El buen pan no cuesta mucho.",
-  "quote": "«Cada receta es gratis, siempre. Mejora tu plan cuando quieras ayuda ilimitada para hacerlas bien.»",
+  "quote": "«Cada receta es gratis, siempre. Empiezas con dos acciones gratis al día, y muchas más cuando mejoras tu plan.»",
   "whatsIncluded": "Qué incluye",
   "colFeature": "Función",
   "colFree": "Gratis",
@@ -13,11 +13,14 @@
     "flourGuide": "Guía de harinas",
     "bakeHistory": "Historial de horneados",
     "personalRecipeBox": "Recetario personal",
-    "aiTroubleshooter": "Solucionador de problemas de la masa madre ilimitado (IA)",
-    "aiSubstitution": "Sustitución de ingredientes ilimitada (IA)",
-    "aiRecipeGeneration": "Generación de recetas ilimitada (IA)",
-    "aiScheduler": "Planificador de horneado ilimitado (IA)"
+    "aiTroubleshooter": "Solucionador de problemas de la masa madre",
+    "aiSubstitution": "Sustitución de ingredientes",
+    "aiRecipeGeneration": "Generación de recetas",
+    "aiScheduler": "Planificador de horneado"
   },
+  "quotaFree": "2/día (compartido)",
+  "quotaPaid": "50/día (compartido)",
+  "quotaNote": "El solucionador de problemas, las sustituciones, la generación de recetas y los planes de horneado comparten un mismo total diario, no cuatro por separado. El plan gratis empieza con 2 al día. Al mejorar tu plan, pasas a 50, mucho más de lo que necesita un día normal de horneado.",
   "footerNote": "Cancela cuando quieras. Sin contratos. Sin trampas.",
   "cards": {
     "alreadySubscribed": "¡Ya estás en la cocina!",
@@ -37,8 +40,8 @@
       "mostPopular": "Más popular",
       "price": "$5.99",
       "period": "/mes",
-      "subtitle": "Ayuda ilimitada, cada vez que horneas",
-      "features": ["Todo lo del plan gratuito", "Solucionador de problemas ilimitado", "Sustitución de ingredientes ilimitada", "Generación de recetas ilimitada", "Planificador de horneado ilimitado"],
+      "subtitle": "Mucha ayuda, cada vez que horneas",
+      "features": ["Todo lo del plan gratuito", "Solucionador de problemas", "Sustitución de ingredientes", "Generación de recetas", "Planificador de horneado", "50 acciones de IA al día, mucho más de lo que necesita un día normal de horneado"],
       "loading": "Cargando...",
       "cta": "Suscribirse ahora →"
     },

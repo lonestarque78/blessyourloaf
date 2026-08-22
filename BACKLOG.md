@@ -1,6 +1,6 @@
 # Bless Your Loaf — Backlog
 
-Updated Aug 13 2026. Save at the repo root next to `CLAUDE.md`.
+Updated Aug 22 2026. Save at the repo root next to `CLAUDE.md`.
 This is the memory Claude Code doesn't have between sessions — keep it current.
 
 ---
@@ -19,6 +19,8 @@ Ordered. Everything here is small and either blocks something or is actively cos
 *Done Aug 12 (same-day follow-up, reviewed and approved before starting): three requested changes to the Phase 5 work. (1) Ingredient substitution now persists — new `ingredient_substitution_chats` table, applied directly to the linked project (no staging environment, Docker unavailable to test the migration in isolation first). (2) Nav grouped into a "Kitchen Help" dropdown (Troubleshooter, Ingredient Substitutions, Generate a Recipe) — see Phase 5 decisions below for two real bugs this surfaced and fixed along the way. (3) Paid subscribers now hit a 50/day fair-use cap instead of being uncapped — see the cost math under Phase 5 decisions.*
 
 *Done Aug 13: per-action cost weighting for the fair-use cap (`AI_ACTION_COST_WEIGHT` in `ai-usage.ts`), plus a migration-workflow check-in. See Phase 5 decisions below for the corrected real cost numbers (bake schedule, not recipe generation, turned out to be the priciest route) and the CLAUDE.md migration-rule recommendation.*
+
+*Done Aug 22: four fixes from a gating/copy review. (1) `recipe-generation` and `bake-schedule` no longer charge the daily cap when Claude's own STAY ON TOPIC escape hatch declines a request (empty `title`/empty `ingredients` respectively) — previously both counted a decline as a used action, so a free user could lose half their day's allowance to being told no. The keyword pre-filter short-circuit (all four AI routes) was already free; this closes the other half, where Claude actually ran. Left as a known, deliberately-unfixed gap: `troubleshooter` and `ingredient-substitution` have no equivalent sentinel, since their off-topic decline is free-form prose inside an otherwise-normal chat reply, not a structured JSON escape hatch — there's no reliable way to detect "Claude declined" versus "Claude answered" there without a fragile text-match heuristic, so those two routes still charge for a real (if declining) Claude response, same as any other reply. (2) The `/pricing` comparison table's four AI rows used to show a plain ✓/✗ per feature, which claimed free gets zero of any of them — rewrote it to show the real `2/day (shared)` / `50/day (shared)` quota plus an explanatory note that all four draw from one shared daily total, not four separate ones. (3) Removed every customer-facing "unlimited"/"ilimitado" (pricing cards, homepage teaser, checkout/dashboard/discard-vault upsell copy, and the free-tier daily-limit reply in `ai-usage.ts` itself) — paid is a 50/day fair-use cap, not unlimited, and now says so honestly (`far more than a normal day of baking needs`, reusing the phrase `FAIR_USE_LIMIT_REPLIES` already established). (4) CLAUDE.md's Phase 4/5 done-criteria no longer say paid is "unlimited" — reworded to the real 50/day fair-use behavior.*
 
 ## Phase status
 

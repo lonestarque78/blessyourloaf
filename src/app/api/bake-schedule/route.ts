@@ -181,6 +181,17 @@ Please calculate my complete bake schedule, working backwards from my target tim
       return NextResponse.json({ error: 'Claude returned invalid JSON', raw: content.text }, { status: 500 })
     }
 
+    // The system prompt's STAY ON TOPIC escape hatch always returns an empty ingredients
+    // array (a real schedule never does — every bake needs at least flour, water, and salt).
+    // That's the decline signal, same idea as RecipeGenerationDeclinedError in
+    // recipe-generation.ts. Don't charge the daily cap for a "no" — return it as a decline,
+    // not a schedule with an empty ingredient list and one placeholder step.
+    if (ingredients.length === 0) {
+      const declineStep = steps[0] as { note?: string; action?: string } | undefined
+      const declineMessage = declineStep?.action || declineStep?.note || "This doesn't look like a baking request I can schedule."
+      return NextResponse.json({ error: declineMessage }, { status: 422 })
+    }
+
     try {
       await recordAiUsage(supabase, user.id, 'bake_schedule')
     } catch (error) {

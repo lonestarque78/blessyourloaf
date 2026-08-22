@@ -25,6 +25,13 @@ const FAKE_SCHEDULE_JSON = JSON.stringify({
   steps: [{ time: 'Friday, June 6 at 8:00 PM', action: 'Mix dough', duration: '20 min', note: '', phase: 'bulk_fermentation' }],
 })
 
+// Mirrors the STAY ON TOPIC escape hatch in SYSTEM_PROMPT: an empty ingredients array is how
+// a decline is signaled, same idea as recipe-generation's empty-title sentinel.
+const DECLINE_JSON = JSON.stringify({
+  ingredients: [],
+  steps: [{ time: '', action: "This doesn't look like a baking request I can schedule.", duration: '', note: 'Tell me what you would like to bake, and a target date and time.', phase: 'other' }],
+})
+
 // Mirrors the fakeSupabase helper in src/lib/ai-usage.test.ts, but stateful across sequential
 // calls within one test so it behaves like a real day's worth of usage accumulating. Tracks
 // row count and weighted units separately, same as the real table does: the free tier reads
@@ -132,6 +139,28 @@ describe('POST /api/bake-schedule — daily AI cap', () => {
     expect(data.error).toContain('fair-use limit')
     expect(data.error).not.toContain('free actions')
     expect(mocks.createMock).not.toHaveBeenCalled()
+  })
+})
+
+describe('POST /api/bake-schedule — on-topic enforcement', () => {
+  it("does not charge the daily cap for a Claude-level decline (empty ingredients) — a free user shouldn't lose an action to being told no", async () => {
+    mocks.supabaseRef.current = fakeSupabase('inactive')
+    mocks.createMock.mockResolvedValue({ stop_reason: 'end_turn', content: [{ type: 'text', text: DECLINE_JSON }] })
+
+    const res = await POST(scheduleRequest())
+    expect(res.status).toBe(422)
+    const data = await res.json()
+    expect(data.error).toContain("doesn't look like a baking request")
+
+    // Confirm the decline did NOT consume any of the free daily actions: all
+    // FREE_DAILY_AI_LIMIT of them should still be available.
+    mocks.createMock.mockResolvedValue({ stop_reason: 'end_turn', content: [{ type: 'text', text: FAKE_SCHEDULE_JSON }] })
+    for (let i = 0; i < FREE_DAILY_AI_LIMIT; i++) {
+      const okRes = await POST(scheduleRequest())
+      expect(okRes.status).toBe(200)
+    }
+    const cappedRes = await POST(scheduleRequest())
+    expect(cappedRes.status).toBe(429)
   })
 })
 
