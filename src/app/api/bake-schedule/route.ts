@@ -135,28 +135,20 @@ Please calculate my complete bake schedule, working backwards from my target tim
       system: SYSTEM_PROMPT,
       messages: [{ role: 'user', content: userPrompt }],
     })
-    console.log('[bake-schedule] stop_reason:', message.stop_reason)
     if (message.stop_reason === 'max_tokens') {
       console.error('[bake-schedule] response truncated by max_tokens limit')
       return NextResponse.json({ error: 'Schedule response was truncated. Try a simpler recipe or fewer steps.' }, { status: 500 })
     }
 
     const content = message.content[0]
-    console.log('[bake-schedule] content.type:', content.type)
 
     if (content.type !== 'text') {
       return NextResponse.json({ error: 'Unexpected response type from Claude' }, { status: 500 })
     }
 
-    console.log('[bake-schedule] raw text length:', content.text.length)
-    console.log('[bake-schedule] raw text (first 500 chars):', JSON.stringify(content.text.slice(0, 500)))
-    console.log('[bake-schedule] raw text (last 200 chars):', JSON.stringify(content.text.slice(-200)))
-
     let ingredients: unknown[], steps: unknown[]
     try {
       const raw = content.text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
-      console.log('[bake-schedule] cleaned text (first 200 chars):', JSON.stringify(raw.slice(0, 200)))
-      console.log('[bake-schedule] cleaned first char:', JSON.stringify(raw[0]), 'last char:', JSON.stringify(raw[raw.length - 1]))
       const parsed = JSON.parse(raw)
       if (!parsed || typeof parsed !== 'object' || !Array.isArray(parsed.steps) || !Array.isArray(parsed.ingredients)) {
         console.error('[bake-schedule] parsed JSON missing ingredients or steps arrays')
@@ -175,7 +167,6 @@ Please calculate my complete bake schedule, working backwards from my target tim
           phase: normalizeBakePhase(s.phase),
         }
       })
-      console.log('[bake-schedule] parse succeeded — ingredients:', ingredients.length, 'steps:', steps.length)
     } catch (parseErr) {
       console.error('[bake-schedule] JSON.parse failed:', parseErr)
       return NextResponse.json({ error: 'Claude returned invalid JSON', raw: content.text }, { status: 500 })
