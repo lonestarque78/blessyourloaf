@@ -125,13 +125,15 @@ jobs:
 
   deploy:
     name: Deploy to Vercel
-    needs: verify-schema
+    needs: [verify-schema, e2e]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       # Vercel's automatic git-push deploys are disabled (see vercel.json:
       # git.deploymentEnabled). This Deploy Hook is the only path to production, and only
-      # runs after lint-and-build, migrate, and verify-schema have all succeeded.
+      # runs after lint-and-build, migrate, verify-schema, and e2e have all succeeded — a red
+      # E2E run blocks the deploy hook from ever firing (needs' default behavior requires
+      # every listed job to have actually succeeded, not just completed).
       - name: Trigger Vercel deploy hook
         run: curl --fail-with-body -sS -X POST "$VERCEL_DEPLOY_HOOK_URL"
         env:
