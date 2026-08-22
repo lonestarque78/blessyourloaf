@@ -44,6 +44,34 @@ export default function PushNotifications() {
   const [error, setError] = useState('')
   const [testResult, setTestResult] = useState('')
 
+  // Writes (or refreshes) this subscription's row, including locale/timezone. Both are
+  // captured client-side because the cron job has no request/cookie context to resolve them
+  // from (see src/lib/feeding-reminder-copy.ts for locale, claim_due_feeding_reminders() in
+  // supabase/migrations for timezone/quiet-hours). Shared by handleEnable (a fresh
+  // subscription) and the mount-time effect below (an existing one) so a subscription that
+  // predates a column like timezone being added isn't stuck on that column's default forever
+  // — it self-heals the next time the user has this component open, no manual
+  // disable/re-enable required.
+  async function upsertSubscriptionRow(subscription: PushSubscription) {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) throw new Error('not signed in')
+
+    const json = subscription.toJSON()
+    const { error: upsertError } = await supabase.from('push_subscriptions').upsert(
+      {
+        user_id: user.id,
+        endpoint: subscription.endpoint,
+        p256dh: json.keys?.p256dh ?? '',
+        auth_key: json.keys?.auth ?? '',
+        user_agent: navigator.userAgent,
+        locale,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      },
+      { onConflict: 'endpoint' }
+    )
+    if (upsertError) throw upsertError
+  }
+
   useEffect(() => {
     let cancelled = false
 
@@ -64,6 +92,15 @@ export default function PushNotifications() {
         const registration = await navigator.serviceWorker.getRegistration()
         const subscription = await registration?.pushManager.getSubscription()
         if (!cancelled) setSubscribed(!!subscription)
+
+        // Best-effort refresh, not user-initiated, so failures are logged rather than shown —
+        // an unlucky network blip here shouldn't put an error banner in front of someone who
+        // didn't click anything.
+        if (subscription) {
+          upsertSubscriptionRow(subscription).catch(err => {
+            console.error('[push] background subscription refresh failed', err)
+          })
+        }
       } catch {
         if (!cancelled) setSubscribed(false)
       }
@@ -97,28 +134,7 @@ export default function PushNotifications() {
         })
       }
 
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) throw new Error('not signed in')
-
-      const json = subscription.toJSON()
-      const { error: upsertError } = await supabase.from('push_subscriptions').upsert(
-        {
-          user_id: user.id,
-          endpoint: subscription.endpoint,
-          p256dh: json.keys?.p256dh ?? '',
-          auth_key: json.keys?.auth ?? '',
-          user_agent: navigator.userAgent,
-          // Captured now because reminders are sent from a cron job with no request/cookie
-          // context to resolve a locale from — see src/lib/feeding-reminder-copy.ts.
-          locale,
-          // Same reasoning as locale: the cron job needs this to know whether it's currently
-          // quiet hours (21:00-07:00) for this subscription — see
-          // claim_due_feeding_reminders() in supabase/migrations.
-          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        },
-        { onConflict: 'endpoint' }
-      )
-      if (upsertError) throw upsertError
+      await upsertSubscriptionRow(subscription)
 
       setSubscribed(true)
     } catch (err) {
